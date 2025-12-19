@@ -1,0 +1,302 @@
+<!DOCTYPE html>
+<html lang="pt-br" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Wellington Siqueira Porto | Desenvolvedor Full Stack & Tech Lead</title>
+    
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+      tailwind.config = {
+        darkMode: 'class', // Habilita o modo escuro via classe
+        theme: {
+          extend: {
+            fontFamily: {
+              sans: ['Inter', 'sans-serif'],
+            },
+            colors: {
+              primary: {
+                DEFAULT: '#111827',
+                dark: '#F9FAFB'
+              },
+              secondary: {
+                DEFAULT: '#6b7280',
+                dark: '#9CA3AF'
+              },
+              'accent-start': '#8b5cf6',
+              'accent-end': '#6366f1',
+              'bg-light': '#f9fafb',
+              'bg-dark': '#111827', // Fundo principal escuro
+              'bg-card-dark': '#1F2937', // Fundo do card escuro
+            }
+          }
+        }
+      }
+    </script>
+</head>
+<body class="bg-white dark:bg-bg-dark text-gray-800 dark:text-gray-200 font-sans antialiased transition-colors duration-300">
+
+    <header class="bg-white/80 dark:bg-bg-dark/80 backdrop-blur-lg fixed top-0 left-0 right-0 z-50 border-b border-gray-200 dark:border-gray-700">
+        <nav class="container mx-auto px-6 py-4 flex justify-between items-center">
+            <a href="#" class="text-2xl font-bold text-primary dark:text-primary-dark tracking-tight">
+                wellingtonsp<span class="text-accent-end">.dev</span>
+            </a>
+            <div class="flex items-center">
+                <ul class="hidden md:flex items-center space-x-8">
+                    <li><a href="#sobre" class="text-gray-600 dark:text-gray-300 hover:text-accent-end font-semibold transition-colors">Sobre</a></li>
+                    <li><a href="#projetos" class="text-gray-600 dark:text-gray-300 hover:text-accent-end font-semibold transition-colors">Cases</a></li>
+                    <li><a href="#skills" class="text-gray-600 dark:text-gray-300 hover:text-accent-end font-semibold transition-colors">Skills</a></li>
+                    <li><a href="#lideranca" class="text-gray-600 dark:text-gray-300 hover:text-accent-end font-semibold transition-colors">Liderança</a></li>
+                    <li><a href="#contato" class="bg-gradient-to-r from-accent-start to-accent-end text-white font-bold py-2 px-5 rounded-lg shadow-md hover:shadow-lg hover:-translate-y-0.5 transform transition-all">Contratar</a></li>
+                </ul>
+                <button id="theme-toggle" class="ml-6 text-gray-600 dark:text-gray-300 hover:text-accent-end transition-colors">
+                    <svg id="theme-toggle-dark-icon" class="hidden h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z"></path></svg>
+                    <svg id="theme-toggle-light-icon" class="hidden h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z"></path></svg>
+                </button>
+            </div>
+        </nav>
+    </header>
+
+    <main>
+        <section id="home" class="pt-32 pb-16 md:pt-48 md:pb-24">
+            <div class="container mx-auto px-6 text-center">
+                <div class="max-w-4xl mx-auto">
+                    <span class="inline-block bg-green-100 dark:bg-green-900/50 text-green-800 dark:text-green-300 text-sm font-semibold mb-4 px-4 py-1 rounded-full">🟢 Disponível para Projetos e Estágio</span>
+                    <h1 class="text-4xl md:text-6xl font-extrabold tracking-tighter text-primary dark:text-primary-dark mb-4">Wellington Siqueira Porto</h1>
+                    <h2 class="text-2xl md:text-3xl font-bold text-accent-end mb-6">Desenvolvedor Full Stack & Tech Lead</h2>
+                    <p class="text-lg md:text-xl text-secondary dark:text-secondary-dark mb-5">Construo e lidero o desenvolvimento de software de ponta a ponta, unindo arquitetura robusta e visão de produto para entregar soluções seguras e escaláveis.</p>
+                    <p class="text-base md:text-lg text-secondary dark:text-secondary-dark mb-10">Busco ativamente por oportunidades de <strong class="text-gray-700 dark:text-gray-300">estágio em todas as áreas de TI</strong>, animado para explorar novos caminhos e aprender continuamente.</p>
+                    <div class="flex justify-center items-center gap-4">
+                        <a href="#projetos" class="bg-gradient-to-r from-accent-start to-accent-end text-white font-bold py-3 px-8 rounded-lg shadow-lg hover:shadow-xl hover:-translate-y-1 transform transition-all">Ver Cases de Sucesso</a>
+                        <a href="https://github.com/wellingtonspdev" target="_blank" class="bg-gray-100 dark:bg-gray-700 text-gray-700 dark:text-gray-200 font-bold py-3 px-6 rounded-lg shadow-md hover:shadow-lg hover:-translate-y-1 transform transition-all flex items-center gap-2">
+                            <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24"><path fill-rule="evenodd" d="M12 2C6.477 2 2 6.477 2 12c0 4.418 2.865 8.168 6.839 9.492.5.092.682-.217.682-.482 0-.237-.009-.868-.014-1.703-2.782.605-3.369-1.343-3.369-1.343-.454-1.158-1.11-1.466-1.11-1.466-.908-.62.069-.608.069-.608 1.003.07 1.531 1.032 1.531 1.032.892 1.53 2.341 1.088 2.91.832.092-.647.35-1.088.636-1.338-2.22-.253-4.555-1.113-4.555-4.951 0-1.093.39-1.988 1.031-2.688-.103-.253-.446-1.272.098-2.65 0 0 .84-.27 2.75 1.026A9.564 9.564 0 0112 6.844c.85.004 1.705.115 2.504.337 1.909-1.296 2.747-1.027 2.747-1.027.546 1.378.203 2.398.1 2.651.64.7 1.03 1.595 1.03 2.688 0 3.848-2.338 4.695-4.566 4.942.359.308.678.92.678 1.855 0 1.338-.012 2.419-.012 2.747 0 .268.18.58.688.482A10.001 10.001 0 0022 12c0-5.523-4.477-10-10-10z" clip-rule="evenodd" /></svg>
+                            GitHub
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="projetos" class="py-20 bg-bg-light dark:bg-bg-dark">
+            <div class="container mx-auto px-6">
+                <div class="text-center max-w-2xl mx-auto mb-12">
+                    <h2 class="text-3xl md:text-4xl font-extrabold text-primary dark:text-primary-dark mb-3">Cases de Sucesso</h2>
+                    <p class="text-lg text-secondary dark:text-secondary-dark">Projetos que demonstram a aplicação prática de arquitetura, liderança e qualidade de código.</p>
+                </div>
+                
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                    
+                    <article class="bg-white dark:bg-bg-card-dark rounded-xl shadow-md overflow-hidden transform hover:-translate-y-2 transition-all duration-300 hover:shadow-xl dark:shadow-none dark:hover:shadow-fuchsia-400/10 border dark:border-gray-700 flex flex-col">
+                        <div class="h-48 bg-gray-200 dark:bg-gray-700 flex items-center justify-center text-gray-500 dark:text-gray-400">
+                            [ Imagem do Projeto ]
+                        </div>
+                        <div class="p-6 flex flex-col flex-grow">
+                            <div class="flex items-center gap-3 mb-2">
+                                <span class="text-sm font-bold text-accent-end">⭐ PROJETO ESTRELA</span>
+                                <span class="text-xs font-semibold bg-gray-200 dark:bg-gray-600 text-gray-600 dark:text-gray-300 px-2 py-0.5 rounded-md">PROJETO INTEGRADOR</span>
+                            </div>
+                            <h3 class="text-xl font-bold text-primary dark:text-primary-dark mt-2 mb-3">Define Pilates - Gestão SaaS</h3>
+                            <p class="text-secondary dark:text-secondary-dark text-base mb-4 flex-grow">Solução SaaS Multi-tenant para gestão de studios de pilates. Atuação como Tech Lead no ciclo completo, do requisito ao deploy.</p>
+                            <div class="border-t border-gray-200 dark:border-gray-600 pt-4 mt-auto">
+                                <p class="text-sm font-semibold text-gray-700 dark:text-gray-300 mb-3">Destaques Técnicos:</p>
+                                <ul class="list-disc list-inside text-sm text-secondary dark:text-secondary-dark space-y-1 mb-4">
+                                    <li><strong class="text-gray-600 dark:text-gray-400">Backend:</strong> Repository Pattern, TDD.</li>
+                                    <li><strong class="text-gray-600 dark:text-gray-400">Frontend:</strong> ViewModels (MVVM), Context API.</li>
+                                    <li><strong class="text-gray-600 dark:text-gray-400">Docs:</strong> API com Swagger via drf-spectacular.</li>
+                                </ul>
+                                <div class="flex items-center gap-4">
+                                    <a href="#" class="bg-gray-200 dark:bg-gray-600 text-sm font-bold py-2 px-4 rounded-lg w-full text-center hover:bg-gray-300 dark:hover:bg-gray-500 transition-colors">Ver Demo</a>
+                                    <a href="#" class="bg-gray-200 dark:bg-gray-600 text-sm font-bold py-2 px-4 rounded-lg w-full text-center hover:bg-gray-300 dark:hover:bg-gray-500 transition-colors">Repositório</a>
+                                </div>
+                            </div>
+                        </div>
+                    </article>
+
+                    <article class="bg-white dark:bg-bg-card-dark rounded-xl shadow-md overflow-hidden transform hover:-translate-y-2 transition-all duration-300 hover:shadow-xl dark:shadow-none dark:hover:shadow-fuchsia-400/10 border dark:border-gray-700 flex flex-col">
+                        <div class="h-48 bg-gray-200 dark:bg-gray-700 flex items-center justify-center text-gray-500 dark:text-gray-400">
+                            [ Imagem do Projeto ]
+                        </div>
+                        <div class="p-6 flex flex-col flex-grow">
+                            <div class="flex items-center flex-wrap gap-3 mb-2">
+                                <span class="text-sm font-bold text-accent-end">🔬 PESQUISA & DADOS</span>
+                                <span class="text-xs font-semibold bg-gray-200 dark:bg-gray-600 text-gray-600 dark:text-gray-300 px-2 py-0.5 rounded-md">INICIAÇÃO CIENTÍFICA</span>
+                                <span class="text-xs font-semibold bg-yellow-100 dark:bg-yellow-900/50 text-yellow-800 dark:text-yellow-300 px-2 py-0.5 rounded-md">EM DESENVOLVIMENTO</span>
+                            </div>
+                            <h3 class="text-xl font-bold text-primary dark:text-primary-dark mt-2 mb-3">Análise de Solo com IA</h3>
+                            <p class="text-secondary dark:text-secondary-dark text-base mb-4 flex-grow">Iniciação Científica para análise de solo via interferometria Speckle, apresentado no 27º Simpósio SICT.</p>
+                            <div class="border-t border-gray-200 dark:border-gray-600 pt-4 mt-auto">
+                                <p class="text-sm font-semibold text-gray-700 dark:text-gray-300 mb-3">Destaques Técnicos:</p>
+                                <ul class="list-disc list-inside text-sm text-secondary dark:text-secondary-dark space-y-1 mb-4">
+                                    <li><strong class="text-gray-600 dark:text-gray-400">Algoritmo:</strong> Greedy Best-First Search em Python.</li>
+                                    <li><strong class="text-gray-600 dark:text-gray-400">Engenharia de Dados:</strong> Modelagem de BD Relacional.</li>
+                                </ul>
+                                <div class="flex items-center gap-4">
+                                    <a href="#" class="bg-gray-200 dark:bg-gray-600 text-sm font-bold py-2 px-4 rounded-lg w-full text-center hover:bg-gray-300 dark:hover:bg-gray-500 transition-colors">Ver Artigo</a>
+                                    <a href="#" class="bg-gray-200 dark:bg-gray-600 text-sm font-bold py-2 px-4 rounded-lg w-full text-center hover:bg-gray-300 dark:hover:bg-gray-500 transition-colors">Repositório</a>
+                                </div>
+                            </div>
+                        </div>
+                    </article>
+
+                    <article class="bg-white dark:bg-bg-card-dark rounded-xl shadow-md overflow-hidden transform hover:-translate-y-2 transition-all duration-300 hover:shadow-xl dark:shadow-none dark:hover:shadow-fuchsia-400/10 border dark:border-gray-700 flex flex-col">
+                        <div class="h-48 bg-gray-200 dark:bg-gray-700 flex items-center justify-center text-gray-500 dark:text-gray-400">
+                            [ Imagem do Projeto ]
+                        </div>
+                        <div class="p-6 flex flex-col flex-grow">
+                             <div class="flex items-center gap-3 mb-2">
+                                <span class="text-sm font-bold text-accent-end">🌿 FULL STACK</span>
+                                <span class="text-xs font-semibold bg-gray-200 dark:bg-gray-600 text-gray-600 dark:text-gray-300 px-2 py-0.5 rounded-md">PROJETO INTEGRADOR</span>
+                            </div>
+                            <h3 class="text-xl font-bold text-primary dark:text-primary-dark mt-2 mb-3">Plataforma Ambiental IBDN</h3>
+                             <p class="text-secondary dark:text-secondary-dark text-base mb-4 flex-grow">Sistema de gestão para certificação ambiental, com desenvolvimento Full Stack e metodologia ágil (Scrum).</p>
+                             <div class="border-t border-gray-200 dark:border-gray-600 pt-4 mt-auto">
+                                <p class="text-sm font-semibold text-gray-700 dark:text-gray-300 mb-3">Destaques Técnicos:</p>
+                                <ul class="list-disc list-inside text-sm text-secondary dark:text-secondary-dark space-y-1 mb-4">
+                                     <li><strong class="text-gray-600 dark:text-gray-400">API-First:</strong> Backend de alta performance com FastAPI.</li>
+                                     <li><strong class="text-gray-600 dark:text-gray-400">Segurança:</strong> Controle de acesso granular com RBAC.</li>
+                                     <li><strong class="text-gray-600 dark:text-gray-400">Frontend:</strong> Interface reativa com React.</li>
+                                </ul>
+                                <div class="flex items-center gap-4">
+                                    <a href="#" class="bg-gray-200 dark:bg-gray-600 text-sm font-bold py-2 px-4 rounded-lg w-full text-center hover:bg-gray-300 dark:hover:bg-gray-500 transition-colors">Ver Demo</a>
+                                    <a href="#" class="bg-gray-200 dark:bg-gray-600 text-sm font-bold py-2 px-4 rounded-lg w-full text-center hover:bg-gray-300 dark:hover:bg-gray-500 transition-colors">Repositório</a>
+                                </div>
+                            </div>
+                        </div>
+                    </article>
+
+                </div>
+            </div>
+        </section>
+
+        <section id="skills" class="py-20">
+            <div class="container mx-auto px-6">
+                <div class="text-center max-w-2xl mx-auto mb-12">
+                    <h2 class="text-3xl md:text-4xl font-extrabold text-primary dark:text-primary-dark mb-3">Tech Stack</h2>
+                </div>
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                    <div class="bg-gray-50 dark:bg-bg-card-dark p-6 rounded-lg">
+                        <h3 class="text-lg font-bold text-primary dark:text-primary-dark mb-3">Backend</h3>
+                        <p class="text-secondary dark:text-secondary-dark">Python (Avançado), Django REST, FastAPI, MySQL, SQLite</p>
+                    </div>
+                    <div class="bg-gray-50 dark:bg-bg-card-dark p-6 rounded-lg">
+                        <h3 class="text-lg font-bold text-primary dark:text-primary-dark mb-3">Frontend</h3>
+                        <p class="text-secondary dark:text-secondary-dark">JavaScript (ES6+), React.js, Vite, Tailwind CSS, Chart.js</p>
+                    </div>
+                    <div class="bg-gray-50 dark:bg-bg-card-dark p-6 rounded-lg">
+                        <h3 class="text-lg font-bold text-primary dark:text-primary-dark mb-3">Arquitetura & Padrões</h3>
+                        <p class="text-secondary dark:text-secondary-dark">MVC, Repository Pattern, MVVM, TDD, Clean Code</p>
+                    </div>
+                     <div class="bg-gray-50 dark:bg-bg-card-dark p-6 rounded-lg">
+                        <h3 class="text-lg font-bold text-primary dark:text-primary-dark mb-3">DevOps & Ferramentas</h3>
+                        <p class="text-secondary dark:text-secondary-dark">Docker, Git/GitHub (Git Flow), Poetry, Vercel, SonarQube</p>
+                    </div>
+                     <div class="bg-gray-50 dark:bg-bg-card-dark p-6 rounded-lg">
+                        <h3 class="text-lg font-bold text-primary dark:text-primary-dark mb-3">Segurança</h3>
+                        <p class="text-secondary dark:text-secondary-dark">JWT, RBAC, Cisco Endpoint Security</p>
+                    </div>
+                     <div class="bg-gray-50 dark:bg-bg-card-dark p-6 rounded-lg">
+                        <h3 class="text-lg font-bold text-primary dark:text-primary-dark mb-3">Certificações Base</h3>
+                        <p class="text-secondary dark:text-secondary-dark">C/C++ Advanced, Network Basics, Linux Unhatched (Cisco)</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+        
+        <section id="lideranca" class="py-20 bg-bg-light dark:bg-bg-dark">
+            <div class="container mx-auto px-6">
+                <div class="text-center max-w-3xl mx-auto mb-12">
+                     <h2 class="text-3xl md:text-4xl font-extrabold text-primary dark:text-primary-dark mb-3">Liderança e Experiência</h2>
+                </div>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-8 max-w-4xl mx-auto">
+                    <div class="bg-white dark:bg-bg-card-dark p-6 rounded-lg shadow-sm">
+                        <h3 class="text-xl font-bold text-primary dark:text-primary-dark mb-2">Tech Lead (Projeto "Define Pilates")</h3>
+                        <p class="text-secondary dark:text-secondary-dark">Liderei uma equipe de <strong class="text-gray-700 dark:text-gray-300">8 pessoas</strong>, sendo responsável por planejamento de Sprints, definição de arquitetura, code reviews para garantia de qualidade e mentoria técnica do time.</p>
+                    </div>
+                    <div class="bg-white dark:bg-bg-card-dark p-6 rounded-lg shadow-sm">
+                        <h3 class="text-xl font-bold text-primary dark:text-primary-dark mb-2">Otimização e Processos (Indústria)</h3>
+                        <p class="text-secondary dark:text-secondary-dark">Apliquei a metodologia <strong class="text-gray-700 dark:text-gray-300">5S</strong> na Dini Têxtil, otimizando fluxos de trabalho e provando minha capacidade de organizar e melhorar processos complexos.</p>
+                    </div>
+                     <div class="bg-white dark:bg-bg-card-dark p-6 rounded-lg shadow-sm md:col-span-2">
+                        <h3 class="text-xl font-bold text-primary dark:text-primary-dark mb-2">Comunicação e Foco no Cliente (Varejo)</h3>
+                        <p class="text-secondary dark:text-secondary-dark">Mais de 6 anos de experiência em varejo de alta intensidade me ensinaram a praticar escuta ativa, resolver conflitos e traduzir as necessidades do cliente em requisitos claros e acionáveis.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="sobre" class="py-20">
+            <div class="container mx-auto px-6 text-center">
+                <div class="max-w-3xl mx-auto">
+                    <h2 class="text-3xl md:text-4xl font-extrabold text-primary dark:text-primary-dark mb-6">Sobre Mim</h2>
+                    <div class="space-y-6 text-lg text-secondary dark:text-secondary-dark">
+                        <p>Sou um desenvolvedor apaixonado por criar software que não apenas funciona, mas que é bem arquitetado, testável e resolve problemas reais de negócio. Minha jornada, que vai do chão de fábrica e do varejo até a liderança técnica de projetos de software, me deu uma perspectiva única sobre a importância de conectar a visão do cliente com uma execução técnica de excelência.</p>
+                        <p>Atualmente no 4º semestre de Desenvolvimento de Software Multiplataforma na FATEC, com formatura prevista para 2027, busco oportunidades para aplicar meu conhecimento em Python, Arquitetura de Software e Liderança para construir produtos digitais de alto impacto.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer id="contato" class="bg-primary dark:bg-black mt-20">
+        <div class="container mx-auto px-6 py-16 text-center">
+            <h2 class="text-3xl font-bold text-white mb-3">Vamos conversar?</h2>
+            <p class="text-secondary-dark">Estou disponível para novos desafios.</p>
+            <a href="mailto:wellingtonsp.dev@gmail.com" class="inline-block text-xl md:text-2xl font-semibold text-white my-8 border-b-2 border-accent-end hover:border-white transition-colors">
+                wellingtonsp.dev@gmail.com
+            </a>
+            <div class="flex justify-center items-center space-x-6 mb-10">
+                <a href="https://github.com/wellingtonspdev" target="_blank" class="text-secondary-dark hover:text-white transition-colors transform hover:-translate-y-1">
+                    <svg class="w-8 h-8" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path fill-rule="evenodd" d="M12 2C6.477 2 2 6.477 2 12c0 4.418 2.865 8.168 6.839 9.492.5.092.682-.217.682-.482 0-.237-.009-.868-.014-1.703-2.782.605-3.369-1.343-3.369-1.343-.454-1.158-1.11-1.466-1.11-1.466-.908-.62.069-.608.069-.608 1.003.07 1.531 1.032 1.531 1.032.892 1.53 2.341 1.088 2.91.832.092-.647.35-1.088.636-1.338-2.22-.253-4.555-1.113-4.555-4.951 0-1.093.39-1.988 1.031-2.688-.103-.253-.446-1.272.098-2.65 0 0 .84-.27 2.75 1.026A9.564 9.564 0 0112 6.844c.85.004 1.705.115 2.504.337 1.909-1.296 2.747-1.027 2.747-1.027.546 1.378.203 2.398.1 2.651.64.7 1.03 1.595 1.03 2.688 0 3.848-2.338 4.695-4.566 4.942.359.308.678.92.678 1.855 0 1.338-.012 2.419-.012 2.747 0 .268.18.58.688.482A10.001 10.001 0 0022 12c0-5.523-4.477-10-10-10z" clip-rule="evenodd"></path></svg>
+                </a>
+                <a href="https://www.linkedin.com/in/wellingtonsp-dev" target="_blank" class="text-secondary-dark hover:text-white transition-colors transform hover:-translate-y-1">
+                    <svg class="w-8 h-8" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path d="M19 0h-14c-2.761 0-5 2.239-5 5v14c0 2.761 2.239 5 5 5h14c2.762 0 5-2.239 5-5v-14c0-2.761-2.238-5-5-5zm-11 19h-3v-11h3v11zm-1.5-12.268c-.966 0-1.75-.79-1.75-1.764s.784-1.764 1.75-1.764 1.75.79 1.75 1.764-.783 1.764-1.75 1.764zm13.5 12.268h-3v-5.604c0-3.368-4-3.113-4 0v5.604h-3v-11h3v1.765c1.396-2.586 7-2.777 7 2.476v6.759z"></path></svg>
+                </a>
+            </div>
+            <p class="text-sm text-gray-500">© 2025 Wellington Siqueira Porto. Todos os direitos reservados.</p>
+        </div>
+    </footer>
+
+    <script>
+      const themeToggleBtn = document.getElementById('theme-toggle');
+      const themeToggleDarkIcon = document.getElementById('theme-toggle-dark-icon');
+      const themeToggleLightIcon = document.getElementById('theme-toggle-light-icon');
+
+      // Aplica o tema salvo no localStorage ou o tema do sistema
+      if (localStorage.getItem('color-theme') === 'dark' || (!('color-theme' in localStorage) && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
+        document.documentElement.classList.add('dark');
+        themeToggleLightIcon.classList.remove('hidden');
+      } else {
+        document.documentElement.classList.remove('dark');
+        themeToggleDarkIcon.classList.remove('hidden');
+      }
+
+      themeToggleBtn.addEventListener('click', function() {
+        // Inverte os ícones
+        themeToggleDarkIcon.classList.toggle('hidden');
+        themeToggleLightIcon.classList.toggle('hidden');
+
+        // Adiciona ou remove a classe 'dark'
+        if (localStorage.getItem('color-theme')) {
+            if (localStorage.getItem('color-theme') === 'light') {
+                document.documentElement.classList.add('dark');
+                localStorage.setItem('color-theme', 'dark');
+            } else {
+                document.documentElement.classList.remove('dark');
+                localStorage.setItem('color-theme', 'light');
+            }
+        } else {
+            if (document.documentElement.classList.contains('dark')) {
+                document.documentElement.classList.remove('dark');
+                localStorage.setItem('color-theme', 'light');
+            } else {
+                document.documentElement.classList.add('dark');
+                localStorage.setItem('color-theme', 'dark');
+            }
+        }
+      });
+    </script>
+</body>
+</html>
