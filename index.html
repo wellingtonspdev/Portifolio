@@ -23,19 +23,51 @@
               'bg-light': '#f9fafb',
               'bg-dark': '#111827',
               'bg-card-dark': '#1F2937',
+            },
+            animation: {
+                'cursor-blink': 'blink 1s step-end infinite',
+            },
+            keyframes: {
+                blink: { '0%, 100%': { opacity: '1' }, '50%': { opacity: '0' } }
             }
           }
         }
       }
     </script>
+    <style>
+        /* Scroll Reveal Classes */
+        .reveal-element {
+            opacity: 0;
+            transform: translateY(30px);
+            transition: all 0.8s cubic-bezier(0.5, 0, 0, 1);
+        }
+        .reveal-element.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+        
+        /* Smooth Expand Transition */
+        .details-content {
+            transition: max-height 0.5s ease-in-out, opacity 0.5s ease-in-out;
+            max-height: 0;
+            opacity: 0;
+            overflow: hidden;
+        }
+        .details-content.expanded {
+            opacity: 1;
+        }
+    </style>
 </head>
 <body class="bg-white dark:bg-bg-dark text-gray-800 dark:text-gray-200 font-sans antialiased transition-colors duration-300">
+
+    <!-- Progress Bar -->
+    <div class="fixed top-0 left-0 h-1 bg-gradient-to-r from-accent-start to-accent-end z-[60]" id="progress-bar" style="width: 0%"></div>
 
     <div id="mobile-menu-overlay" class="fixed inset-0 bg-black/60 backdrop-blur-sm z-50 hidden transition-opacity"></div>
 
     <header class="bg-white/80 dark:bg-bg-dark/80 backdrop-blur-lg fixed top-0 left-0 right-0 z-50 border-b border-gray-200 dark:border-gray-700">
         <nav class="container mx-auto px-6 py-4 flex justify-between items-center">
-            <a href="#" class="text-2xl font-bold text-primary dark:text-primary-dark tracking-tight">
+            <a href="#" class="text-2xl font-bold text-primary dark:text-primary-dark tracking-tight hover:scale-105 transition-transform">
                 wellingtonsp<span class="text-accent-end">.dev</span>
             </a>
             <div class="flex items-center">
@@ -43,7 +75,7 @@
                     <li class="mb-6 md:mb-0"><a href="#sobre" class="text-gray-600 dark:text-gray-300 hover:text-accent-end font-semibold transition-colors">Sobre</a></li>
                     <li class="mb-6 md:mb-0"><a href="#projetos" class="text-gray-600 dark:text-gray-300 hover:text-accent-end font-semibold transition-colors">Cases</a></li>
                     <li class="mb-6 md:mb-0"><a href="#skills" class="text-gray-600 dark:text-gray-300 hover:text-accent-end font-semibold transition-colors">Skills</a></li>
-                    <li><a href="#contato" class="bg-gradient-to-r from-accent-start to-accent-end text-white font-bold py-2 px-5 rounded-lg shadow-md hover:shadow-lg transition-all w-full block text-center md:w-auto">Contato</a></li>
+                    <li><a href="#contato" class="bg-gradient-to-r from-accent-start to-accent-end text-white font-bold py-2 px-5 rounded-lg shadow-md hover:shadow-lg hover:-translate-y-0.5 transition-all w-full block text-center md:w-auto">Contato</a></li>
                 </ul>
 
                 <button id="theme-toggle" class="ml-6 p-2 rounded-lg text-gray-600 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors">
@@ -61,16 +93,21 @@
     <main>
         <section id="home" class="pt-40 pb-20 md:pt-56 md:pb-32">
             <div class="container mx-auto px-6 text-center">
-                <div class="max-w-4xl mx-auto">
-                    <span class="inline-block bg-green-100 dark:bg-green-900/30 text-green-800 dark:text-green-300 text-xs font-bold mb-6 px-4 py-1.5 rounded-full border border-green-200 dark:border-green-800 uppercase tracking-wider">🟢 Disponível para Projetos e Estágio</span>
+                <div class="max-w-4xl mx-auto reveal-element">
+                    <span class="inline-block bg-green-100 dark:bg-green-900/30 text-green-800 dark:text-green-300 text-xs font-bold mb-6 px-4 py-1.5 rounded-full border border-green-200 dark:border-green-800 uppercase tracking-wider hover:scale-105 transition-transform cursor-default">🟢 Disponível para Projetos e Estágio</span>
                     <h1 class="text-4xl md:text-7xl font-extrabold tracking-tighter text-primary dark:text-primary-dark mb-6">Wellington Siqueira Porto</h1>
-                    <h2 class="text-xl md:text-3xl font-bold text-accent-end mb-8">Desenvolvedor Full Stack & Tech Lead</h2>
+                    
+                    <!-- Typewriter Effect Container -->
+                    <h2 class="text-xl md:text-3xl font-bold text-accent-end mb-8 h-8 md:h-10">
+                        <span id="typewriter-text"></span><span class="animate-cursor-blink border-r-2 border-accent-end ml-1"></span>
+                    </h2>
+
                     <p class="text-lg md:text-xl text-secondary dark:text-secondary-dark mb-12 max-w-3xl mx-auto leading-relaxed italic">
-                        Desenvolvedor Full Stack e Tech Lead especializado na construção de arquiteturas Python escaláveis e sistemas SaaS de alta performance. Como estudante da FATEC Itaquera e pesquisador em IA, foco em transformar requisitos complexos em soluções robustas de Business Intelligence.
+                        Transformando requisitos complexos em arquiteturas escaláveis. Especialista em Python, SaaS e Inteligência Artificial aplicada a negócios.
                     </p>
                     <div class="flex flex-wrap justify-center gap-4">
-                        <a href="#projetos" class="bg-gradient-to-r from-accent-start to-accent-end text-white font-bold py-3 px-8 rounded-xl shadow-xl hover:-translate-y-1 transition-transform">Ver Cases de Sucesso</a>
-                        <a href="https://github.com/wellingtonspdev" target="_blank" class="bg-gray-100 dark:bg-gray-800 text-gray-700 dark:text-gray-200 font-bold py-3 px-8 rounded-xl border border-gray-200 dark:border-gray-700 hover:bg-gray-200 transition-colors">GitHub</a>
+                        <a href="#projetos" class="bg-gradient-to-r from-accent-start to-accent-end text-white font-bold py-3 px-8 rounded-xl shadow-xl hover:-translate-y-1 hover:shadow-2xl transition-all duration-300">Ver Cases de Sucesso</a>
+                        <a href="https://github.com/wellingtonspdev" target="_blank" class="bg-gray-100 dark:bg-gray-800 text-gray-700 dark:text-gray-200 font-bold py-3 px-8 rounded-xl border border-gray-200 dark:border-gray-700 hover:bg-gray-200 hover:-translate-y-1 transition-all duration-300">GitHub</a>
                     </div>
                 </div>
             </div>
@@ -78,7 +115,7 @@
 
         <section id="sobre" class="py-24 bg-white dark:bg-bg-dark">
             <div class="container mx-auto px-6">
-                <div class="max-w-4xl mx-auto">
+                <div class="max-w-4xl mx-auto reveal-element">
                     <h2 class="text-3xl md:text-5xl font-extrabold text-primary dark:text-primary-dark mb-10 text-center">Sobre Mim</h2>
                     <div class="space-y-6 text-lg text-secondary dark:text-secondary-dark leading-relaxed">
                         <p>
@@ -97,14 +134,14 @@
 
         <section id="projetos" class="py-24 bg-bg-light dark:bg-bg-dark/50">
             <div class="container mx-auto px-6">
-                <div class="text-center max-w-2xl mx-auto mb-16">
+                <div class="text-center max-w-2xl mx-auto mb-16 reveal-element">
                     <h2 class="text-3xl md:text-5xl font-extrabold text-primary dark:text-primary-dark mb-4">Cases de Sucesso</h2>
                     <p class="text-lg text-secondary dark:text-secondary-dark leading-relaxed">Projetos que validam expertise em <strong>Business Intelligence, SaaS e Arquitetura Multi-tenant</strong>.</p>
                 </div>
                 
                 <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-10">
                     <!-- Define Pilates -->
-                    <article class="bg-white dark:bg-bg-card-dark rounded-2xl shadow-xl overflow-hidden border border-gray-100 dark:border-gray-700 flex flex-col group">
+                    <article class="bg-white dark:bg-bg-card-dark rounded-2xl shadow-xl overflow-hidden border border-gray-100 dark:border-gray-700 flex flex-col group reveal-element hover:-translate-y-2 transition-transform duration-300">
                         <div class="relative h-[480px] w-full bg-gray-100 dark:bg-gray-800 overflow-hidden">
                             <div id="carousel-track" class="flex h-full transition-transform duration-500 ease-in-out">
                                 <div class="w-full h-full flex-shrink-0 p-6 flex justify-center">
@@ -132,16 +169,32 @@
 
                         <div class="p-8 flex flex-col flex-grow">
                             <h3 class="text-2xl font-bold text-primary dark:text-primary-dark mb-2">Define Pilates - Gestão SaaS</h3>
-                            <p class="text-sm text-secondary dark:text-secondary-dark mb-4 leading-relaxed">
+                            
+                            <!-- Hook / Sales Pitch -->
+                            <p class="text-sm text-secondary dark:text-secondary-dark mb-4 leading-relaxed font-medium">
                                 SaaS Multi-tenant para gestão de estúdios. Centraliza agendamentos, financeiro e BI em uma interface intuitiva, permitindo escalabilidade e isolamento de dados.
                             </p>
-                            <p class="text-xs font-bold text-accent-end mb-6" id="carousel-description">Visão geral do gestor com indicadores de ocupação (40%) e receita.</p>
                             
-                            <div class="flex flex-wrap gap-2 mb-6">
+                            <!-- Toggle Button -->
+                            <button onclick="toggleDetails(this)" class="text-accent-end text-xs font-bold uppercase tracking-wider mb-4 hover:underline flex items-center gap-1 focus:outline-none">
+                                <span>Ver Detalhes Técnicos</span>
+                                <svg class="w-4 h-4 transition-transform duration-300" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
+                            </button>
+
+                            <!-- Hidden Deep Dive Content -->
+                            <div class="details-content mb-6">
+                                <div class="text-sm text-gray-600 dark:text-gray-400 space-y-3 p-4 bg-gray-50 dark:bg-gray-800/50 rounded-xl border border-gray-100 dark:border-gray-700">
+                                    <p><strong>O Desafio:</strong> Criar uma arquitetura que suportasse múltiplas unidades (tenants) com segurança de dados isolada.</p>
+                                    <p><strong>Solução Técnica:</strong> Backend em Django REST com middleware de tenant. Frontend React consumindo API RESTful.</p>
+                                    <p><strong>Meu Papel (Tech Lead):</strong> Liderei 8 devs, implementei TDD (Pytest) para regras de agendamento complexas e configurei o pipeline de CI/CD.</p>
+                                </div>
+                            </div>
+                            
+                            <div class="flex flex-wrap gap-2 mb-6 mt-auto">
                                 <span class="text-[10px] font-bold border border-blue-200 dark:border-blue-800 text-blue-600 dark:text-blue-400 px-2 py-0.5 rounded-md uppercase">Multi-tenancy</span>
                                 <span class="text-[10px] font-bold border border-indigo-200 dark:border-indigo-800 text-indigo-600 dark:text-indigo-400 px-2 py-0.5 rounded-md uppercase">BI & Analytics</span>
                             </div>
-                            <div class="flex items-center gap-4 mt-auto">
+                            <div class="flex items-center gap-4">
                                 <a href="https://pi-3-semestre.github.io/Demo-Define-Pilates/" class="flex-1 bg-gradient-to-r from-accent-start to-accent-end text-white text-xs font-bold py-3.5 rounded-xl text-center shadow-lg hover:opacity-90 transition-opacity">Ver Demo</a>
                                 <a href="https://github.com/PI-3-Semestre/projeto-estudio-pilates.git" target="_blank" class="flex-1 border border-gray-200 dark:border-gray-700 text-primary dark:text-white text-xs font-bold py-3.5 rounded-xl text-center hover:bg-gray-50 dark:hover:bg-gray-800 transition-colors">Código</a>
                             </div>
@@ -149,17 +202,35 @@
                     </article>
 
                     <!-- IBDN -->
-                    <article class="bg-white dark:bg-bg-card-dark rounded-2xl shadow-xl overflow-hidden border border-gray-100 dark:border-gray-700 flex flex-col group">
-                        <div class="h-[240px] bg-green-50 dark:bg-green-900/20 flex flex-col items-center justify-center p-6 text-center">
-                            <svg class="w-16 h-16 text-green-600 dark:text-green-400 mb-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3.055 11H5a2 2 0 012 2v1a2 2 0 002 2 2 2 0 012 2v2.945M8 3.935V5.5A2.5 2.5 0 0010.5 8h.5a2 2 0 012 2 2 2 0 104 0 2 2 0 012-2h1.064M15 20.488V18a2 2 0 012-2h3.064M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+                    <article class="bg-white dark:bg-bg-card-dark rounded-2xl shadow-xl overflow-hidden border border-gray-100 dark:border-gray-700 flex flex-col group reveal-element hover:-translate-y-2 transition-transform duration-300">
+                        <div class="h-[240px] bg-green-50 dark:bg-green-900/20 flex flex-col items-center justify-center p-6 text-center group-hover:bg-green-100 dark:group-hover:bg-green-900/30 transition-colors">
+                            <svg class="w-16 h-16 text-green-600 dark:text-green-400 mb-4 transform group-hover:scale-110 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3.055 11H5a2 2 0 012 2v1a2 2 0 002 2 2 2 0 012 2v2.945M8 3.935V5.5A2.5 2.5 0 0010.5 8h.5a2 2 0 012 2 2 2 0 104 0 2 2 0 012-2h1.064M15 20.488V18a2 2 0 012-2h3.064M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
                             <h3 class="text-2xl font-bold text-green-700 dark:text-green-300">Plataforma IBDN</h3>
                         </div>
                         <div class="p-8 flex flex-col flex-grow">
                             <h3 class="text-2xl font-bold text-primary dark:text-primary-dark mb-2">Plataforma Ambiental IBDN</h3>
-                            <p class="text-sm text-secondary dark:text-secondary-dark mb-6 leading-relaxed">
-                                Solução completa para o Instituto Brasileiro de Defesa da Natureza. Sistema focado em gestão de projetos ambientais e sustentabilidade.
+                            
+                            <!-- Hook -->
+                            <p class="text-sm text-secondary dark:text-secondary-dark mb-4 leading-relaxed font-medium">
+                                Solução digital completa para o Instituto Brasileiro de Defesa da Natureza, modernizando a gestão de projetos de sustentabilidade.
                             </p>
-                            <div class="flex flex-wrap gap-2 mb-6">
+
+                            <!-- Toggle Button -->
+                            <button onclick="toggleDetails(this)" class="text-accent-end text-xs font-bold uppercase tracking-wider mb-4 hover:underline flex items-center gap-1 focus:outline-none">
+                                <span>Ver Detalhes Técnicos</span>
+                                <svg class="w-4 h-4 transition-transform duration-300" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
+                            </button>
+
+                            <!-- Hidden Deep Dive -->
+                            <div class="details-content mb-6">
+                                <div class="text-sm text-gray-600 dark:text-gray-400 space-y-3 p-4 bg-gray-50 dark:bg-gray-800/50 rounded-xl border border-gray-100 dark:border-gray-700">
+                                    <p><strong>Objetivo:</strong> Digitalizar processos manuais de certificação ambiental e acompanhamento de plantio.</p>
+                                    <p><strong>Impacto:</strong> Maior transparência para doadores e agilidade operacional para o instituto.</p>
+                                    <p><strong>Tech Stack:</strong> Desenvolvimento Web Full Stack focado em acessibilidade e performance.</p>
+                                </div>
+                            </div>
+
+                            <div class="flex flex-wrap gap-2 mb-6 mt-auto">
                                 <span class="text-[10px] font-bold border border-green-200 dark:border-green-800 text-green-600 dark:text-green-400 px-2 py-0.5 rounded-md uppercase">Sustentabilidade</span>
                                 <span class="text-[10px] font-bold border border-blue-200 dark:border-blue-800 text-blue-600 dark:text-blue-400 px-2 py-0.5 rounded-md uppercase">Web Platform</span>
                             </div>
@@ -167,19 +238,36 @@
                     </article>
 
                     <!-- Gestão Financeira -->
-                    <article class="bg-white dark:bg-bg-card-dark rounded-2xl shadow-xl overflow-hidden border border-gray-100 dark:border-gray-700 flex flex-col group">
-                        <div class="h-[240px] bg-blue-50 dark:bg-blue-900/20 flex flex-col items-center justify-center p-6 text-center">
-                            <svg class="w-16 h-16 text-blue-600 dark:text-blue-400 mb-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"></path></svg>
+                    <article class="bg-white dark:bg-bg-card-dark rounded-2xl shadow-xl overflow-hidden border border-gray-100 dark:border-gray-700 flex flex-col group reveal-element hover:-translate-y-2 transition-transform duration-300">
+                        <div class="h-[240px] bg-blue-50 dark:bg-blue-900/20 flex flex-col items-center justify-center p-6 text-center group-hover:bg-blue-100 dark:group-hover:bg-blue-900/30 transition-colors">
+                            <svg class="w-16 h-16 text-blue-600 dark:text-blue-400 mb-4 transform group-hover:scale-110 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"></path></svg>
                             <h3 class="text-2xl font-bold text-blue-700 dark:text-blue-300">Gestão Financeira</h3>
                         </div>
                         <div class="p-8 flex flex-col flex-grow">
                             <div class="flex items-center justify-between mb-2">
                                 <h3 class="text-2xl font-bold text-primary dark:text-primary-dark">Finanças & Estratégia</h3>
                             </div>
-                            <p class="text-sm text-secondary dark:text-secondary-dark mb-6 leading-relaxed">
-                                SaaS para empreendedores: separação de finanças pessoais/empresariais, análise de dados para insights estratégicos e auxílio fiscal.
+                            
+                            <!-- Hook -->
+                            <p class="text-sm text-secondary dark:text-secondary-dark mb-4 leading-relaxed font-medium">
+                                SaaS inteligente para empreendedores: organiza o caos financeiro separando contas pessoais e empresariais com insights automáticos.
                             </p>
-                            <div class="flex flex-wrap gap-2 mb-6">
+
+                            <!-- Toggle Button -->
+                            <button onclick="toggleDetails(this)" class="text-accent-end text-xs font-bold uppercase tracking-wider mb-4 hover:underline flex items-center gap-1 focus:outline-none">
+                                <span>Ver Detalhes Técnicos</span>
+                                <svg class="w-4 h-4 transition-transform duration-300" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
+                            </button>
+
+                            <!-- Hidden Deep Dive -->
+                            <div class="details-content mb-6">
+                                <div class="text-sm text-gray-600 dark:text-gray-400 space-y-3 p-4 bg-gray-50 dark:bg-gray-800/50 rounded-xl border border-gray-100 dark:border-gray-700">
+                                    <p><strong>Funcionalidades Chave:</strong> Categorização automática de despesas, dashboard de fluxo de caixa e módulo de preparação para Imposto de Renda.</p>
+                                    <p><strong>Diferencial:</strong> Algoritmos que analisam tendências de gastos e sugerem otimizações fiscais.</p>
+                                </div>
+                            </div>
+
+                            <div class="flex flex-wrap gap-2 mb-6 mt-auto">
                                 <span class="text-[10px] font-bold border border-yellow-200 dark:border-yellow-800 text-yellow-700 dark:text-yellow-400 px-2 py-0.5 rounded-md uppercase">🚧 Em Desenvolvimento</span>
                                 <span class="text-[10px] font-bold border border-purple-200 dark:border-purple-800 text-purple-600 dark:text-purple-400 px-2 py-0.5 rounded-md uppercase">Fintech</span>
                                 <span class="text-[10px] font-bold border border-indigo-200 dark:border-indigo-800 text-indigo-600 dark:text-indigo-400 px-2 py-0.5 rounded-md uppercase">Data Analytics</span>
@@ -188,17 +276,35 @@
                     </article>
                     
                     <!-- Análise de Solo (Atualizado) -->
-                    <article class="bg-white dark:bg-bg-card-dark rounded-2xl shadow-xl overflow-hidden border border-gray-100 dark:border-gray-700 flex flex-col group">
-                        <div class="h-[240px] bg-amber-50 dark:bg-amber-900/20 flex flex-col items-center justify-center p-6 text-center">
-                            <svg class="w-16 h-16 text-amber-600 dark:text-amber-400 mb-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19.428 15.428a2 2 0 00-1.022-.547l-2.387-.477a6 6 0 00-3.86.517l-.318.158a6 6 0 01-3.86.517L6.05 15.21a2 2 0 00-1.806.547M8 4h8l-1 1v5.172a2 2 0 00.586 1.414l5 5c1.26 1.26.367 3.414-1.415 3.414H4.828c-1.782 0-2.674-2.154-1.414-3.414l5-5A2 2 0 009 10.172V5L8 4z"></path></svg>
+                    <article class="bg-white dark:bg-bg-card-dark rounded-2xl shadow-xl overflow-hidden border border-gray-100 dark:border-gray-700 flex flex-col group reveal-element hover:-translate-y-2 transition-transform duration-300">
+                        <div class="h-[240px] bg-amber-50 dark:bg-amber-900/20 flex flex-col items-center justify-center p-6 text-center group-hover:bg-amber-100 dark:group-hover:bg-amber-900/30 transition-colors">
+                            <svg class="w-16 h-16 text-amber-600 dark:text-amber-400 mb-4 transform group-hover:scale-110 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19.428 15.428a2 2 0 00-1.022-.547l-2.387-.477a6 6 0 00-3.86.517l-.318.158a6 6 0 01-3.86.517L6.05 15.21a2 2 0 00-1.806.547M8 4h8l-1 1v5.172a2 2 0 00.586 1.414l5 5c1.26 1.26.367 3.414-1.415 3.414H4.828c-1.782 0-2.674-2.154-1.414-3.414l5-5A2 2 0 009 10.172V5L8 4z"></path></svg>
                             <h3 class="text-2xl font-bold text-amber-700 dark:text-amber-300">AgroTech & IA</h3>
                         </div>
                         <div class="p-8 flex flex-col flex-grow">
                             <h3 class="text-2xl font-bold text-primary dark:text-primary-dark mb-2">Análise de Solo via Laser & IA</h3>
-                            <p class="text-sm text-secondary dark:text-secondary-dark mb-6 leading-relaxed">
-                                Iniciação Científica (CNPq): Substituição de análises químicas por <strong>Interferometria Speckle</strong> e algoritmos de <strong>Busca Gulosa (AI)</strong> para classificar texturas de solo em tempo real.
+                            
+                            <!-- Hook -->
+                            <p class="text-sm text-secondary dark:text-secondary-dark mb-4 leading-relaxed font-medium">
+                                Substituindo análises químicas demoradas por Física Óptica e IA. Um "GPS" que identifica a textura do solo através da luz.
                             </p>
-                            <div class="flex flex-wrap gap-2 mb-6">
+
+                            <!-- Toggle Button -->
+                            <button onclick="toggleDetails(this)" class="text-accent-end text-xs font-bold uppercase tracking-wider mb-4 hover:underline flex items-center gap-1 focus:outline-none">
+                                <span>Ver Detalhes Científicos</span>
+                                <svg class="w-4 h-4 transition-transform duration-300" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
+                            </button>
+
+                            <!-- Hidden Deep Dive -->
+                            <div class="details-content mb-6">
+                                <div class="text-sm text-gray-600 dark:text-gray-400 space-y-3 p-4 bg-gray-50 dark:bg-gray-800/50 rounded-xl border border-gray-100 dark:border-gray-700">
+                                    <p><strong>A Inovação:</strong> Uso de Interferometria Speckle para gerar uma "assinatura visual" única da rugosidade do solo.</p>
+                                    <p><strong>O Algoritmo:</strong> Implementação de Busca Gulosa (Greedy Best-First Search) que compara a amostra com um banco de dados, classificando argila/areia/silte em tempo real.</p>
+                                    <p><strong>Parceria:</strong> Fatec Itaquera & Fundação Nishimura (CNPq).</p>
+                                </div>
+                            </div>
+
+                            <div class="flex flex-wrap gap-2 mb-6 mt-auto">
                                 <span class="text-[10px] font-bold border border-yellow-200 dark:border-yellow-800 text-yellow-700 dark:text-yellow-400 px-2 py-0.5 rounded-md uppercase">🚧 Em Desenvolvimento</span>
                                 <span class="text-[10px] font-bold border border-amber-200 dark:border-amber-800 text-amber-700 dark:text-amber-400 px-2 py-0.5 rounded-md uppercase">Computer Vision</span>
                                 <span class="text-[10px] font-bold border border-red-200 dark:border-red-800 text-red-600 dark:text-red-400 px-2 py-0.5 rounded-md uppercase">Pesquisa CNPq</span>
@@ -211,24 +317,24 @@
 
         <section id="skills" class="py-24">
             <div class="container mx-auto px-6">
-                <div class="text-center max-w-2xl mx-auto mb-16">
+                <div class="text-center max-w-2xl mx-auto mb-16 reveal-element">
                     <h2 class="text-3xl md:text-5xl font-extrabold text-primary dark:text-primary-dark mb-4">Tech Stack</h2>
                     <p class="text-lg text-secondary dark:text-secondary-dark leading-relaxed italic">Tecnologias e ferramentas que utilizo para construir produtos de ponta.</p>
                 </div>
                 <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
-                    <div class="bg-gray-50 dark:bg-bg-card-dark p-8 rounded-2xl border border-gray-100 dark:border-gray-700 shadow-sm">
+                    <div class="bg-gray-50 dark:bg-bg-card-dark p-8 rounded-2xl border border-gray-100 dark:border-gray-700 shadow-sm reveal-element hover:-translate-y-2 transition-transform duration-300">
                         <h4 class="font-bold text-accent-end mb-4 uppercase tracking-wider text-xs">⚙️ Backend</h4>
                         <p class="text-sm text-secondary dark:text-gray-300 leading-relaxed">Python (Avançado), Django REST, FastAPI, Pandas.</p>
                     </div>
-                    <div class="bg-gray-50 dark:bg-bg-card-dark p-8 rounded-2xl border border-gray-100 dark:border-gray-700 shadow-sm">
+                    <div class="bg-gray-50 dark:bg-bg-card-dark p-8 rounded-2xl border border-gray-100 dark:border-gray-700 shadow-sm reveal-element hover:-translate-y-2 transition-transform duration-300" style="transition-delay: 100ms">
                         <h4 class="font-bold text-accent-end mb-4 uppercase tracking-wider text-xs">💡 Frontend</h4>
                         <p class="text-sm text-secondary dark:text-gray-300 leading-relaxed">JavaScript (ES6+), React.js, Vite, Tailwind CSS.</p>
                     </div>
-                    <div class="bg-gray-50 dark:bg-bg-card-dark p-8 rounded-2xl border border-gray-100 dark:border-gray-700 shadow-sm">
+                    <div class="bg-gray-50 dark:bg-bg-card-dark p-8 rounded-2xl border border-gray-100 dark:border-gray-700 shadow-sm reveal-element hover:-translate-y-2 transition-transform duration-300" style="transition-delay: 200ms">
                         <h4 class="font-bold text-accent-end mb-4 uppercase tracking-wider text-xs">🧪 Qualidade & DevOps</h4>
                         <p class="text-sm text-secondary dark:text-gray-300 leading-relaxed">TDD, Pytest, SonarQube, Docker, Git Flow.</p>
                     </div>
-                    <div class="bg-gray-50 dark:bg-bg-card-dark p-8 rounded-2xl border border-gray-100 dark:border-gray-700 shadow-sm">
+                    <div class="bg-gray-50 dark:bg-bg-card-dark p-8 rounded-2xl border border-gray-100 dark:border-gray-700 shadow-sm reveal-element hover:-translate-y-2 transition-transform duration-300" style="transition-delay: 300ms">
                         <h4 class="font-bold text-accent-end mb-4 uppercase tracking-wider text-xs">🏗️ Arquitetura & Dados</h4>
                         <p class="text-sm text-secondary dark:text-gray-300 leading-relaxed">MVC, MVVM, SQL, Algoritmos de Busca, Automação.</p>
                     </div>
@@ -239,11 +345,11 @@
 
     <footer id="contato" class="bg-primary dark:bg-black py-20 border-t border-gray-200 dark:border-gray-800 text-center">
         <div class="container mx-auto px-6">
-            <h2 class="text-3xl font-bold text-white mb-4">Vamos construir algo juntos?</h2>
-            <p class="text-gray-400 mb-10">wellingtonsp.dev@gmail.com</p>
-            <div class="flex justify-center space-x-8 mb-12">
-                <a href="https://github.com/wellingtonspdev" target="_blank" class="text-gray-400 hover:text-white transition-colors"><svg class="w-8 h-8" fill="currentColor" viewBox="0 0 24 24"><path d="M12 2C6.477 2 2 6.477 2 12c0 4.418 2.865 8.168 6.839 9.492.5.092.682-.217.682-.482 0-.237-.009-.868-.014-1.703-2.782.605-3.369-1.343-3.369-1.343-.454-1.158-1.11-1.466-1.11-1.466-.908-.62.069-.608.069-.608 1.003.07 1.531 1.032 1.531 1.032.892 1.53 2.341 1.088 2.91.832.092-.647.35-1.088.636-1.338-2.22-.253-4.555-1.113-4.555-4.951 0-1.093.39-1.988 1.031-2.688-.103-.253-.446-1.272.098-2.65 0 0 .84-.27 2.75 1.026A9.564 9.564 0 0112 6.844c.85.004 1.705.115 2.504.337 1.909-1.296 2.747-1.027 2.747-1.027.546 1.378.203 2.398.1 2.651.64.7 1.03 1.595 1.03 2.688 0 3.848-2.338 4.695-4.566 4.942.359.308.678.92.678 1.855 0 1.338-.012 2.419-.012 2.747 0 .268.18.58.688.482A10.001 10.001 0 0022 12c0-5.523-4.477-10-10-10z"/></svg></a>
-                <a href="https://www.linkedin.com/in/wellingtonsp-dev" target="_blank" class="text-gray-400 hover:text-white transition-colors"><svg class="w-8 h-8" fill="currentColor" viewBox="0 0 24 24"><path d="M19 0h-14c-2.761 0-5 2.239-5 5v14c0 2.761 2.239 5 5 5h14c2.762 0 5-2.239 5-5v-14c0-2.761-2.238-5-5-5zm-11 19h-3v-11h3v11zm-1.5-12.268c-.966 0-1.75-.79-1.75-1.764s.784-1.764 1.75-1.764 1.75.79 1.75 1.764-.783 1.764-1.75 1.764zm13.5 12.268h-3v-5.604c0-3.368-4-3.113-4 0v5.604h-3v-11h3v1.765c1.396-2.586 7-2.777 7 2.476v6.759z"/></svg></a>
+            <h2 class="text-3xl font-bold text-white mb-4 reveal-element">Vamos construir algo juntos?</h2>
+            <p class="text-gray-400 mb-10 reveal-element">wellingtonsp.dev@gmail.com</p>
+            <div class="flex justify-center space-x-8 mb-12 reveal-element">
+                <a href="https://github.com/wellingtonspdev" target="_blank" class="text-gray-400 hover:text-white transition-colors hover:scale-110 transform duration-300"><svg class="w-8 h-8" fill="currentColor" viewBox="0 0 24 24"><path d="M12 2C6.477 2 2 6.477 2 12c0 4.418 2.865 8.168 6.839 9.492.5.092.682-.217.682-.482 0-.237-.009-.868-.014-1.703-2.782.605-3.369-1.343-3.369-1.343-.454-1.158-1.11-1.466-1.11-1.466-.908-.62.069-.608.069-.608 1.003.07 1.531 1.032 1.531 1.032.892 1.53 2.341 1.088 2.91.832.092-.647.35-1.088.636-1.338-2.22-.253-4.555-1.113-4.555-4.951 0-1.093.39-1.988 1.031-2.688-.103-.253-.446-1.272.098-2.65 0 0 .84-.27 2.75 1.026A9.564 9.564 0 0112 6.844c.85.004 1.705.115 2.504.337 1.909-1.296 2.747-1.027 2.747-1.027.546 1.378.203 2.398.1 2.651.64.7 1.03 1.595 1.03 2.688 0 3.848-2.338 4.695-4.566 4.942.359.308.678.92.678 1.855 0 1.338-.012 2.419-.012 2.747 0 .268.18.58.688.482A10.001 10.001 0 0022 12c0-5.523-4.477-10-10-10z"/></svg></a>
+                <a href="https://www.linkedin.com/in/wellingtonsp-dev" target="_blank" class="text-gray-400 hover:text-white transition-colors hover:scale-110 transform duration-300"><svg class="w-8 h-8" fill="currentColor" viewBox="0 0 24 24"><path d="M19 0h-14c-2.761 0-5 2.239-5 5v14c0 2.761 2.239 5 5 5h14c2.762 0 5-2.239 5-5v-14c0-2.761-2.238-5-5-5zm-11 19h-3v-11h3v11zm-1.5-12.268c-.966 0-1.75-.79-1.75-1.764s.784-1.764 1.75-1.764 1.75.79 1.75 1.764-.783 1.764-1.75 1.764zm13.5 12.268h-3v-5.604c0-3.368-4-3.113-4 0v5.604h-3v-11h3v1.765c1.396-2.586 7-2.777 7 2.476v6.759z"/></svg></a>
             </div>
             <p class="text-[10px] text-gray-600 tracking-widest uppercase">© 2026 Wellington Siqueira Porto. Todos os direitos reservados.</p>
         </div>
@@ -279,23 +385,104 @@
         const dotsContainer = document.getElementById('carousel-dots');
         let index = 0;
 
-        carouselData.forEach((_, i) => {
-            const dot = document.createElement('button');
-            dot.className = `w-1.5 h-1.5 rounded-full transition-all ${i === 0 ? 'bg-white w-4' : 'bg-white/40'}`;
-            dot.onclick = () => update(i);
-            dotsContainer.appendChild(dot);
-        });
+        if (track) {
+            carouselData.forEach((_, i) => {
+                const dot = document.createElement('button');
+                dot.className = `w-1.5 h-1.5 rounded-full transition-all ${i === 0 ? 'bg-white w-4' : 'bg-white/40'}`;
+                dot.onclick = () => update(i);
+                dotsContainer.appendChild(dot);
+            });
 
-        const update = (i) => {
-            index = i;
-            track.style.transform = `translateX(-${i * 100}%)`;
-            capTitle.innerText = carouselData[i].title;
-            capDesc.innerText = carouselData[i].desc;
-            Array.from(dotsContainer.children).forEach((d, dIdx) => d.className = `w-1.5 h-1.5 rounded-full transition-all ${dIdx === i ? 'bg-white w-4' : 'bg-white/40'}`);
+            const update = (i) => {
+                index = i;
+                track.style.transform = `translateX(-${i * 100}%)`;
+                capTitle.innerText = carouselData[i].title;
+                capDesc.innerText = carouselData[i].desc;
+                Array.from(dotsContainer.children).forEach((d, dIdx) => d.className = `w-1.5 h-1.5 rounded-full transition-all ${dIdx === i ? 'bg-white w-4' : 'bg-white/40'}`);
+            };
+
+            document.getElementById('carousel-next').onclick = () => update((index + 1) % carouselData.length);
+            document.getElementById('carousel-prev').onclick = () => update((index - 1 + carouselData.length) % carouselData.length);
+        }
+
+        // --- NOVAS ANIMAÇÕES ---
+
+        // 1. Typewriter Effect
+        const textElement = document.getElementById('typewriter-text');
+        const phrases = ["Desenvolvedor Full Stack", "Tech Lead", "Pesquisador em IA"];
+        let phraseIndex = 0;
+        let charIndex = 0;
+        let isDeleting = false;
+        let typeSpeed = 100;
+
+        function type() {
+            const currentPhrase = phrases[phraseIndex];
+            
+            if (isDeleting) {
+                textElement.textContent = currentPhrase.substring(0, charIndex - 1);
+                charIndex--;
+                typeSpeed = 50;
+            } else {
+                textElement.textContent = currentPhrase.substring(0, charIndex + 1);
+                charIndex++;
+                typeSpeed = 100;
+            }
+
+            if (!isDeleting && charIndex === currentPhrase.length) {
+                isDeleting = true;
+                typeSpeed = 2000; // Pausa no final da frase
+            } else if (isDeleting && charIndex === 0) {
+                isDeleting = false;
+                phraseIndex = (phraseIndex + 1) % phrases.length;
+                typeSpeed = 500;
+            }
+
+            setTimeout(type, typeSpeed);
+        }
+        document.addEventListener('DOMContentLoaded', type);
+
+        // 2. Scroll Reveal
+        const observerOptions = {
+            threshold: 0.1,
+            rootMargin: "0px 0px -50px 0px"
         };
 
-        document.getElementById('carousel-next').onclick = () => update((index + 1) % carouselData.length);
-        document.getElementById('carousel-prev').onclick = () => update((index - 1 + carouselData.length) % carouselData.length);
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('visible');
+                    observer.unobserve(entry.target); // Anima apenas uma vez
+                }
+            });
+        }, observerOptions);
+
+        document.querySelectorAll('.reveal-element').forEach(el => observer.observe(el));
+
+        // 3. Progress Bar
+        window.onscroll = function() {
+            let winScroll = document.body.scrollTop || document.documentElement.scrollTop;
+            let height = document.documentElement.scrollHeight - document.documentElement.clientHeight;
+            let scrolled = (winScroll / height) * 100;
+            document.getElementById("progress-bar").style.width = scrolled + "%";
+        };
+
+        // 4. Expand/Collapse Details
+        function toggleDetails(btn) {
+            const content = btn.nextElementSibling;
+            const icon = btn.querySelector('svg');
+            
+            if (content.style.maxHeight) {
+                content.style.maxHeight = null;
+                content.classList.remove('expanded');
+                icon.style.transform = 'rotate(0deg)';
+                btn.querySelector('span').textContent = 'Ver Detalhes Técnicos';
+            } else {
+                content.style.maxHeight = content.scrollHeight + "px";
+                content.classList.add('expanded');
+                icon.style.transform = 'rotate(180deg)';
+                btn.querySelector('span').textContent = 'Ocultar Detalhes';
+            }
+        }
     </script>
 </body>
 </html>
