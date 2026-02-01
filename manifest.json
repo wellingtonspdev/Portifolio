@@ -1,0 +1,21 @@
+{
+  "name": "Wellington Siqueira Porto",
+  "short_name": "Wellington Dev",
+  "start_url": "./index.html",
+  "display": "standalone",
+  "background_color": "#111827",
+  "theme_color": "#111827",
+  "orientation": "portrait",
+  "icons": [
+    {
+      "src": "logo/logo_portifolio.png",
+      "sizes": "192x192",
+      "type": "image/png"
+    },
+    {
+      "src": "logo/logo_portifolio.png",
+      "sizes": "512x512",
+      "type": "image/png"
+    }
+  ]
+}
