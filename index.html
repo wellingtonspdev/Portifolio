@@ -18,8 +18,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
 
     <!-- Ícones -->
-    <link rel="apple-touch-icon" href="logo/logo_portifolio2.png">
-    <link rel="icon" type="image/png" sizes="32x32" href="logo/logo_portifolio2.png">
+    <link rel="apple-touch-icon" href="assets/logo/logo_portifolio2-removebg-preview_resized.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="assets/logo/logo_portifolio2-removebg-preview_resized.png">
     <link rel="manifest" href="manifest.json">
 
     <!-- Open Graph / Facebook / LinkedIn -->
@@ -37,12 +37,16 @@
     <meta property="twitter:image" content="https://raw.githubusercontent.com/wellingtonspdev/Portifolio/main/assets/og-image.png">
 
     <!-- Favicon -->
-    <link rel="icon" href="logo/logo_portifolio2.png">
+    <link rel="icon" href="assets/logo/logo_portifolio2-removebg-preview_resized.png">
 
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
     
+    <!-- Bibliotecas de Efeitos (CDNs) -->
     <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://unpkg.com/typed.js@2.0.16/dist/typed.umd.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/vanilla-tilt/1.8.0/vanilla-tilt.min.js"></script>
+
     <script>
       tailwind.config = {
         darkMode: 'class',
@@ -50,37 +54,122 @@
           extend: {
             fontFamily: { sans: ['Inter', 'sans-serif'] },
             colors: {
-              primary: { DEFAULT: '#111827', dark: '#F9FAFB' },
+              primary: { DEFAULT: '#0f172a', dark: '#F9FAFB' },
               secondary: { DEFAULT: '#6b7280', dark: '#9CA3AF' },
               'accent-start': '#8b5cf6',
               'accent-end': '#6366f1',
-              'bg-light': '#f9fafb',
-              'bg-dark': '#111827',
-              'bg-card-dark': '#1F2937',
-            },
-            animation: {
-                'cursor-blink': 'blink 1s step-end infinite',
-            },
-            keyframes: {
-                blink: { '0%, 100%': { opacity: '1' }, '50%': { opacity: '0' } }
+              'bg-dark': '#0f172a',
+              'bg-card-dark': '#1e293b',
             }
           }
         }
       }
     </script>
     <style>
-        /* Scroll Reveal Classes */
+        /* --- 1. Aurora Background (Fundo Animado) --- */
+        .aurora-container {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+            overflow: hidden;
+            background: #0f172a;
+        }
+
+        .blob {
+            position: absolute;
+            filter: blur(80px);
+            opacity: 0.4;
+            animation: float 10s infinite ease-in-out alternate;
+            border-radius: 50%;
+        }
+
+        .blob-1 {
+            top: -10%;
+            left: -10%;
+            width: 50vw;
+            height: 50vw;
+            background: #4c1d95;
+            animation-delay: 0s;
+        }
+
+        .blob-2 {
+            bottom: -10%;
+            right: -10%;
+            width: 60vw;
+            height: 60vw;
+            background: #1e3a8a;
+            animation-delay: -5s;
+        }
+
+        .blob-3 {
+            top: 40%;
+            left: 40%;
+            width: 40vw;
+            height: 40vw;
+            background: #0f766e;
+            opacity: 0.2;
+            animation-delay: -2s;
+        }
+
+        @keyframes float {
+            0% { transform: translate(0, 0) scale(1); }
+            100% { transform: translate(20px, 40px) scale(1.1); }
+        }
+
+        @media (max-width: 768px) {
+            .blob { animation: none; filter: blur(60px); opacity: 0.3; }
+        }
+
+        /* --- 2. Noise Texture --- */
+        .noise-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 50;
+            pointer-events: none;
+            opacity: 0.03;
+            background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E");
+        }
+
+        /* --- 3. Glassmorphism Premium --- */
+        .glass-card {
+            background: rgba(255, 255, 255, 0.03);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s ease, box-shadow 0.3s ease, border-color 0.3s ease;
+        }
+
+        .glass-card:hover {
+            border-color: rgba(139, 92, 246, 0.3);
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.2);
+        }
+
+        html:not(.dark) .aurora-container { background: #f8fafc; }
+        html:not(.dark) .blob { opacity: 0.15; mix-blend-mode: multiply; }
+        html:not(.dark) .glass-card {
+            background: rgba(255, 255, 255, 0.6);
+            border: 1px solid rgba(255, 255, 255, 0.4);
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
+        }
+
+        /* --- 4. Scroll Reveal --- */
         .reveal-element {
             opacity: 0;
-            transform: translateY(30px);
-            transition: all 0.8s cubic-bezier(0.5, 0, 0, 1);
+            transform: translateY(40px);
+            transition: all 1s cubic-bezier(0.2, 0.8, 0.2, 1);
         }
         .reveal-element.visible {
             opacity: 1;
             transform: translateY(0);
         }
         
-        /* Smooth Expand Transition */
         .details-content {
             transition: max-height 0.5s ease-in-out, opacity 0.5s ease-in-out;
             max-height: 0;
@@ -90,16 +179,52 @@
         .details-content.expanded {
             opacity: 1;
         }
+
+        /* --- 5. iOS Install Prompt --- */
+        #ios-install-prompt {
+            transform: translateY(100%);
+            transition: transform 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        }
+        #ios-install-prompt.show {
+            transform: translateY(0);
+        }
     </style>
 </head>
 <body class="bg-white dark:bg-bg-dark text-gray-800 dark:text-gray-200 font-sans antialiased transition-colors duration-300">
 
-    <!-- Progress Bar -->
+    <div class="aurora-container">
+        <div class="blob blob-1"></div>
+        <div class="blob blob-2"></div>
+        <div class="blob blob-3"></div>
+    </div>
+
+    <div class="noise-overlay"></div>
+
     <div class="fixed top-0 left-0 h-1 bg-gradient-to-r from-accent-start to-accent-end z-[60]" id="progress-bar" style="width: 0%"></div>
 
     <div id="mobile-menu-overlay" class="fixed inset-0 bg-black/60 backdrop-blur-sm z-50 hidden transition-opacity"></div>
 
-    <header class="bg-white/80 dark:bg-bg-dark/80 backdrop-blur-lg fixed top-0 left-0 right-0 z-50 border-b border-gray-200 dark:border-gray-700">
+    <!-- iOS Install Prompt (Toast) -->
+    <div id="ios-install-prompt" class="fixed bottom-6 left-4 right-4 z-[100] glass-card p-4 rounded-2xl flex items-start gap-4 shadow-2xl border border-white/20 hidden">
+        <button onclick="dismissIosPrompt()" class="absolute top-2 right-2 text-gray-400 hover:text-white">
+            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
+        </button>
+        <img src="assets/logo/logo_portifolio2-removebg-preview_resized.png" class="w-12 h-12 rounded-xl bg-black/20 p-1" alt="App Icon">
+        <div class="flex-1">
+            <h4 class="text-sm font-bold text-white mb-1">Instalar Aplicativo</h4>
+            <p class="text-xs text-gray-300 leading-relaxed">
+                Para instalar este portfólio no seu iPhone, toque em 
+                <svg class="w-4 h-4 inline-block mx-0.5 text-blue-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8.684 13.342C8.886 12.938 9 12.482 9 12c0-.482-.114-.938-.316-1.342m0 2.684a3 3 0 110-2.684m0 2.684l6.632 3.316m-6.632-6l6.632-3.316m0 0a3 3 0 105.367-2.684 3 3 0 00-5.367 2.684zm0 9.316a3 3 0 105.368 2.684 3 3 0 00-5.368-2.684z"></path></svg>
+                e depois em <strong>"Adicionar à Tela de Início"</strong>.
+            </p>
+        </div>
+        <!-- Seta Animada -->
+        <div class="absolute -bottom-8 left-1/2 -translate-x-1/2 animate-bounce">
+            <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 14l-7 7m0 0l-7-7m7 7V3"></path></svg>
+        </div>
+    </div>
+
+    <header class="bg-white/70 dark:bg-bg-dark/70 backdrop-blur-md fixed top-0 left-0 right-0 z-50 border-b border-gray-200/50 dark:border-gray-700/50">
         <nav class="container mx-auto px-6 py-4 flex justify-between items-center">
             <a href="#" class="text-2xl font-bold text-primary dark:text-primary-dark tracking-tight hover:scale-105 transition-transform">
                 wellingtonsp<span class="text-accent-end">.dev</span>
@@ -112,7 +237,7 @@
                     <li><a href="#contato" class="bg-gradient-to-r from-accent-start to-accent-end text-white font-bold py-2 px-5 rounded-lg shadow-md hover:shadow-lg hover:-translate-y-0.5 transition-all w-full block text-center md:w-auto">Contato</a></li>
                 </ul>
 
-                <button id="theme-toggle" class="ml-6 p-2 rounded-lg text-gray-600 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors">
+                <button id="theme-toggle" class="ml-6 p-2 rounded-lg text-gray-600 dark:text-gray-300 hover:bg-gray-100/50 dark:hover:bg-gray-800/50 transition-colors">
                     <svg id="theme-toggle-dark-icon" class="hidden h-6 w-6" fill="currentColor" viewBox="0 0 20 20"><path d="M17.293 13.293A8 8 0 016.707 2.707a8.001 8.001 0 1010.586 10.586z"></path></svg>
                     <svg id="theme-toggle-light-icon" class="hidden h-6 w-6" fill="currentColor" viewBox="0 0 20 20"><path d="M10 2a1 1 0 011 1v1a1 1 0 11-2 0V3a1 1 0 011-1zm4 8a4 4 0 11-8 0 4 4 0 018 0zm-.464 4.95l.707.707a1 1 0 001.414-1.414l-.707-.707a1 1 0 00-1.414 1.414zm2.12-10.607a1 1 0 010 1.414l-.706.707a1 1 0 11-1.414-1.414l.707-.707a1 1 0 011.414 0zM17 11a1 1 0 100-2h-1a1 1 0 100 2h1zm-7 4a1 1 0 011 1v1a1 1 0 11-2 0v-1a1 1 0 011-1zM5.05 6.464A1 1 0 106.465 5.05l-.708-.707a1 1 0 00-1.414 1.414l.707.707zm1.414 8.486l-.707.707a1 1 0 01-1.414-1.414l.707-.707a1 1 0 011.414 1.414zM4 11a1 1 0 100-2H3a1 1 0 000 2h1z"></path></svg>
                 </button>
@@ -125,15 +250,14 @@
     </header>
 
     <main>
-        <section id="home" class="pt-40 pb-20 md:pt-56 md:pb-32">
+        <section id="home" class="pt-40 pb-20 md:pt-56 md:pb-32 relative z-10">
             <div class="container mx-auto px-6 text-center">
                 <div class="max-w-4xl mx-auto reveal-element">
-                    <span class="inline-block bg-green-100 dark:bg-green-900/30 text-green-800 dark:text-green-300 text-xs font-bold mb-6 px-4 py-1.5 rounded-full border border-green-200 dark:border-green-800 uppercase tracking-wider hover:scale-105 transition-transform cursor-default">🟢 Disponível para Projetos e Estágio</span>
+                    <span class="inline-block bg-green-100/80 dark:bg-green-900/30 text-green-800 dark:text-green-300 text-xs font-bold mb-6 px-4 py-1.5 rounded-full border border-green-200 dark:border-green-800 uppercase tracking-wider hover:scale-105 transition-transform cursor-default backdrop-blur-sm">🟢 Disponível para Projetos e Estágio</span>
                     <h1 class="text-4xl md:text-7xl font-extrabold tracking-tighter text-primary dark:text-primary-dark mb-6">Wellington Siqueira Porto</h1>
                     
-                    <!-- Typewriter Effect Container -->
                     <h2 class="text-xl md:text-3xl font-bold text-accent-end mb-8 h-8 md:h-10">
-                        <span id="typewriter-text"></span><span class="animate-cursor-blink border-r-2 border-accent-end ml-1"></span>
+                        <span id="typed-output"></span>
                     </h2>
 
                     <p class="text-lg md:text-xl text-secondary dark:text-secondary-dark mb-12 max-w-3xl mx-auto leading-relaxed italic">
@@ -141,13 +265,13 @@
                     </p>
                     <div class="flex flex-wrap justify-center gap-4">
                         <a href="#projetos" class="bg-gradient-to-r from-accent-start to-accent-end text-white font-bold py-3 px-8 rounded-xl shadow-xl hover:-translate-y-1 hover:shadow-2xl transition-all duration-300">Ver Cases de Sucesso</a>
-                        <a href="https://github.com/wellingtonspdev" target="_blank" class="bg-gray-100 dark:bg-gray-800 text-gray-700 dark:text-gray-200 font-bold py-3 px-8 rounded-xl border border-gray-200 dark:border-gray-700 hover:bg-gray-200 hover:-translate-y-1 transition-all duration-300">GitHub</a>
+                        <a href="https://github.com/wellingtonspdev" target="_blank" class="glass-card text-gray-700 dark:text-gray-200 font-bold py-3 px-8 rounded-xl hover:bg-white/20 transition-all duration-300">GitHub</a>
                     </div>
                 </div>
             </div>
         </section>
 
-        <section id="sobre" class="py-24 bg-white dark:bg-bg-dark">
+        <section id="sobre" class="py-24 relative z-10">
             <div class="container mx-auto px-6">
                 <div class="max-w-4xl mx-auto reveal-element">
                     <h2 class="text-3xl md:text-5xl font-extrabold text-primary dark:text-primary-dark mb-10 text-center">Sobre Mim</h2>
@@ -163,19 +287,18 @@
                         </p>
                     </div>
 
-                    <!-- Nova Seção: Filosofia de Trabalho -->
                     <div class="mt-12 grid grid-cols-1 md:grid-cols-3 gap-6">
-                        <div class="bg-gray-50 dark:bg-bg-card-dark p-6 rounded-xl border border-gray-100 dark:border-gray-700 hover:shadow-md transition-shadow">
+                        <div class="glass-card p-6 rounded-xl">
                             <div class="text-3xl mb-3">🤝</div>
                             <h4 class="font-bold text-primary dark:text-white mb-2">Liderança Hands-on</h4>
                             <p class="text-sm text-gray-600 dark:text-gray-400">Atuação 360º, do planejamento (PACT) ao deploy, removendo impedimentos técnicos do time.</p>
                         </div>
-                        <div class="bg-gray-50 dark:bg-bg-card-dark p-6 rounded-xl border border-gray-100 dark:border-gray-700 hover:shadow-md transition-shadow">
+                        <div class="glass-card p-6 rounded-xl">
                             <div class="text-3xl mb-3">🎓</div>
                             <h4 class="font-bold text-primary dark:text-white mb-2">Code Review Educativo</h4>
                             <p class="text-sm text-gray-600 dark:text-gray-400">Transformo revisões de código em mentoria, nivelando o conhecimento técnico da equipe.</p>
                         </div>
-                        <div class="bg-gray-50 dark:bg-bg-card-dark p-6 rounded-xl border border-gray-100 dark:border-gray-700 hover:shadow-md transition-shadow">
+                        <div class="glass-card p-6 rounded-xl">
                             <div class="text-3xl mb-3">🌉</div>
                             <h4 class="font-bold text-primary dark:text-white mb-2">Visão Sistêmica</h4>
                             <p class="text-sm text-gray-600 dark:text-gray-400">Crio pontes entre Front e Back usando documentação (Swagger) como língua universal.</p>
@@ -185,7 +308,7 @@
             </div>
         </section>
 
-        <section id="projetos" class="py-24 bg-bg-light dark:bg-bg-dark/50">
+        <section id="projetos" class="py-24 relative z-10">
             <div class="container mx-auto px-6">
                 <div class="text-center max-w-2xl mx-auto mb-16 reveal-element">
                     <h2 class="text-3xl md:text-5xl font-extrabold text-primary dark:text-primary-dark mb-4">Cases de Sucesso</h2>
@@ -194,23 +317,23 @@
                 
                 <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-10">
                     <!-- Define Pilates -->
-                    <article class="bg-white dark:bg-bg-card-dark rounded-2xl shadow-xl overflow-hidden border border-gray-100 dark:border-gray-700 flex flex-col group reveal-element hover:-translate-y-2 transition-transform duration-300">
-                        <div class="relative h-[480px] w-full bg-gray-100 dark:bg-gray-800 overflow-hidden">
+                    <article class="glass-card rounded-2xl overflow-hidden flex flex-col group reveal-element" data-tilt data-tilt-max="10" data-tilt-glare data-tilt-max-glare="0.3">
+                        <div class="relative h-[480px] w-full bg-gray-100 dark:bg-gray-800/50 overflow-hidden">
                             <div id="carousel-track" class="flex h-full transition-transform duration-500 ease-in-out">
                                 <div class="w-full h-full flex-shrink-0 p-6 flex justify-center">
-                                    <img src="assets/Define_Pilates/dash_admin.png" class="h-full object-contain rounded-[2.5rem] border-[6px] border-gray-900 shadow-2xl" alt="Dashboard">
+                                    <img src="https://storage.googleapis.com/portfolio-assets-prod-wsp/assets/Define_Pilates/dash_admin.png" class="h-full object-contain rounded-[2.5rem] border-[6px] border-gray-900 shadow-2xl" alt="Dashboard">
                                 </div>
                                 <div class="w-full h-full flex-shrink-0 p-6 flex justify-center">
-                                    <img src="assets/Define_Pilates/metricas_detalhadas.png" class="h-full object-contain rounded-[2.5rem] border-[6px] border-gray-900 shadow-2xl" alt="BI">
+                                    <img src="https://storage.googleapis.com/portfolio-assets-prod-wsp/assets/Define_Pilates/metricas_detalhadas.png" class="h-full object-contain rounded-[2.5rem] border-[6px] border-gray-900 shadow-2xl" alt="BI">
                                 </div>
                                 <div class="w-full h-full flex-shrink-0 p-6 flex justify-center">
-                                    <img src="assets/Define_Pilates/agenda_geral.png" class="h-full object-contain rounded-[2.5rem] border-[6px] border-gray-900 shadow-2xl" alt="Agenda">
+                                    <img src="https://storage.googleapis.com/portfolio-assets-prod-wsp/assets/Define_Pilates/agenda_geral.png" class="h-full object-contain rounded-[2.5rem] border-[6px] border-gray-900 shadow-2xl" alt="Agenda">
                                 </div>
                                 <div class="w-full h-full flex-shrink-0 p-6 flex justify-center">
-                                    <img src="assets/Define_Pilates/relatorios.png" class="h-full object-contain rounded-[2.5rem] border-[6px] border-gray-900 shadow-2xl" alt="Financeiro">
+                                    <img src="https://storage.googleapis.com/portfolio-assets-prod-wsp/assets/Define_Pilates/relatorios.png" class="h-full object-contain rounded-[2.5rem] border-[6px] border-gray-900 shadow-2xl" alt="Financeiro">
                                 </div>
                                 <div class="w-full h-full flex-shrink-0 p-6 flex justify-center">
-                                    <img src="assets/Define_Pilates/home_aluno.png" class="h-full object-contain rounded-[2.5rem] border-[6px] border-gray-900 shadow-2xl" alt="Aluno">
+                                    <img src="https://storage.googleapis.com/portfolio-assets-prod-wsp/assets/Define_Pilates/home_aluno.png" class="h-full object-contain rounded-[2.5rem] border-[6px] border-gray-900 shadow-2xl" alt="Aluno">
                                 </div>
                             </div>
                             <div class="absolute top-6 right-8 bg-black/70 backdrop-blur-md text-white text-[10px] px-3 py-1.5 rounded-full font-bold uppercase tracking-widest shadow-lg" id="slide-caption">Dashboard Admin</div>
@@ -222,27 +345,20 @@
 
                         <div class="p-8 flex flex-col flex-grow">
                             <h3 class="text-2xl font-bold text-primary dark:text-primary-dark mb-2">Define Pilates - Gestão SaaS</h3>
-                            
-                            <!-- Hook / Sales Pitch -->
                             <p class="text-sm text-secondary dark:text-secondary-dark mb-4 leading-relaxed font-medium">
                                 SaaS Multi-tenant para gestão de estúdios. Centraliza agendamentos, financeiro e BI em uma interface intuitiva, permitindo escalabilidade e isolamento de dados.
                             </p>
-                            
-                            <!-- Toggle Button -->
                             <button onclick="toggleDetails(this)" class="text-accent-end text-xs font-bold uppercase tracking-wider mb-4 hover:underline flex items-center gap-1 focus:outline-none">
                                 <span>Ver Detalhes Técnicos</span>
                                 <svg class="w-4 h-4 transition-transform duration-300" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
                             </button>
-
-                            <!-- Hidden Deep Dive Content -->
                             <div class="details-content mb-6">
-                                <div class="text-sm text-gray-600 dark:text-gray-400 space-y-3 p-4 bg-gray-50 dark:bg-gray-800/50 rounded-xl border border-gray-100 dark:border-gray-700">
+                                <div class="text-sm text-gray-600 dark:text-gray-400 space-y-3 p-4 bg-gray-50/50 dark:bg-gray-800/50 rounded-xl border border-gray-100 dark:border-gray-700">
                                     <p><strong>O Desafio:</strong> Unir um time multidisciplinar com níveis heterogêneos e garantir a entrega de uma arquitetura complexa.</p>
                                     <p><strong>Solução Técnica:</strong> Backend em Django REST com middleware de tenant. Uso de Swagger como "língua universal" para integração Front/Back.</p>
                                     <p><strong>Meu Papel (Tech Lead):</strong> Liderança Hands-on (360º), mentoria técnica via Code Review e implementação de TDD.</p>
                                 </div>
                             </div>
-                            
                             <div class="flex flex-wrap gap-2 mb-6 mt-auto">
                                 <span class="text-[10px] font-bold border border-blue-200 dark:border-blue-800 text-blue-600 dark:text-blue-400 px-2 py-0.5 rounded-md uppercase">Multi-tenancy</span>
                                 <span class="text-[10px] font-bold border border-indigo-200 dark:border-indigo-800 text-indigo-600 dark:text-indigo-400 px-2 py-0.5 rounded-md uppercase">BI & Analytics</span>
@@ -255,34 +371,27 @@
                     </article>
 
                     <!-- IBDN -->
-                    <article class="bg-white dark:bg-bg-card-dark rounded-2xl shadow-xl overflow-hidden border border-gray-100 dark:border-gray-700 flex flex-col group reveal-element hover:-translate-y-2 transition-transform duration-300">
+                    <article class="glass-card rounded-2xl overflow-hidden flex flex-col group reveal-element" data-tilt data-tilt-max="10" data-tilt-glare data-tilt-max-glare="0.3">
                         <div class="h-[240px] bg-green-50 dark:bg-green-900/20 flex flex-col items-center justify-center p-6 text-center group-hover:bg-green-100 dark:group-hover:bg-green-900/30 transition-colors">
                             <svg class="w-16 h-16 text-green-600 dark:text-green-400 mb-4 transform group-hover:scale-110 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3.055 11H5a2 2 0 012 2v1a2 2 0 002 2 2 2 0 012 2v2.945M8 3.935V5.5A2.5 2.5 0 0010.5 8h.5a2 2 0 012 2 2 2 0 104 0 2 2 0 012-2h1.064M15 20.488V18a2 2 0 012-2h3.064M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
                             <h3 class="text-2xl font-bold text-green-700 dark:text-green-300">Plataforma IBDN</h3>
                         </div>
                         <div class="p-8 flex flex-col flex-grow">
                             <h3 class="text-2xl font-bold text-primary dark:text-primary-dark mb-2">Plataforma Ambiental IBDN</h3>
-                            
-                            <!-- Hook -->
                             <p class="text-sm text-secondary dark:text-secondary-dark mb-4 leading-relaxed font-medium">
                                 Solução digital completa para o Instituto Brasileiro de Defesa da Natureza, modernizando a gestão de projetos de sustentabilidade.
                             </p>
-
-                            <!-- Toggle Button -->
                             <button onclick="toggleDetails(this)" class="text-accent-end text-xs font-bold uppercase tracking-wider mb-4 hover:underline flex items-center gap-1 focus:outline-none">
                                 <span>Ver Detalhes Técnicos</span>
                                 <svg class="w-4 h-4 transition-transform duration-300" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
                             </button>
-
-                            <!-- Hidden Deep Dive -->
                             <div class="details-content mb-6">
-                                <div class="text-sm text-gray-600 dark:text-gray-400 space-y-3 p-4 bg-gray-50 dark:bg-gray-800/50 rounded-xl border border-gray-100 dark:border-gray-700">
+                                <div class="text-sm text-gray-600 dark:text-gray-400 space-y-3 p-4 bg-gray-50/50 dark:bg-gray-800/50 rounded-xl border border-gray-100 dark:border-gray-700">
                                     <p><strong>Objetivo:</strong> Digitalizar processos manuais de certificação ambiental e acompanhamento de plantio.</p>
                                     <p><strong>Impacto:</strong> Maior transparência para doadores e agilidade operacional para o instituto.</p>
                                     <p><strong>Tech Stack:</strong> Desenvolvimento Web Full Stack focado em acessibilidade e performance.</p>
                                 </div>
                             </div>
-
                             <div class="flex flex-wrap gap-2 mb-6 mt-auto">
                                 <span class="text-[10px] font-bold border border-green-200 dark:border-green-800 text-green-600 dark:text-green-400 px-2 py-0.5 rounded-md uppercase">Sustentabilidade</span>
                                 <span class="text-[10px] font-bold border border-blue-200 dark:border-blue-800 text-blue-600 dark:text-blue-400 px-2 py-0.5 rounded-md uppercase">Web Platform</span>
@@ -291,7 +400,7 @@
                     </article>
 
                     <!-- Gestão Financeira -->
-                    <article class="bg-white dark:bg-bg-card-dark rounded-2xl shadow-xl overflow-hidden border border-gray-100 dark:border-gray-700 flex flex-col group reveal-element hover:-translate-y-2 transition-transform duration-300">
+                    <article class="glass-card rounded-2xl overflow-hidden flex flex-col group reveal-element" data-tilt data-tilt-max="10" data-tilt-glare data-tilt-max-glare="0.3">
                         <div class="h-[240px] bg-blue-50 dark:bg-blue-900/20 flex flex-col items-center justify-center p-6 text-center group-hover:bg-blue-100 dark:group-hover:bg-blue-900/30 transition-colors">
                             <svg class="w-16 h-16 text-blue-600 dark:text-blue-400 mb-4 transform group-hover:scale-110 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"></path></svg>
                             <h3 class="text-2xl font-bold text-blue-700 dark:text-blue-300">Gestão Financeira</h3>
@@ -300,27 +409,20 @@
                             <div class="flex items-center justify-between mb-2">
                                 <h3 class="text-2xl font-bold text-primary dark:text-primary-dark">Finanças & Estratégia</h3>
                             </div>
-                            
-                            <!-- Hook -->
                             <p class="text-sm text-secondary dark:text-secondary-dark mb-4 leading-relaxed font-medium">
                                 SaaS inteligente para empreendedores: organiza o caos financeiro separando contas pessoais e empresariais com insights automáticos.
                             </p>
-
-                            <!-- Toggle Button -->
                             <button onclick="toggleDetails(this)" class="text-accent-end text-xs font-bold uppercase tracking-wider mb-4 hover:underline flex items-center gap-1 focus:outline-none">
                                 <span>Ver Detalhes Técnicos</span>
                                 <svg class="w-4 h-4 transition-transform duration-300" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
                             </button>
-
-                            <!-- Hidden Deep Dive -->
                             <div class="details-content mb-6">
-                                <div class="text-sm text-gray-600 dark:text-gray-400 space-y-3 p-4 bg-gray-50 dark:bg-gray-800/50 rounded-xl border border-gray-100 dark:border-gray-700">
+                                <div class="text-sm text-gray-600 dark:text-gray-400 space-y-3 p-4 bg-gray-50/50 dark:bg-gray-800/50 rounded-xl border border-gray-100 dark:border-gray-700">
                                     <p><strong>Stack:</strong> Node.js, TypeScript e React. Banco de dados PostgreSQL.</p>
                                     <p><strong>Funcionalidades:</strong> Categorização automática de despesas, dashboard de fluxo de caixa e módulo de preparação para Imposto de Renda.</p>
                                     <p><strong>Diferencial:</strong> Algoritmos que analisam tendências de gastos e sugerem otimizações fiscais.</p>
                                 </div>
                             </div>
-
                             <div class="flex flex-wrap gap-2 mb-6 mt-auto">
                                 <span class="text-[10px] font-bold border border-yellow-200 dark:border-yellow-800 text-yellow-700 dark:text-yellow-400 px-2 py-0.5 rounded-md uppercase">🚧 Em Desenvolvimento</span>
                                 <span class="text-[10px] font-bold border border-purple-200 dark:border-purple-800 text-purple-600 dark:text-purple-400 px-2 py-0.5 rounded-md uppercase">Node.js & TS</span>
@@ -330,34 +432,27 @@
                     </article>
                     
                     <!-- Análise de Solo (Atualizado) -->
-                    <article class="bg-white dark:bg-bg-card-dark rounded-2xl shadow-xl overflow-hidden border border-gray-100 dark:border-gray-700 flex flex-col group reveal-element hover:-translate-y-2 transition-transform duration-300">
+                    <article class="glass-card rounded-2xl overflow-hidden flex flex-col group reveal-element" data-tilt data-tilt-max="10" data-tilt-glare data-tilt-max-glare="0.3">
                         <div class="h-[240px] bg-amber-50 dark:bg-amber-900/20 flex flex-col items-center justify-center p-6 text-center group-hover:bg-amber-100 dark:group-hover:bg-amber-900/30 transition-colors">
                             <svg class="w-16 h-16 text-amber-600 dark:text-amber-400 mb-4 transform group-hover:scale-110 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19.428 15.428a2 2 0 00-1.022-.547l-2.387-.477a6 6 0 00-3.86.517l-.318.158a6 6 0 01-3.86.517L6.05 15.21a2 2 0 00-1.806.547M8 4h8l-1 1v5.172a2 2 0 00.586 1.414l5 5c1.26 1.26.367 3.414-1.415 3.414H4.828c-1.782 0-2.674-2.154-1.414-3.414l5-5A2 2 0 009 10.172V5L8 4z"></path></svg>
                             <h3 class="text-2xl font-bold text-amber-700 dark:text-amber-300">AgroTech & IA</h3>
                         </div>
                         <div class="p-8 flex flex-col flex-grow">
                             <h3 class="text-2xl font-bold text-primary dark:text-primary-dark mb-2">Análise de Solo via Laser & IA</h3>
-                            
-                            <!-- Hook -->
                             <p class="text-sm text-secondary dark:text-secondary-dark mb-4 leading-relaxed font-medium">
                                 Substituindo análises químicas demoradas por Física Óptica e IA. Um "GPS" que identifica a textura do solo através da luz.
                             </p>
-
-                            <!-- Toggle Button -->
                             <button onclick="toggleDetails(this)" class="text-accent-end text-xs font-bold uppercase tracking-wider mb-4 hover:underline flex items-center gap-1 focus:outline-none">
                                 <span>Ver Detalhes Científicos</span>
                                 <svg class="w-4 h-4 transition-transform duration-300" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
                             </button>
-
-                            <!-- Hidden Deep Dive -->
                             <div class="details-content mb-6">
-                                <div class="text-sm text-gray-600 dark:text-gray-400 space-y-3 p-4 bg-gray-50 dark:bg-gray-800/50 rounded-xl border border-gray-100 dark:border-gray-700">
+                                <div class="text-sm text-gray-600 dark:text-gray-400 space-y-3 p-4 bg-gray-50/50 dark:bg-gray-800/50 rounded-xl border border-gray-100 dark:border-gray-700">
                                     <p><strong>A Inovação:</strong> Uso de Interferometria Speckle para gerar uma "assinatura visual" única da rugosidade do solo.</p>
                                     <p><strong>O Algoritmo:</strong> Implementação de Busca Gulosa (Greedy Best-First Search) que compara a amostra com um banco de dados, classificando argila/areia/silte em tempo real.</p>
                                     <p><strong>Parceria:</strong> Fatec Itaquera & Fundação Nishimura (CNPq).</p>
                                 </div>
                             </div>
-
                             <div class="flex flex-wrap gap-2 mb-6 mt-auto">
                                 <span class="text-[10px] font-bold border border-yellow-200 dark:border-yellow-800 text-yellow-700 dark:text-yellow-400 px-2 py-0.5 rounded-md uppercase">🚧 Em Desenvolvimento</span>
                                 <span class="text-[10px] font-bold border border-amber-200 dark:border-amber-800 text-amber-700 dark:text-amber-400 px-2 py-0.5 rounded-md uppercase">Computer Vision</span>
@@ -369,47 +464,52 @@
             </div>
         </section>
 
-        <section id="skills" class="py-24">
+        <section id="skills" class="py-24 relative z-10">
             <div class="container mx-auto px-6">
                 <div class="text-center max-w-2xl mx-auto mb-16 reveal-element">
                     <h2 class="text-3xl md:text-5xl font-extrabold text-primary dark:text-primary-dark mb-4">Tech Stack</h2>
                     <p class="text-lg text-secondary dark:text-secondary-dark leading-relaxed italic">Tecnologias e ferramentas que utilizo para construir produtos de ponta.</p>
                 </div>
                 <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
-                    <div class="bg-gray-50 dark:bg-bg-card-dark p-8 rounded-2xl border border-gray-100 dark:border-gray-700 shadow-sm reveal-element hover:-translate-y-2 transition-transform duration-300">
+                    <div class="glass-card p-8 rounded-2xl reveal-element">
                         <h4 class="font-bold text-accent-end mb-4 uppercase tracking-wider text-xs">⚙️ Backend</h4>
                         <p class="text-sm text-secondary dark:text-gray-300 leading-relaxed">Python (Avançado), Node.js, Java (POO), Django REST, FastAPI.</p>
                     </div>
-                    <div class="bg-gray-50 dark:bg-bg-card-dark p-8 rounded-2xl border border-gray-100 dark:border-gray-700 shadow-sm reveal-element hover:-translate-y-2 transition-transform duration-300" style="transition-delay: 100ms">
+                    <div class="glass-card p-8 rounded-2xl reveal-element" style="transition-delay: 100ms">
                         <h4 class="font-bold text-accent-end mb-4 uppercase tracking-wider text-xs">💡 Frontend</h4>
                         <p class="text-sm text-secondary dark:text-gray-300 leading-relaxed">JavaScript (ES6+), TypeScript, React.js, Vite, Tailwind CSS.</p>
                     </div>
-                    <div class="bg-gray-50 dark:bg-bg-card-dark p-8 rounded-2xl border border-gray-100 dark:border-gray-700 shadow-sm reveal-element hover:-translate-y-2 transition-transform duration-300" style="transition-delay: 200ms">
+                    <div class="glass-card p-8 rounded-2xl reveal-element" style="transition-delay: 200ms">
                         <h4 class="font-bold text-accent-end mb-4 uppercase tracking-wider text-xs">Soft Skills & Liderança</h4>
                         <p class="text-sm text-secondary dark:text-gray-300 leading-relaxed">Mentoria Técnica, Code Review Educativo, Visão Sistêmica (SDLC), TDD.</p>
                     </div>
-                    <div class="bg-gray-50 dark:bg-bg-card-dark p-8 rounded-2xl border border-gray-100 dark:border-gray-700 shadow-sm reveal-element hover:-translate-y-2 transition-transform duration-300" style="transition-delay: 300ms">
+                    <div class="glass-card p-8 rounded-2xl reveal-element" style="transition-delay: 300ms">
                         <h4 class="font-bold text-accent-end mb-4 uppercase tracking-wider text-xs">🏗️ Arquitetura & Dados</h4>
                         <p class="text-sm text-secondary dark:text-gray-300 leading-relaxed">MVC, MVVM, PostgreSQL, SQL, Algoritmos de Busca.</p>
+                    </div>
+                    <!-- Novo Card: Cloud & Infra -->
+                    <div class="glass-card p-8 rounded-2xl reveal-element" style="transition-delay: 400ms">
+                        <h4 class="font-bold text-accent-end mb-4 uppercase tracking-wider text-xs">☁️ Cloud & Infra</h4>
+                        <p class="text-sm text-secondary dark:text-gray-300 leading-relaxed">Google Cloud Platform (GCS, IAM, WIF), Docker, Linux, CI/CD (GitHub Actions).</p>
                     </div>
                 </div>
             </div>
         </section>
 
         <!-- Certificações -->
-        <section id="certificacoes" class="py-16 bg-white dark:bg-bg-dark border-t border-gray-100 dark:border-gray-800">
+        <section id="certificacoes" class="py-16 bg-white/50 dark:bg-bg-dark/50 border-t border-gray-100 dark:border-gray-800 relative z-10">
             <div class="container mx-auto px-6">
                 <div class="max-w-4xl mx-auto reveal-element">
                     <h3 class="text-2xl font-bold text-primary dark:text-primary-dark mb-8 text-center">Certificações & Formação Complementar</h3>
                     <div class="flex flex-wrap justify-center gap-4">
-                        <div class="bg-gray-50 dark:bg-bg-card-dark px-6 py-3 rounded-full border border-gray-200 dark:border-gray-700 flex items-center gap-3 shadow-sm hover:shadow-md transition-shadow">
+                        <div class="glass-card px-6 py-3 rounded-full flex items-center gap-3">
                             <span class="text-2xl">🔐</span>
                             <div>
                                 <p class="text-xs font-bold text-gray-500 uppercase tracking-wider">Cisco</p>
                                 <p class="font-bold text-primary dark:text-white">Endpoint Security</p>
                             </div>
                         </div>
-                        <div class="bg-gray-50 dark:bg-bg-card-dark px-6 py-3 rounded-full border border-gray-200 dark:border-gray-700 flex items-center gap-3 shadow-sm hover:shadow-md transition-shadow">
+                        <div class="glass-card px-6 py-3 rounded-full flex items-center gap-3">
                             <span class="text-2xl">💻</span>
                             <div>
                                 <p class="text-xs font-bold text-gray-500 uppercase tracking-wider">Cisco</p>
@@ -422,7 +522,7 @@
         </section>
     </main>
 
-    <footer id="contato" class="bg-primary dark:bg-black py-20 border-t border-gray-200 dark:border-gray-800 text-center">
+    <footer id="contato" class="bg-primary dark:bg-black py-20 border-t border-gray-200 dark:border-gray-800 text-center relative z-10">
         <div class="container mx-auto px-6">
             <h2 class="text-3xl font-bold text-white mb-4 reveal-element">Vamos construir algo juntos?</h2>
             <p class="text-gray-400 mb-10 reveal-element">wellingtonsp.dev@gmail.com</p>
@@ -435,6 +535,27 @@
     </footer>
 
     <script>
+        // --- Inicialização do Typed.js ---
+        document.addEventListener('DOMContentLoaded', function() {
+            var typed = new Typed('#typed-output', {
+                strings: [
+                    'Desenvolvedor Full Stack',
+                    'Tech Lead',
+                    'Pesquisador em IA',
+                    'Estudante de DSM - FATEC'
+                ],
+                typeSpeed: 50,
+                backSpeed: 30,
+                backDelay: 2000,
+                loop: true,
+                cursorChar: '|',
+                autoInsertCss: true,
+            });
+        });
+
+        // --- Inicialização do Vanilla-tilt.js ---
+        // O atributo data-tilt no HTML já faz a mágica, mas podemos forçar configs aqui se precisar
+
         // Tema
         const applyTheme = (isDark) => {
             document.documentElement.classList.toggle('dark', isDark);
@@ -484,41 +605,31 @@
             document.getElementById('carousel-prev').onclick = () => update((index - 1 + carouselData.length) % carouselData.length);
         }
 
-        // --- NOVAS ANIMAÇÕES ---
+        // --- SWIPE SUPPORT (TOUCH) ---
+        let touchStartX = 0;
+        let touchEndX = 0;
+        const carouselWrapper = track.parentElement; // A área visível do carrossel
 
-        // 1. Typewriter Effect
-        const textElement = document.getElementById('typewriter-text');
-        const phrases = ["Desenvolvedor Full Stack", "Tech Lead", "Pesquisador em IA"];
-        let phraseIndex = 0;
-        let charIndex = 0;
-        let isDeleting = false;
-        let typeSpeed = 100;
+        carouselWrapper.addEventListener('touchstart', e => {
+            touchStartX = e.changedTouches[0].screenX;
+        }, {passive: true});
 
-        function type() {
-            const currentPhrase = phrases[phraseIndex];
-            
-            if (isDeleting) {
-                textElement.textContent = currentPhrase.substring(0, charIndex - 1);
-                charIndex--;
-                typeSpeed = 50;
-            } else {
-                textElement.textContent = currentPhrase.substring(0, charIndex + 1);
-                charIndex++;
-                typeSpeed = 100;
+        carouselWrapper.addEventListener('touchend', e => {
+            touchEndX = e.changedTouches[0].screenX;
+            handleSwipe();
+        }, {passive: true});
+
+        function handleSwipe() {
+            const threshold = 50; // Mínimo de pixels para considerar um swipe
+            if (touchEndX < touchStartX - threshold) {
+                // Deslizou para a Esquerda -> Próximo
+                update((index + 1) % carouselData.length);
             }
-
-            if (!isDeleting && charIndex === currentPhrase.length) {
-                isDeleting = true;
-                typeSpeed = 2000; // Pausa no final da frase
-            } else if (isDeleting && charIndex === 0) {
-                isDeleting = false;
-                phraseIndex = (phraseIndex + 1) % phrases.length;
-                typeSpeed = 500;
+            if (touchEndX > touchStartX + threshold) {
+                // Deslizou para a Direita -> Anterior
+                update((index - 1 + carouselData.length) % carouselData.length);
             }
-
-            setTimeout(type, typeSpeed);
         }
-        document.addEventListener('DOMContentLoaded', type);
 
         // 2. Scroll Reveal
         const observerOptions = {
@@ -562,6 +673,34 @@
                 btn.querySelector('span').textContent = 'Ocultar Detalhes';
             }
         }
+
+        // 5. iOS Install Prompt Logic
+        function isIos() {
+            const userAgent = window.navigator.userAgent.toLowerCase();
+            return /iphone|ipad|ipod/.test(userAgent);
+        }
+
+        function isInStandaloneMode() {
+            return ('standalone' in window.navigator) && (window.navigator.standalone);
+        }
+
+        function dismissIosPrompt() {
+            document.getElementById('ios-install-prompt').classList.remove('show');
+            localStorage.setItem('ios-prompt-dismissed', 'true');
+        }
+
+        document.addEventListener('DOMContentLoaded', () => {
+            // Verifica se é iOS, se não é App e se não foi dispensado
+            if (isIos() && !isInStandaloneMode() && !localStorage.getItem('ios-prompt-dismissed')) {
+                setTimeout(() => {
+                    document.getElementById('ios-install-prompt').classList.remove('hidden');
+                    // Pequeno delay para permitir que o display:block seja processado antes da animação
+                    setTimeout(() => {
+                        document.getElementById('ios-install-prompt').classList.add('show');
+                    }, 10);
+                }, 4000); // 4 segundos de delay
+            }
+        });
     </script>
 </body>
 </html>

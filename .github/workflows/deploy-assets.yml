@@ -1,0 +1,38 @@
+name: Deploy Assets to GCS
+
+on:
+  push:
+    branches:
+      - main
+    paths:
+      - 'assets/**' # Só roda se mudar algo na pasta assets
+
+permissions:
+  contents: read
+  id-token: write # Necessário para autenticação WIF
+
+jobs:
+  deploy-assets:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Authenticate to Google Cloud
+        uses: google-github-actions/auth@v2
+        with:
+          workload_identity_provider: 'projects/474461436184/locations/global/workloadIdentityPools/github-pool/providers/github-provider'
+          service_account: 'github-actions-deployer@portifolio-486421.iam.gserviceaccount.com'
+
+      - name: Set up Cloud SDK
+        uses: google-github-actions/setup-gcloud@v2
+
+      - name: Sync Assets to GCS
+        run: |
+          gsutil -m rsync -r -d ./assets gs://portfolio-assets-prod-wsp/assets
+        # A flag -d deleta no bucket o que foi deletado no git (espelhamento real)
+
+      - name: Set Cache Control
+        run: |
+          gsutil -m setmeta -h "Cache-Control:public, max-age=31536000" gs://portfolio-assets-prod-wsp/assets/**/*.png
+          gsutil -m setmeta -h "Cache-Control:public, max-age=31536000" gs://portfolio-assets-prod-wsp/assets/**/*.jpg
