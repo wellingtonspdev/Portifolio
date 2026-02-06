@@ -1,0 +1,14 @@
+{
+  "name": "projects/portifolio-486421/locations/global/workloadIdentityPools/github-pool/providers/github-provider",
+  "displayName": "GitHub Provider",
+  "description": "GitHub Actions OIDC Provider",
+  "state": "ACTIVE",
+  "attributeMapping": {
+    "google.subject": "assertion.sub",
+    "attribute.actor": "assertion.actor",
+    "attribute.repository": "assertion.repository"
+  },
+  "oidc": {
+    "issuerUri": "https://token.actions.githubusercontent.com"
+  }
+}

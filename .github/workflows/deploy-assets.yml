@@ -21,6 +21,8 @@ jobs:
       - name: Authenticate to Google Cloud
         uses: google-github-actions/auth@v2
         with:
+          # Project Number: 474461436184 (Extraído dos logs anteriores, pois o ID numérico '486421' parece ser apenas parte do nome ou ID curto)
+          # Vou usar o caminho completo que funcionou nos logs de erro anteriores para garantir
           workload_identity_provider: 'projects/474461436184/locations/global/workloadIdentityPools/github-pool/providers/github-provider'
           service_account: 'github-actions-deployer@portifolio-486421.iam.gserviceaccount.com'
 
@@ -29,10 +31,15 @@ jobs:
 
       - name: Sync Assets to GCS
         run: |
+          # Sincroniza a pasta assets local com o bucket
+          # -m: multi-threading (mais rápido)
+          # -r: recursivo
+          # -d: delete (remove do bucket o que foi deletado no git)
           gsutil -m rsync -r -d ./assets gs://portfolio-assets-prod-wsp/assets
-        # A flag -d deleta no bucket o que foi deletado no git (espelhamento real)
 
       - name: Set Cache Control
         run: |
+          # Define cache de 1 ano para imagens (performance)
           gsutil -m setmeta -h "Cache-Control:public, max-age=31536000" gs://portfolio-assets-prod-wsp/assets/**/*.png
           gsutil -m setmeta -h "Cache-Control:public, max-age=31536000" gs://portfolio-assets-prod-wsp/assets/**/*.jpg
+          gsutil -m setmeta -h "Cache-Control:public, max-age=31536000" gs://portfolio-assets-prod-wsp/assets/**/*.svg
