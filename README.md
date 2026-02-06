@@ -11,7 +11,7 @@ Tenho experiência liderando equipes, implementando **TDD** e desenvolvendo solu
 ## 🚀 Tecnologias
 
 ### Backend
-*   Python (Avançado)
+*   Python 
 *   Django REST Framework
 *   FastAPI
 *   Pandas
