@@ -5,8 +5,8 @@ export function Hero() {
   const [text, setText] = useState('')
   const phrases = [
     'Arquiteto de Soluções AI-Native',
-    'Engenheiro Full Stack',
-    'Tech Lead & Especialista FinOps',
+    'Desenvolvedor Full Stack',
+    'Estudante de Desenvolvimento Multiplataforma da FATEC',
     'Pesquisador em Dados e Algoritmos'
   ]
   const [phraseIndex, setPhraseIndex] = useState(0)
