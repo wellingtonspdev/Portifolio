@@ -1,5 +1,44 @@
 import { motion } from 'framer-motion'
 
+const skills = [
+  {
+    icon: '⚙️',
+    title: 'Backend & APIs',
+    description: 'Python 3 (FastAPI, Django), Node.js (NestJS, Express), TypeScript, Java, microsserviços e monólitos modulares.',
+    delay: 0,
+  },
+  {
+    icon: '🧠',
+    title: 'IA & Dados',
+    description: 'RAG (Local e Nuvem), Google Vertex AI, GPT-4o Vision, Bancos Vetoriais (sqlite-vec), PostgreSQL (JSONB/RLS), Greedy Best-First Search.',
+    delay: 0.1,
+  },
+  {
+    icon: '💸',
+    title: 'Cloud & FinOps',
+    description: 'Cloudflare R2 (Zero Egress Fee), Docker, Redis, BullMQ, Transactional Outbox, KSM Linux e CI/CD.',
+    delay: 0.2,
+  },
+  {
+    icon: '🤖',
+    title: 'Automação & RPA',
+    description: 'Python RPA com Playwright e Headless-less Automation. Auto-healing de robôs via inferência visual GPT-4o Vision (substituição de seletores DOM). Plataformas SaaS de Remote Browser Isolation (RBI) de alta performance.',
+    delay: 0.3,
+  },
+  {
+    icon: '🔐',
+    title: 'Segurança & Evasão',
+    description: 'Bypass de Web Application Firewalls (Cloudflare/Akamai) via reconstrução de assinaturas TLS com curl_cffi (CFFI). Arquiteturas Zero-Trust, RBAC, JWT e conformidade com LGPD.',
+    delay: 0.4,
+  },
+  {
+    icon: '💡',
+    title: 'Frontend & Soft Skills',
+    description: 'React.js, Next.js, Tailwind CSS, Three.js, Framer Motion. Mentoria Técnica, Code Review Educativo, Debugging Humano e TDD.',
+    delay: 0.5,
+  },
+]
+
 export function SkillsSection() {
   return (
     <section id="skills" className="py-24 relative z-10">
@@ -10,50 +49,22 @@ export function SkillsSection() {
         </div>
 
         {/* Uso de DL, DT, DD para Semântica ATS */}
-        <dl className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
-          <motion.div
-            className="glass-card p-8 rounded-2xl bg-white/5 border border-white/10 hover:bg-white/10 transition-colors backdrop-blur-md"
-            initial={{ opacity: 0, y: 30 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.5 }}
-          >
-            <dt className="font-bold text-accent-end mb-4 uppercase tracking-wider text-xs">⚙️ Backend & APIs</dt>
-            <dd className="text-sm text-gray-300 leading-relaxed">Python 3 (FastAPI, Django), Node.js (NestJS, Express), TypeScript, Java, microsserviços e monólitos modulares.</dd>
-          </motion.div>
-
-          <motion.div
-            className="glass-card p-8 rounded-2xl bg-white/5 border border-white/10 hover:bg-white/10 transition-colors backdrop-blur-md"
-            initial={{ opacity: 0, y: 30 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.5, delay: 0.1 }}
-          >
-            <dt className="font-bold text-accent-end mb-4 uppercase tracking-wider text-xs">🧠 IA & Dados</dt>
-            <dd className="text-sm text-gray-300 leading-relaxed">RAG (Local e Nuvem), Modelos Google Vertex AI, GPT-4o Vision, Bancos Vetoriais (sqlite-vec), PostgreSQL (JSONB/RLS).</dd>
-          </motion.div>
-
-          <motion.div
-            className="glass-card p-8 rounded-2xl bg-white/5 border border-white/10 hover:bg-white/10 transition-colors backdrop-blur-md"
-            initial={{ opacity: 0, y: 30 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.5, delay: 0.2 }}
-          >
-            <dt className="font-bold text-accent-end mb-4 uppercase tracking-wider text-xs">💸 Cloud & FinOps</dt>
-            <dd className="text-sm text-gray-300 leading-relaxed">Cloudflare R2 (Zero Egress Fee), Docker, Filas (Redis, BullMQ), Transactional Outbox, KSM Linux e CI/CD.</dd>
-          </motion.div>
-
-          <motion.div
-            className="glass-card p-8 rounded-2xl bg-white/5 border border-white/10 hover:bg-white/10 transition-colors backdrop-blur-md"
-            initial={{ opacity: 0, y: 30 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.5, delay: 0.3 }}
-          >
-            <dt className="font-bold text-accent-end mb-4 uppercase tracking-wider text-xs">💡 Frontend & Soft Skills</dt>
-            <dd className="text-sm text-gray-300 leading-relaxed">React.js, Next.js, Tailwind CSS. Mentoria Técnica, Code Review Educativo, Debugging Humano e TDD.</dd>
-          </motion.div>
+        <dl className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+          {skills.map((skill) => (
+            <motion.div
+              key={skill.title}
+              className="glass-card p-8 rounded-2xl bg-white/5 border border-white/10 hover:bg-white/10 transition-colors backdrop-blur-md"
+              initial={{ opacity: 0, y: 30 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.5, delay: skill.delay }}
+            >
+              <dt className="font-bold text-accent-end mb-4 uppercase tracking-wider text-xs">
+                {skill.icon} {skill.title}
+              </dt>
+              <dd className="text-sm text-gray-300 leading-relaxed">{skill.description}</dd>
+            </motion.div>
+          ))}
         </dl>
       </div>
     </section>
