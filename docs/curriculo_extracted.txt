@@ -1,0 +1,85 @@
+WELLINGTON SIQUEIRA PORTO
+Desenvolvedor Full Stack & Arquiteto de Soluções (Python | Node.js | React | IA)
+Guarulhos, SP | Disponibilidade: Remoto / Híbrido / Presencial
+(11) 97791-2705 wellingtonsp.dev@gmail.com
+LinkedIn | GitHub | Portifólio
+RESUMO PROFISSIONAL
+Engenheiro de Software Full Stack com forte viés em Arquitetura de Sistemas, Inteligência
+Artificial Aplicada e Cloud FinOps. Uno o rigor acadêmico de Pesquisador pelo CNPq com a
+experiência prática no desenvolvimento de plataformas SaaS (B2B/B2C) escaláveis e
+resilientes. Possuo profundo domínio técnico transitando entre o backend com Python
+(FastAPI) e Node.js (TypeScript) e o frontend construindo interfaces modernas com
+React.js e Next.js. Trago na bagagem mais de 5 anos de experiência prévia no varejo, o
+que me conferiu inteligência emocional, foco no cliente e habilidades avançadas de
+"Debugging Humano" e gestão de conflitos sob pressão. Acostumado a atuar como Tech
+Lead e implementar rotinas de qualidade de código (TDD, CI/CD), sou um profissional
+versátil pronto para atuar em qualquer camada do ciclo de vida do software.
+COMPETÊNCIAS TÉCNICAS
+● Backend & APIs: Python 3 (FastAPI, Django), Node.js (NestJS, Express),
+TypeScript, Java, e arquitetura de microsserviços e monólitos modulares.
+● Frontend & UI: React.js, Next.js, JavaScript (ES6+), Tailwind CSS, Vite, HTML5
+Semântico e Figma (Design Systems e Prototipação).
+● Inteligência Artificial & Dados: Orquestração de Agentes (n8n), RAG
+(Retrieval-Augmented Generation), Google Vertex AI (Gemini), GPT-4o Vision,
+Modelagem de Bancos Relacionais (PostgreSQL/JSONB, MySQL) e bancos
+vetoriais (sqlite-vec).
+● Cloud, FinOps & Mensageria: Docker, Cloudflare R2 (Zero Egress Fees), Oracle
+Cloud, processamento assíncrono (Redis, BullMQ), Webhooks e padrão
+Transactional Outbox.
+● Engenharia de Qualidade (QA) & Segurança: Test-Driven Development (TDD),
+CI/CD (GitHub Actions), análise estática de código (SonarQube, Semgrep, Trivy) e
+arquitetura Zero-Trust.
+EXPERIÊNCIA PRÁTICA E PROJETOS DE ALTA COMPLEXIDADE
+Plataforma WSP Finance | Engenheiro de Software Full Stack & IA*(Em
+desenvolvimento)*SaaS B2B2C de Automação Financeira e Integrações.
+● Arquitetura FinOps: Reduzi o OPEX de nuvem em 28% implementando o
+armazenamento de notas fiscais no Cloudflare R2, configurando uma infraestrutura
+com taxa zero de egresso de dados (Zero Egress Fee).
+● IA Semântica: Zerei as alucinações na auditoria fiscal isolando a análise semântica
+(feita via API do Google Vertex AI) do motor matemático determinístico processado
+em Node.js.
+● Segurança: Implementei arquitetura com segurança em nível de linha (RLS) no
+PostgreSQL e Criptografia de Envelope (AES-256) para a guarda de Certificados
+Digitais.
+Ecossistema VIVA | Arquiteto de Software & Engenheiro de Dados*(Em
+desenvolvimento)*HealthTech orientada a Telemetria Clínica e Edge AI.
+● Resiliência Assíncrona: Blindei o Event Loop principal da API contra falhas e
+timeouts aplicando o padrão Transactional Outbox com filas BullMQ e Redis para o
+processamento de Webhooks.
+● Edge AI & Privacidade: Garanti extrema privacidade de dados médicos
+orquestrando um motor RAG 100% on-premise rodando no dispositivo do usuário
+utilizando o banco sqlite-vec.
+Samurai Pro | Desenvolvedor Backend (Python) e Automação*(Em
+desenvolvimento)*Plataforma SaaS B2B de Automação Web e Remote Browser Isolation
+(RBI).
+● Performance de Baixo Nível: Reduzi o consumo de memória RAM de 900 MB para
+menos de 60 MB por sessão, aplicando Kernel Samepage Merging (KSM) no Linux
+sobre instâncias Docker e orquestrando fluxos com FastAPI e n8n.
+● IA Multimodal: Inovei na automação web substituindo seletores DOM quebradiços
+por inferência visual de coordenadas via GPT-4o Vision, permitindo auto-cura
+(Auto-healing) nas automações.
+Define Pilates SaaS | Tech Lead & Full Stack DeveloperSistema de Gestão B2B
+Multi-tenant.
+● Liderança e Arquitetura: Liderei uma equipe de 8 desenvolvedores atuando em
+todo o ciclo do software, utilizando PostgreSQL com tipo JSONB para garantir
+isolamento dinâmico de tenants.
+● Controle de Qualidade: Estabeleci a cultura de testes automatizados (TDD) e
+fluxos de revisão de código rígidos, validando a funcionalidade de regras de negócio
+complexas antes do deploy.
+Pesquisador Científico (CNPq / FATEC) | Análise de Dados e LógicaPesquisa aplicada
+em métodos de Inteligência Artificial.
+● Algoritmos Estruturais: Desenvolvimento em Python de algoritmos de busca
+inteligente (Greedy Best-First Search) aplicados ao processamento eficiente de
+grandes volumes de dados científicos e análise óptica.
+Supermercado Cantidio Sampaio | Gestão de Stakeholders e CX (Jun 2018 - Jan 2024)
+● Debugging Humano: Mais de 5 anos de atuação na linha de frente lidando com alto
+fluxo de clientes. Apliquei análise de causa raiz para resolver conflitos sob alta
+pressão, garantindo SLAs eficientes e satisfação do cliente (CX).
+FORMAÇÃO ACADÊMICA E CERTIFICAÇÕES
+● Tecnólogo em Desenvolvimento de Software Multiplataforma – FATEC Itaquera
+(Previsão de Conclusão: 2027).
+● Certificação Profissional: Desenvolvedor Front-End (640 horas) – Centro Paula
+Souza.
+● Cisco Networking Academy (Certificações Oficiais): C/C++ Advanced e
+Essentials, Fundamentos de Rede, Defesa de Rede, Segurança de Endpoint e Linux
+Unhatched.

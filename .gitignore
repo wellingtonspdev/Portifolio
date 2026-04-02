@@ -7,3 +7,7 @@ Portifolio_WSP/dist/
 .env*
 .gemini/
 *.log
+portfolio_analysis.md
+relatorio_samurai_pro_notebooklm.md
+/directories
+/.idea

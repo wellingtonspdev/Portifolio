@@ -1,0 +1,75 @@
+Plano Diretor de Carreira e Engenharia de Posicionamento 2026 Profissional:
+Wellington Siqueira Porto Objetivo: Transição acelerada para posições de alto impacto
+(Engenharia Full Stack, IA Aplicada, Cloud FinOps e QA/SDET). Este documento consolida
+toda a nossa estratégia de reposicionamento profissional. Ele integra sua bagagem técnica,
+acadêmica e operacional com as regras exigidas pelos sistemas de Inteligência Artificial de
+recrutamento (ATS) e pelas lideranças de engenharia em 2026 1, 2. --- ### 1. Síntese do
+Perfil e Posicionamento Estratégico Você deixou de ser um "estudante genérico" para se
+posicionar como um Arquiteto de Soluções AI-Native e Orquestrador de Sistemas. Seu
+diferencial no mercado saturado de juniores é a combinação de três pilares raros: * Rigor
+Acadêmico e Pesquisa (CNPq): A sua Iniciação Científica na FATEC foca em algoritmos
+de busca estrutural (Greedy Best-First Search) e análise de dados 3, 4. Isso prova aos
+recrutadores que você entende o funcionamento matemático dos modelos de Inteligência
+Artificial, e não apenas consome APIs 5, 6. * Base Sólida em Redes e Segurança:
+Diferente de desenvolvedores puramente "web", você possui certificações oficiais da Cisco
+Networking Academy (C/C++ Advanced, Defesa de Rede, Segurança de Endpoint, Linux
+Unhatched) 7-10. Isso valida sua capacidade para operar infraestruturas críticas e
+arquiteturas Zero-Trust 11, 12. * Reframing de Soft Skills (O Fator Humano):
+Transformamos seus 5 anos no Supermercado Cantidio Sampaio na sua maior força
+comportamental. No mercado de 2026, isso é posicionado como "Engenharia de
+Stakeholders e Debugging Humano" 13, 14. Você sabe lidar com a pressão operacional,
+gerenciar crises e manter o foco na experiência do usuário final (CX) 15, 16. ### 2. Dossiê
+de Arquitetura: A Vitrine de Projetos (GitHub) Seu portfólio não é mais um depósito de
+código, mas um compilado de decisões arquiteturais (Architecture-as-Code) e viabilidade
+econômica (FinOps) 17-19. * Ecossistema VIVA (HealthTech): Demonstra resiliência
+extrema e privacidade (SaMD). Você implementou o padrão Transactional Outbox com
+BullMQ e Redis para evitar bloqueios no Event Loop da API 20, 21. Para garantir
+privacidade médica (LGPD), você construiu um RAG Local no dispositivo usando sqlite-vec,
+eliminando alucinações e custos com nuvem 20, 21. * Plataforma WSP Finance (SaaS
+B2B2C): Prova sua proficiência em integrações financeiras e Cloud FinOps. Você isolou a
+IA semântica (Google Vertex AI) do motor matemático determinístico do Node.js, e
+estruturou um "Cofre Digital" de notas fiscais usando o Cloudflare R2, zerando
+completamente as taxas de egresso de dados (Zero Egress Fee) 22, 23. * Samurai Pro
+(RBI e Automação): Mostra conhecimento profundo em otimização de Kernel e
+conteinerização. Você reduziu o consumo de RAM em 40% usando Kernel Samepage
+Merging (KSM) no Linux e implementou IA Multimodal (GPT-4o Vision) para auto-cura
+(Auto-healing) de robôs em interfaces dinâmicas 24-26. * Define Pilates (Gestão
+Multi-tenant): Valida suas habilidades de liderança técnica (Tech Lead) gerindo 8
+desenvolvedores, implementando a cultura de TDD (Test-Driven Development) e utilizando
+a tipagem JSONB no PostgreSQL para isolamento flexível de tenants 27, 28. ### 3.
+Engenharia de Recrutamento: Hackeando os Sistemas ATS A aprovação nos robôs de
+triagem (como Gupy, Workday e Greenhouse) exige o cumprimento estrito das normas de
+ingestão de dados de 2025/2026 29, 30. * Fuga do Double Parsing: Seu currículo foi
+projetado em Design de Dados Linear (coluna única). Layouts de múltiplas colunas
+corrompem a leitura dos ATS, fragmentando suas competências tecnológicas 31-33. *
+Densidade Semântica e JSON-LD: Para o seu portfólio web, a estratégia envolve a injeção
+do esquema JSON-LD, conectando a entidade "Wellington" à categoria ONET-SOC de
+Engenharia de Software. As skills devem ser apresentadas utilizando a tag de lista de
+definições HTML ( ), garantindo a extração perfeita pelas IAs de busca 34-36. * A Fórmula
+XYZ do Google: Todas as descrições de impacto nos seus currículos utilizam a métrica
+XYZ ("Realizei X, medido por Y, através da ação técnica Z"*). Isso traduz o jargão técnico
+em valor de negócio para os gestores de engenharia lerem em menos de 6 segundos
+37-39. ### 4. Go-to-Market: Estratégia de Aplicação Sniper Com a saturação das
+aplicações em massa, a abordagem para empresas (como TikTok, RD Station, Conquest
+One, Multilaser, etc.) será cirúrgica 40, 41. 1. A Fuga do "Easy Apply": O botão de
+candidatura simplificada do LinkedIn atrai mais de 500 pessoas por vaga e corrompe as
+datas das suas experiências no sistema de RH 40, 42. Sempre aplique diretamente pelo
+portal da empresa 41. 2. Currículos Mutantes (Camaleão): Nós já estruturamos versões
+específicas do seu CV para diferentes ramificações, ativando os "gatilhos" exatos de cada
+recrutador: * Para IA & Dados (Multilaser/Keeta): Foco em Engenharia de Prompts, Evals,
+RAG Local e Vertex AI 43, 44. * Para Qualidade & Automação (Open Insurance): Foco
+extremo em SDET, Testes End-to-End, TDD, Playwright e pipelines CI/CD com barreiras de
+qualidade 45, 46. * Para Front-End (BRQ/Conquest One): Foco em React.js, Tailwind,
+Design Systems, Figma e Integração de APIs 47, 48. * Para Infraestrutura/NOC
+(Motivus/Print Solução): Ocultamos o "Dev Full Stack" e evidenciamos suas certificações
+Cisco, suporte a hardware, Redes e Cyber Defense 8, 49. 3. Cold Outreach (InMails no
+LinkedIn): Após a aplicação no site, o passo obrigatório é enviar uma mensagem direta ao
+Engineering Manager da vaga. As mensagens devem ter menos de 400 caracteres
+(otimizadas para celular) e focar em como o seu conhecimento técnico (ex: Zero OpEx com
+Cloudflare R2 ou RAG Local) pode resolver a dor específica da equipe dele, aumentando
+sua taxa de resposta em até 101% comparado ao e-mail tradicional 50, 51. ### Próximos
+Passos Imediatos Sua infraestrutura de carreira (Currículos especializados, READMEs de
+repositório focados em ADRs/FinOps, e portfólio acessível) está oficialmente construída e
+aderente ao mercado global. O ciclo de trabalho agora consiste em manter a frequência de
+código nos projetos (Build in Public) e executar as candidaturas diárias utilizando o método
+Sniper e o Cold Outreach.
