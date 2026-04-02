@@ -1,0 +1,20 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  html, body {
+    @apply m-0 p-0 overflow-x-hidden;
+    font-family: 'Inter', sans-serif;
+  }
+}
+
+@layer components {
+  .glass-card {
+    @apply bg-glass backdrop-blur-[16px] border border-glass-border shadow-glass transition-all duration-300;
+  }
+
+  .glass-card:hover {
+    @apply border-[rgba(139,92,246,0.3)] shadow-glass-hover;
+  }
+}

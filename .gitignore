@@ -1,0 +1,9 @@
+style.md
+package.json
+index.html
+assets/
+Portifolio_WSP/node_modules/
+Portifolio_WSP/dist/
+.env*
+.gemini/
+*.log
