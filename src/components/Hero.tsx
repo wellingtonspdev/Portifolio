@@ -55,12 +55,13 @@ export function Hero() {
           </h2>
 
           <p className="text-lg md:text-xl text-gray-400 mb-12 max-w-3xl mx-auto leading-relaxed italic">
-            Transformando requisitos complexos em arquiteturas escaláveis e resilientes. Especialista em Engenharia Full Stack, Inteligência Artificial Aplicada e Cloud FinOps.
+            Engenheiro Full Stack que arquiteta para escalar — e para não quebrar o caixa.<br />
+            IA Aplicada · Cloud FinOps · Zero-Trust
           </p>
 
           <div className="flex flex-wrap justify-center gap-4">
             <a href="#projetos" className="bg-gradient-to-r from-accent-start to-accent-end text-white font-bold py-3 px-8 rounded-xl shadow-neon hover:shadow-lg hover:opacity-90 transition-all duration-300">
-              Ver Dossiê Arquitetural
+              Explore as Decisões de Arquitetura
             </a>
             <a href="https://github.com/wellingtonspdev" target="_blank" rel="noreferrer" className="glass-card text-white font-bold py-3 px-8 rounded-xl hover:bg-white/10 transition-all duration-300">
               GitHub

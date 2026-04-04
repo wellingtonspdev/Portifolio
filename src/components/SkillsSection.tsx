@@ -45,7 +45,7 @@ export function SkillsSection() {
       <div className="container mx-auto px-6">
         <div className="text-center max-w-2xl mx-auto mb-16">
           <h2 className="text-3xl md:text-5xl font-extrabold text-white mb-4">Tech Stack & Competências</h2>
-          <p className="text-lg text-gray-400 leading-relaxed italic">Construídas em conformidade com métricas de extração semântica (ATS-friendly).</p>
+          <p className="text-lg text-gray-400 leading-relaxed italic">Stack validada por certificações Cisco e projetos reais em produção.</p>
         </div>
 
         {/* Uso de DL, DT, DD para Semântica ATS */}
