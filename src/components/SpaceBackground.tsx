@@ -205,56 +205,63 @@ function SpiralGalaxy() {
   const materialRef = useRef<THREE.ShaderMaterial>(null)
   const uniforms = useMemo(() => ({ uTime: { value: 0 } }), [])
 
-  // Espiral logarítmica: 2 braços, partículas que se fundem com a nebulosa
+  // Espiral logarítmica: Braços longos e núcleo denso (Inspiração Via Láctea)
   const [positions, colors, sizes, phases] = useMemo(() => {
-    const count = isMobile ? 2500 : 8000
+    const count = isMobile ? 5000 : 18000 // Mais partículas para não ficar rala com o novo tamanho
     const positions = new Float32Array(count * 3)
     const colors = new Float32Array(count * 3)
     const sizes = new Float32Array(count)
     const phases = new Float32Array(count)
 
     const NUM_ARMS = 2
-    const ARM_LENGTH = Math.PI * 3  // comprimento angular de cada braço
-    const RADIUS_MAX = 45
+    const ARM_LENGTH = Math.PI * 5  // Braços imensos enrolando bem longe
+    const RADIUS_MAX = 130          // Expansão monstruosa (era 95)
 
     for (let i = 0; i < count; i++) {
       const arm = i % NUM_ARMS
-      const t = (i / count) * ARM_LENGTH  // progresso ao longo do braço
+      const t = (i / count) * ARM_LENGTH
       const armOffset = (arm / NUM_ARMS) * Math.PI * 2
 
-      // Raio: cresce exponencialmente com o ângulo
-      const r = (t / ARM_LENGTH) * RADIUS_MAX + 2
-      // Ruído angular para dar aspecto orgânico
-      const noise = (Math.random() - 0.5) * (r * 0.25)
+      // Crescimento exponencial
+      const r = (t / ARM_LENGTH) * RADIUS_MAX + 1.5
+      const noise = (Math.random() - 0.5) * (r * 0.3)
 
       const theta = t + armOffset + noise * 0.1
-      const x = r * Math.cos(theta) + (Math.random() - 0.5) * r * 0.15
-      const y = (Math.random() - 0.5) * 2.5 * (1 - r / RADIUS_MAX) // disco fino
-      const z = r * Math.sin(theta) + (Math.random() - 0.5) * r * 0.15
+      const x = r * Math.cos(theta) + (Math.random() - 0.5) * r * 0.2
+      
+      // Central Bulge: O miolo central (raios menores) é mais "gordinho" verticalmente
+      const bulgeThickness = Math.max(0, 1 - (r / (RADIUS_MAX * 0.25)))
+      const y = (Math.random() - 0.5) * (8.0 * bulgeThickness + 1.5) * (1 - r / RADIUS_MAX) 
+      
+      const z = r * Math.sin(theta) + (Math.random() - 0.5) * r * 0.2
 
       positions[i * 3]     = x
       positions[i * 3 + 1] = y
       positions[i * 3 + 2] = z
 
-      // Cor: núcleo quente (branco-amarelo) → braços frios (ciano) → bordas escuras
+      // Via Láctea Colors
       const radialFraction = r / RADIUS_MAX
-      const coreColor  = new THREE.Color('#fffde8')  // branco-amarelado
-      const armColor   = new THREE.Color('#7ec8e3')  // ciano suave
-      const edgeColor  = new THREE.Color('#1a3a5c')  // azul profundo
+      const coreCenter = new THREE.Color('#ffffff') // Nucléo puro
+      const coreHalo   = new THREE.Color('#ffddaa') // Amarelado/Dourado em volta do núcleo
+      const armColor   = new THREE.Color('#3b82f6') // Azul dos braços com estrelas jovens
+      const edgeColor  = new THREE.Color('#081c3c') // Obscuro profundo nas bordas
+
       const finalColor = new THREE.Color()
 
-      if (radialFraction < 0.3) {
-        finalColor.lerpColors(coreColor, armColor, radialFraction / 0.3)
+      if (radialFraction < 0.1) {
+        finalColor.lerpColors(coreCenter, coreHalo, radialFraction / 0.1)
+      } else if (radialFraction < 0.4) {
+        finalColor.lerpColors(coreHalo, armColor, (radialFraction - 0.1) / 0.3)
       } else {
-        finalColor.lerpColors(armColor, edgeColor, (radialFraction - 0.3) / 0.7)
+        finalColor.lerpColors(armColor, edgeColor, (radialFraction - 0.4) / 0.6)
       }
 
       colors[i * 3]     = finalColor.r
       colors[i * 3 + 1] = finalColor.g
       colors[i * 3 + 2] = finalColor.b
 
-      // Partículas menores nas bordas (dão sensação de dissolução)
-      sizes[i] = THREE.MathUtils.lerp(1.2, 0.2, radialFraction) + Math.random() * 0.4
+      // Núcleo com partículas maiores, bordas poeira estelar fina
+      sizes[i] = THREE.MathUtils.lerp(1.8, 0.4, radialFraction) + Math.random() * 0.5
       phases[i] = Math.random() * Math.PI * 2
     }
 
@@ -275,8 +282,8 @@ function SpiralGalaxy() {
   }, [])
 
   return (
-    // Posição: distante, deslocada para baixo-direita, inclinada para parecer em perspectiva
-    <points ref={pointsRef} position={[10, -8, -130]} rotation={[-0.35, 0, 0.15]}>
+    // Posição: Trazendo a galáxia violentamente mais para a frente para que os braços longos quase batam na tela (câmera)
+    <points ref={pointsRef} position={[-20, -35, -135]} rotation={[-0.45, -0.1,  0.25]}>
       <bufferGeometry>
         <bufferAttribute attach="attributes-position" count={positions.length / 3} array={positions} itemSize={3} />
         <bufferAttribute attach="attributes-aColor"   count={colors.length / 3}    array={colors}    itemSize={3} />

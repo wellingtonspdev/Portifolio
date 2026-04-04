@@ -1,5 +1,5 @@
 import { motion } from 'framer-motion'
-import { Users, CloudSnow, Cpu } from 'lucide-react'
+import { Users, HeartHandshake, Cpu } from 'lucide-react'
 
 export function AboutSection() {
   return (
@@ -24,7 +24,7 @@ export function AboutSection() {
               Minha trajetória foge do convencional: antes de arquitetar sistemas, passei mais de 5 anos na linha de frente do varejo. Essa experiência me ensinou o verdadeiro significado de <strong>"Debugging Humano"</strong> e <strong>Empatia Operacional</strong> — a capacidade de gerenciar stakeholders, manter o foco na experiência do cliente (CX) e resolver crises sob extrema pressão.
             </p>
             <p>
-              Atuando como <strong>Tech Lead</strong>, orquestro times focados em TDD e CI/CD. Minha base sólida técnica é validada por certificações oficiais da Cisco Networking Academy em C/C++, Defesa de Rede e arquiteturas Zero-Trust, garantindo a entrega não apenas de interfaces rápidas com React.js, mas de backends resilientes e eficientes (FinOps) em Node.js e Python.
+              Atuando como <strong>Tech Lead</strong>, orquestro times focados em TDD e CI/CD. Minha base sólida técnica é validada por certificações oficiais da Cisco Networking Academy em C/C++, Defesa de Rede e arquiteturas Zero-Trust, garantindo a entrega não apenas de interfaces rápidas com React.js, mas de backends resilientes e eficientes em Node.js e Python.
             </p>
           </div>
 
@@ -43,9 +43,9 @@ export function AboutSection() {
               whileHover={{ y: -5 }}
               transition={{ delay: 0.1 }}
             >
-              <CloudSnow className="w-10 h-10 text-blue-400 mb-4" />
-              <h4 className="font-bold text-white mb-2">Cloud FinOps</h4>
-              <p className="text-sm text-gray-400">Desenvolvimento com foco em viabilidade econômica, minimizando OPEX de nuvem utilizando Object Storage e RLS.</p>
+              <HeartHandshake className="w-10 h-10 text-blue-400 mb-4" />
+              <h4 className="font-bold text-white mb-2">Impacto Social</h4>
+              <p className="text-sm text-gray-400">Uso de tecnologia e IA para democratizar o acesso e solucionar problemas reais da sociedade e mercado.</p>
             </motion.div>
 
             <motion.div

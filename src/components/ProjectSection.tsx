@@ -15,7 +15,7 @@ export function ProjectSection() {
         >
           <h2 className="text-3xl md:text-5xl font-extrabold text-white mb-4">Dossiê de Arquitetura</h2>
           <p className="text-lg text-gray-400 leading-relaxed">
-            Projetos que demonstram impacto de negócio, inteligência arquitetural (ADRs) e viabilidade econômica (FinOps).
+            Projetos que demonstram impacto humano, inteligência arquitetural e viabilidade tecnológica.
           </p>
         </motion.div>
 
