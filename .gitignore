@@ -24,4 +24,6 @@ dist-ssr
 *.sw?
 
 # Ignoring documentation files
-docs/
+/docs
+/.opencode
+projects.md
