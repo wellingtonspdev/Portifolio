@@ -1,5 +1,6 @@
 import { ReactNode } from 'react'
 import { SpaceBackground } from './SpaceBackground'
+import { WhatsAppButton } from './WhatsAppButton'
 
 export function Layout({ children }: { children: ReactNode }) {
   return (
@@ -25,6 +26,8 @@ export function Layout({ children }: { children: ReactNode }) {
       <main className="relative">
         {children}
       </main>
+
+      <WhatsAppButton />
     </div>
   )
 }
