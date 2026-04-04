@@ -12,7 +12,7 @@ export function Footer() {
           viewport={{ once: true }}
           transition={{ duration: 0.5 }}
         >
-          Vamos escalar projetos juntos?
+          Tem um problema complexo? Vamos arquitetar a solução.
         </motion.h2>
 
         <motion.p
