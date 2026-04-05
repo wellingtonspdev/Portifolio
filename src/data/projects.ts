@@ -107,16 +107,15 @@ export const projectsData: Project[] = [
     id: "cnpq-research",
     title: "Pesquisa Agritech CNPq",
     subtitle: "IA e Processamento Óptico",
-    description: "Na agricultura de precisão, latência de dados significa perda de safra. Substituímos processos físico-químicos laboratoriais que levam dias por uma arquitetura computacional capaz de classificar a textura do solo em tempo quase real — alcançando <span class=\"tabular-nums font-semibold text-accent-end\">29%</span> de taxa de sucesso por enquanto e coerência qualitativa na distinção dos perfis de solo, resolvendo o gargalo que paralisava decisões de manejo na ponta do campo.",
-    problem: "O alto custo e a lentidão dos métodos laboratoriais atrasavam o time-to-decision em irrigação e fertilização. Sem dados exatos, os agrônomos tomavam decisões no escuro, resultando em desperdício hídrico fatal e sobrecarga de insumos. A postura assumida foi romper com a validação química, substituindo-a por validação óptica computacional que escala sem dependência da nuvem.",
-    solution: "Foi implementada uma arquitetura de alta eficiência focada em RAG Local que converte leituras laser (Interferometria Speckle + THSP) em assinaturas digitais. Estas são processadas por IA heurística via Greedy Best-First Search com Busca Binária em MATLAB, operando sobre banco de dados relacional para calcular a menor distância matemática com ultra-baixa latência computacional.",
+    description: "Na agricultura de precisão, latência de dados significa perda de safra. Substituímos processos físico-químicos laboratoriais que levam dias por uma arquitetura computacional capaz de classificar a textura do solo em tempo quase real — alcançando <span class=\"tabular-nums font-semibold text-accent-end\">29%</span> de taxa de sucesso e coerência qualitativa na distinção dos perfis de solo, resolvendo o gargalo que paralisava decisões de manejo na ponta do campo. O trabalho foi apresentado em três simpósios científicos: 27º SICT-FATEC-SP (outubro de 2025), VII SICT-CPS/CNPq e CONIC-SEMESP 2025, com o título 'Caracterização de Amostras de Solo com Metodologia Speckle e Busca Inteligente'. Minha contribuição específica foi a modelagem e implementação do banco de dados relacional para estruturar os volumes de dados científicos, além da implementação do algoritmo Greedy Best-First Search para classificação de textura do solo.",
+    problem: "O alto custo e a lentidão dos métodos laboratoriais atrasavam o time-to-decision em irrigação e fertilização. Sem dados exatos, os agrônomos tomavam decisões no escuro, resultando em desperdício hídrico fatal e sobrecarga de insumos. Rompi com a validação química, substituindo-a por validação óptica computacional que escala sem dependência da nuvem.",
+    solution: "Implementei uma arquitetura de alta eficiência focada em RAG Local que converte leituras laser (Interferometria Speckle + THSP) em assinaturas digitais. Estas são processadas por IA heurística via Greedy Best-First Search com Busca Binária em MATLAB, operando sobre banco de dados relacional para calcular a menor distância matemática com ultra-baixa latência computacional.",
     icon: "Microscope",
     badges: [
       { text: "Data Science / Optic", colorClass: "border-amber-800 text-amber-400" },
       { text: "Greedy BFS", colorClass: "border-green-800 text-green-400" }
     ],
     links: {},
-    inDevelopment: true
   },
   {
     id: "ibdn-plataforma",
