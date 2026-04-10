@@ -130,6 +130,9 @@ export const projectsData: Project[] = [
       { text: "Sustentabilidade", colorClass: "border-green-800 text-green-400" },
       { text: "Full Stack / Python", colorClass: "border-indigo-800 text-indigo-400" }
     ],
-    links: {}
+    links: {
+      demo: "https://wellingtonspdev.github.io/IBDN-Demo/",
+      github: "https://github.com/DSM2SEM2025/IBDN.git"
+    }
   }
 ];
