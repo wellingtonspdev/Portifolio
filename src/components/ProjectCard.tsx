@@ -5,6 +5,7 @@ import { Project } from '../data/projects'
 import { clsx } from 'clsx'
 import useEmblaCarousel from 'embla-carousel-react'
 import Autoplay from 'embla-carousel-autoplay'
+import { useLanguage } from '../i18n'
 
 const iconMap: Record<string, React.ReactNode> = {
   Cpu: <Cpu className="w-16 h-16 mb-4 text-indigo-400 group-hover:scale-110 transition-transform relative z-20" />,
@@ -138,6 +139,8 @@ const MultiAssetCarousel = ({ assets, altTitle }: { assets: string[], altTitle: 
 
 export function ProjectCard({ project }: { project: Project }) {
   const [isExpanded, setIsExpanded] = useState(false)
+  const { t } = useLanguage()
+  const pd = t.projectData[project.id]
 
   return (
     <motion.article
@@ -156,7 +159,7 @@ export function ProjectCard({ project }: { project: Project }) {
         {project.inDevelopment && (
           <span className="absolute top-4 right-4 bg-yellow-500/20 text-yellow-400 text-[10px] font-bold px-2 py-1 rounded border border-yellow-500/50 uppercase flex items-center gap-1 z-40 backdrop-blur-md shadow-lg">
             <span className="w-1.5 h-1.5 rounded-full bg-yellow-500 animate-pulse"></span>
-            Em Desenvolvimento
+            {t.projects.labels.inDev}
           </span>
         )}
 
@@ -176,7 +179,7 @@ export function ProjectCard({ project }: { project: Project }) {
           ) : (
              <motion.div key="icon" initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} className="absolute inset-0 flex flex-col items-center justify-center z-20">
                {iconMap[project.icon]}
-               <h3 className="text-2xl font-bold text-gray-200">{project.subtitle}</h3>
+               <h3 className="text-2xl font-bold text-gray-200">{pd?.subtitle ?? project.subtitle}</h3>
              </motion.div>
           )}
         </AnimatePresence>
@@ -185,14 +188,14 @@ export function ProjectCard({ project }: { project: Project }) {
       <div className="p-8 flex flex-col flex-grow bg-black/40 backdrop-blur-md">
         <h3 className="text-2xl font-bold text-white mb-2">{project.title}</h3>
         <p className="text-sm text-gray-300 mb-4 leading-relaxed font-medium">
-          {formatDescription(project.description)}
+          {formatDescription(pd?.description ?? project.description)}
         </p>
 
         <button
           onClick={() => setIsExpanded(!isExpanded)}
           className="text-accent-end text-xs font-bold uppercase tracking-wider mb-4 hover:text-accent-start transition-colors flex items-center gap-1 focus:outline-none w-fit"
         >
-          <span>{isExpanded ? 'Ocultar Detalhes' : 'Ver Decisão Arquitetural'}</span>
+          <span>{isExpanded ? t.projects.labels.hideDetails : t.projects.labels.showDetails}</span>
           <motion.div
             animate={{ rotate: isExpanded ? 180 : 0 }}
             transition={{ duration: 0.3 }}
@@ -212,8 +215,8 @@ export function ProjectCard({ project }: { project: Project }) {
               className="overflow-hidden"
             >
               <div className="text-sm text-gray-300 space-y-3 p-4 bg-white/5 rounded-xl border border-white/10 mb-6 backdrop-blur-lg">
-                <p><strong className="text-white">Ação/Problema:</strong> {project.problem}</p>
-                <p><strong className="text-white">Solução:</strong> {formatDescription(project.solution)}</p>
+                <p><strong className="text-white">{t.projects.labels.problem}</strong> {pd?.problem ?? project.problem}</p>
+                <p><strong className="text-white">{t.projects.labels.solution}</strong> {formatDescription(pd?.solution ?? project.solution)}</p>
               </div>
             </motion.div>
           )}
@@ -233,12 +236,13 @@ export function ProjectCard({ project }: { project: Project }) {
              <div className="flex items-center gap-3 pt-4 border-t border-white/10">
                 {project.links.demo && (
                   <a href={project.links.demo} target="_blank" rel="noreferrer" className="flex-1 bg-gradient-to-r from-accent-start to-accent-end text-white text-xs font-bold py-2.5 rounded-lg text-center shadow-neon hover:opacity-90 transition-opacity flex items-center justify-center gap-2">
-                    <ExternalLink className="w-4 h-4" /> Ver Demo
+                    <ExternalLink className="w-4 h-4" /> {t.projects.labels.viewDemo}
                   </a>
+
                 )}
                 {project.links.github && (
                   <a href={project.links.github} target="_blank" rel="noreferrer" className="flex-1 bg-white/5 border border-white/10 text-white text-xs font-bold py-2.5 rounded-lg text-center hover:bg-white/10 transition-colors flex items-center justify-center gap-2">
-                    <Github className="w-4 h-4" /> Código
+                    <Github className="w-4 h-4" /> {t.projects.labels.code}
                   </a>
                 )}
              </div>

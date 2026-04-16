@@ -1,7 +1,10 @@
-import { Github, Linkedin, Mail } from 'lucide-react'
+import { Github, Linkedin, Mail, MessageCircle } from 'lucide-react'
 import { motion } from 'framer-motion'
+import { useLanguage } from '../i18n'
 
 export function Footer() {
+  const { t } = useLanguage()
+
   return (
     <footer id="contato" className="py-20 border-t border-white/10 text-center relative z-10 bg-black/60 backdrop-blur-xl">
       <div className="container mx-auto px-6">
@@ -12,7 +15,7 @@ export function Footer() {
           viewport={{ once: true }}
           transition={{ duration: 0.5 }}
         >
-          Tem um problema complexo? Vamos arquitetar a solução.
+          {t.footer.cta}
         </motion.h2>
 
         <motion.p
@@ -39,12 +42,16 @@ export function Footer() {
           <a href="https://www.linkedin.com/in/wellingtonsp-dev" target="_blank" rel="noreferrer" className="text-gray-400 hover:text-white transition-colors hover:scale-110 transform duration-300">
             <Linkedin className="w-8 h-8" />
           </a>
+          <a href="https://wa.me/11977912705" target="_blank" rel="noopener noreferrer" className="text-gray-400 hover:text-green-400 transition-colors hover:scale-110 transform duration-300">
+            <MessageCircle className="w-8 h-8" />
+          </a>
         </motion.div>
 
         <p className="text-[10px] text-gray-600 tracking-widest uppercase">
-          © 2026 Wellington Siqueira Porto. Todos os direitos reservados.
+          {t.footer.copyright}
         </p>
       </div>
     </footer>
   )
 }
+

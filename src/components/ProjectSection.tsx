@@ -1,8 +1,11 @@
 import { motion } from 'framer-motion'
 import { projectsData } from '../data/projects'
 import { ProjectCard } from './ProjectCard'
+import { useLanguage } from '../i18n'
 
 export function ProjectSection() {
+  const { t } = useLanguage()
+
   return (
     <section id="projetos" className="py-24 relative z-10">
       <div className="container mx-auto px-6">
@@ -13,9 +16,9 @@ export function ProjectSection() {
           viewport={{ once: true }}
           transition={{ duration: 0.6 }}
         >
-          <h2 className="text-3xl md:text-5xl font-extrabold text-white mb-4">Dossiê de Arquitetura</h2>
+          <h2 className="text-3xl md:text-5xl font-extrabold text-white mb-4">{t.projects.heading}</h2>
           <p className="text-lg text-gray-400 leading-relaxed">
-            Projetos que demonstram impacto humano, inteligência arquitetural e viabilidade tecnológica.
+            {t.projects.subtitle}
           </p>
         </motion.div>
 
@@ -28,3 +31,4 @@ export function ProjectSection() {
     </section>
   )
 }
+

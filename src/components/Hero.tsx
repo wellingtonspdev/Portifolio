@@ -1,16 +1,20 @@
 import { useEffect, useState } from 'react'
 import { motion } from 'framer-motion'
+import { useLanguage } from '../i18n'
 
 export function Hero() {
+  const { t } = useLanguage()
   const [text, setText] = useState('')
-  const phrases = [
-    'Arquiteto de Soluções AI-Native',
-    'Desenvolvedor Full Stack',
-    'Estudante de Desenvolvimento Multiplataforma da FATEC',
-    'Pesquisador em Dados e Algoritmos'
-  ]
+  const phrases = t.hero.phrases
   const [phraseIndex, setPhraseIndex] = useState(0)
   const [isDeleting, setIsDeleting] = useState(false)
+
+  // Reset typewriter when language changes
+  useEffect(() => {
+    setText('')
+    setPhraseIndex(0)
+    setIsDeleting(false)
+  }, [t])
 
   useEffect(() => {
     const currentPhrase = phrases[phraseIndex]
@@ -42,7 +46,7 @@ export function Hero() {
         >
           <span className="inline-flex items-center gap-2 bg-green-500/10 text-green-400 text-xs font-bold mb-6 px-4 py-1.5 rounded-full border border-green-500/20 uppercase tracking-wider backdrop-blur-md">
             <span className="w-2 h-2 rounded-full bg-green-500 animate-pulse"></span>
-            Disponível para Projetos e Oportunidades
+            {t.hero.badge}
           </span>
 
           <h1 className="text-4xl md:text-7xl font-extrabold tracking-tighter text-white mb-6">
@@ -54,14 +58,14 @@ export function Hero() {
             <span className="animate-pulse ml-1">|</span>
           </h2>
 
-          <p className="text-lg md:text-xl text-gray-400 mb-12 max-w-3xl mx-auto leading-relaxed italic">
-            Engenheiro Full Stack que arquiteta para escalar — e para não quebrar o caixa.<br />
-            IA Aplicada · Cloud FinOps · Zero-Trust
-          </p>
+          <p
+            className="text-lg md:text-xl text-gray-400 mb-12 max-w-3xl mx-auto leading-relaxed italic"
+            dangerouslySetInnerHTML={{ __html: t.hero.tagline }}
+          />
 
           <div className="flex flex-wrap justify-center gap-4">
             <a href="#projetos" className="bg-gradient-to-r from-accent-start to-accent-end text-white font-bold py-3 px-8 rounded-xl shadow-neon hover:shadow-lg hover:opacity-90 transition-all duration-300">
-              Explore as Decisões de Arquitetura
+              {t.hero.cta}
             </a>
             <a href="https://github.com/wellingtonspdev" target="_blank" rel="noreferrer" className="glass-card text-white font-bold py-3 px-8 rounded-xl hover:bg-white/10 transition-all duration-300">
               GitHub
@@ -72,3 +76,4 @@ export function Hero() {
     </section>
   )
 }
+
