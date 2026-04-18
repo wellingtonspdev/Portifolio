@@ -518,63 +518,60 @@ function Constellations({ starPositions }: { starPositions: Float32Array }) {
   )
 }
 
-// --- SINGULARITY (Fase 1) ---
-function Singularity() {
-  const meshRef = useRef<THREE.Mesh>(null);
-  const color = useMemo(() => new THREE.Color("#8b5cf6").multiplyScalar(15), []); // Roxo intenso pro Bloom
-
-  useFrame((state) => {
-    const t = state.clock.getElapsedTime();
-    if (meshRef.current) {
-      if (t < EXPLOSION_START) {
-        // Pulsa durante a espera
-        const freq = 5.0 + t * 5.0; // pulsação acelera
-        const scale = 0.5 + Math.sin(t * freq) * 0.15 + (t / EXPLOSION_START) * 0.2;
-        meshRef.current.scale.setScalar(scale);
-        meshRef.current.visible = true;
-      } else if (t < EXPLOSION_START + 0.3) {
-        // Encolhe violentamente para criar contraste antes da explosão, ou some na hora
-        meshRef.current.visible = false;
-      } else {
-        meshRef.current.visible = false;
-      }
-    }
-  });
-
-  return (
-    <mesh ref={meshRef} position={[-20, -35, -135]}>
-      <sphereGeometry args={[1.5, 32, 32]} />
-      <meshBasicMaterial color={color} toneMapped={false} />
-    </mesh>
-  );
-}
-
-// --- SHOCKWAVE (Fase 2) ---
-function Shockwave() {
+// --- SINGULARITY & SHOCKWAVE UNIFICADAS (Big Bang Core) ---
+function BigBangCore() {
   const meshRef = useRef<THREE.Mesh>(null);
   const matRef = useRef<THREE.ShaderMaterial>(null);
-  const colorX = useMemo(() => new THREE.Color("#c4b5fd").multiplyScalar(8), []); 
+  
+  const purpleColor = useMemo(() => new THREE.Color("#8b5cf6").multiplyScalar(15), []); 
+  const whiteColor = useMemo(() => new THREE.Color("#ffffff").multiplyScalar(20), []); 
+  const haloColor = useMemo(() => new THREE.Color("#c4b5fd").multiplyScalar(8), []); 
 
   useFrame((state) => {
     const t = state.clock.getElapsedTime();
-    if (t >= EXPLOSION_START && t < EXPLOSION_START + 2.0 && meshRef.current && matRef.current) {
+    if (!meshRef.current || !matRef.current) return;
+
+    meshRef.current.quaternion.copy(state.camera.quaternion);
+
+    if (t < EXPLOSION_START) {
+      // Fase 1: Pulsando antes de explodir
       meshRef.current.visible = true;
-      const p = (t - EXPLOSION_START) / 2.0; // 0 to 1
-      const easeOut = 1 - Math.pow(1 - p, 3); // Expande rápido e desacelera
+      const freq = 5.0 + t * 5.0; 
+      const pulse = 0.5 + Math.sin(t * freq) * 0.15 + (t / EXPLOSION_START) * 0.2;
       
-      meshRef.current.scale.setScalar(1.0 + easeOut * 250.0);
-      matRef.current.uniforms.uOpacity.value = 1.0 - easeOut;
+      // Ajuste para não ficar um ponto irrelevante e não ter pop:
+      meshRef.current.scale.setScalar(pulse * 3.0); 
       
-      // Face camera softly
-      meshRef.current.quaternion.copy(state.camera.quaternion);
-    } else if (meshRef.current) {
+      matRef.current.uniforms.uOpacity.value = 1.0;
+      matRef.current.uniforms.uExpand.value = 0.0; // mantém retido
+      // Totalmente Roxo
+      matRef.current.uniforms.uCoreColor.value.copy(purpleColor);
+      matRef.current.uniforms.uHaloColor.value.setHex(0x000000); 
+    } else if (t < EXPLOSION_START + 3.0) {
+      // Fase 2: Explosão (Ininterrupta)
+      meshRef.current.visible = true;
+      const p = (t - EXPLOSION_START) / 3.0; // Progresso (0.0 até 1.0)
+      const easeOut = 1 - Math.pow(1 - p, 4); // Rápido no início, macio no fim
+      
+      // Continua a escalada do valor base (ex: 2.1) até 400 homogeneamente
+      meshRef.current.scale.setScalar(2.1 + easeOut * 400.0);
+      
+      matRef.current.uniforms.uOpacity.value = 1.0 - p;
+      matRef.current.uniforms.uExpand.value = easeOut;
+      
+      // Efeito de Flash: O núcleo fica branco incandescente no frame do gatilho 
+      // e esfria para o roxo natural rapidamente, como todo flash fotográfico.
+      const flashProgress = Math.min(p * 5.0, 1.0); // Transição em décimos de seg
+      matRef.current.uniforms.uCoreColor.value.copy(purpleColor).lerp(whiteColor, 1.0 - flashProgress);
+      matRef.current.uniforms.uHaloColor.value.copy(haloColor);
+    } else {
       meshRef.current.visible = false;
     }
   });
 
   return (
-    <mesh ref={meshRef} position={[-20, -35, -135]} visible={false}>
-      <ringGeometry args={[0.9, 1.0, 128]} />
+    <mesh ref={meshRef} position={[-20, -35, -135]}>
+      <planeGeometry args={[2, 2]} />
       <shaderMaterial
         ref={matRef}
         transparent
@@ -582,7 +579,9 @@ function Shockwave() {
         blending={THREE.AdditiveBlending}
         uniforms={{
           uOpacity: { value: 1.0 },
-          uColor: { value: colorX }
+          uExpand: { value: 0.0 },
+          uCoreColor: { value: purpleColor },
+          uHaloColor: { value: new THREE.Color(0x000000) }
         }}
         vertexShader={`
           varying vec2 vUv;
@@ -593,13 +592,27 @@ function Shockwave() {
         `}
         fragmentShader={`
           uniform float uOpacity;
-          uniform vec3 uColor;
+          uniform float uExpand;
+          uniform vec3 uCoreColor;
+          uniform vec3 uHaloColor;
           varying vec2 vUv;
+          
           void main() {
-             float dist = distance(vUv, vec2(0.5));
-             // Borda soft
-             float strength = sin(vUv.y * 3.1415);
-             gl_FragColor = vec4(uColor, uOpacity * strength);
+             float dist = distance(vUv, vec2(0.5)) * 2.0; 
+             
+             // Core blinding flash (Esmaece o centro expandindo)
+             float core = smoothstep(1.0 - uExpand * 0.9, 0.0, dist);
+             
+             // Halo (Onda de choque atrelada ao core, preenchida mas invisível onde o expand é 0)
+             float ringDist = abs(dist - uExpand * 0.8);
+             float halo = smoothstep(0.6, 0.0, ringDist) * (1.0 - uExpand * 0.3) * uExpand;
+             
+             vec3 finalColor = uCoreColor * core + uHaloColor * halo;
+             float alpha = (core + halo) * uOpacity;
+             
+             alpha *= smoothstep(1.0, 0.8, dist);
+
+             gl_FragColor = vec4(finalColor, alpha);
           }
         `}
       />
@@ -651,8 +664,7 @@ export function SpaceBackground() {
         <StarFieldWithConstellations dpr={dpr} />
 
         {/* Efeitos Ativos da Explosão (Intro) */}
-        <Singularity />
-        <Shockwave />
+        <BigBangCore />
 
         {/* Pós-processamento: responsável pelo Bloom espetacular */}
         <EffectComposer>
