@@ -5,7 +5,6 @@ import { EffectComposer, Bloom, Noise } from '@react-three/postprocessing'
 
 const isMobile = typeof window !== 'undefined' && window.innerWidth < 768
 
-const INTRO_DURATION = 4.5;
 const EXPLOSION_START = 1.0; 
 
 const starVertexShader = `
@@ -656,7 +655,7 @@ export function SpaceBackground() {
         <Shockwave />
 
         {/* Pós-processamento: responsável pelo Bloom espetacular */}
-        <EffectComposer disableNormalPass>
+        <EffectComposer>
           <Bloom luminanceThreshold={1} mipmapBlur intensity={1.5} />
           <Noise opacity={0.03} />
         </EffectComposer>
