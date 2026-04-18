@@ -1,34 +1,50 @@
 import { useRef, useMemo, useEffect } from 'react'
 import { Canvas, useFrame, useThree } from '@react-three/fiber'
 import * as THREE from 'three'
+import { EffectComposer, Bloom, Noise } from '@react-three/postprocessing'
 
 const isMobile = typeof window !== 'undefined' && window.innerWidth < 768
+
+const INTRO_DURATION = 4.5;
+const EXPLOSION_START = 1.0; 
 
 const starVertexShader = `
   attribute float size;
   attribute vec3 color;
   attribute float phase;
+  attribute vec3 aRandomDir;
   
   varying vec3 vColor;
   varying float vPhase;
   
   uniform float uTime;
+  uniform float uExplosion;
+  uniform float uFormation;
 
   void main() {
     vColor = color;
     vPhase = phase;
     
     // Movimento orbital muito sutil para o universo todo girar
-    vec3 pos = position;
+    vec3 targetPos = position;
     
-    vec4 mvPosition = modelViewMatrix * vec4(pos, 1.0);
+    vec3 origin = vec3(0.0, 0.0, -100.0);
+    vec3 explodePos = origin + aRandomDir * (uExplosion * 800.0);
+    
+    vec3 mixedPos = mix(explodePos, targetPos, uFormation);
+    
+    vec4 mvPosition = modelViewMatrix * vec4(mixedPos, 1.0);
     
     // Tamanho com base na distância
     gl_PointSize = size * (300.0 / -mvPosition.z);
     
     // Cintilação adicionada visualmente ao Vertex
     float twinkle = sin(uTime * 2.0 + phase) * 0.5 + 0.5;
-    gl_PointSize *= (0.5 + 0.5 * twinkle);
+    
+    // Brilham muito durante a explosão
+    float introGlow = (1.0 - uFormation) * 3.0; 
+    
+    gl_PointSize *= (0.5 + 0.5 * twinkle) + introGlow;
 
     gl_Position = projectionMatrix * mvPosition;
   }
@@ -38,6 +54,7 @@ const starFragmentShader = `
   varying vec3 vColor;
   varying float vPhase;
   uniform float uTime;
+  uniform float uFormation;
 
   void main() {
     // Calcula a distância do centro do ponto (gl_PointCoord vai de 0.0 a 1.0)
@@ -51,138 +68,56 @@ const starFragmentShader = `
     // Brilho difuso (glow radial)
     float strength = 0.05 / distanceToCenter - 0.1;
     strength = clamp(strength, 0.0, 1.0);
+    
+    // Intensifica o brilho durante a explosão
+    float boost = (1.0 - uFormation) * 2.0;
 
     // Alpha final
-    gl_FragColor = vec4(vColor, strength);
+    gl_FragColor = vec4(vColor * (1.0 + boost), strength);
   }
 `;
 
 
-// --- FBM NEBULA SHADER ---
-const nebulaVertexShader = `
-  varying vec2 vUv;
-  void main() {
-    vUv = uv;
-    gl_Position = projectionMatrix * modelViewMatrix * vec4(position, 1.0);
-  }
-`;
-
-const nebulaFragmentShader = `
-  varying vec2 vUv;
-  uniform float uTime;
-
-  // Função de ruído rápido
-  vec3 mod289(vec3 x) { return x - floor(x * (1.0 / 289.0)) * 289.0; }
-  vec2 mod289(vec2 x) { return x - floor(x * (1.0 / 289.0)) * 289.0; }
-  vec3 permute(vec3 x) { return mod289(((x*34.0)+1.0)*x); }
-
-  float snoise(vec2 v) {
-    const vec4 C = vec4(0.211324865405187, 0.366025403784439, -0.577350269189626, 0.024390243902439);
-    vec2 i  = floor(v + dot(v, C.yy) );
-    vec2 x0 = v -   i + dot(i, C.xx);
-    vec2 i1 = (x0.x > x0.y) ? vec2(1.0, 0.0) : vec2(0.0, 1.0);
-    vec4 x12 = x0.xyxy + C.xxzz;
-    x12.xy -= i1;
-    i = mod289(i);
-    vec3 p = permute( permute( i.y + vec3(0.0, i1.y, 1.0 )) + i.x + vec3(0.0, i1.x, 1.0 ));
-    vec3 m = max(0.5 - vec3(dot(x0,x0), dot(x12.xy,x12.xy), dot(x12.zw,x12.zw)), 0.0);
-    m = m*m ;
-    m = m*m ;
-    vec3 x = 2.0 * fract(p * C.www) - 1.0;
-    vec3 h = abs(x) - 0.5;
-    vec3 ox = floor(x + 0.5);
-    vec3 a0 = x - ox;
-    m *= 1.79284291400159 - 0.85373472095314 * ( a0*a0 + h*h );
-    vec3 g;
-    g.x  = a0.x  * x0.x  + h.x  * x0.y;
-    g.yz = a0.yz * x12.xz + h.yz * x12.yw;
-    return 130.0 * dot(m, g);
-  }
-
-  // FBM de 4 oitavas
-  float fbm(vec2 x) {
-    float v = 0.0;
-    float a = 0.5;
-    vec2 shift = vec2(100.0);
-    mat2 rot = mat2(cos(0.5), sin(0.5), -sin(0.5), cos(0.50));
-    for (int i = 0; i < 4; ++i) {
-      v += a * snoise(x);
-      x = rot * x * 2.0 + shift;
-      a *= 0.5;
-    }
-    return v;
-  }
-
-  void main() {
-    vec2 st = vUv * 3.0; // Escala do ruído
-    vec2 q = vec2(0.);
-    
-    // Domain Warping
-    q.x = fbm( st + 0.03 * uTime);
-    q.y = fbm( st + vec2(1.0));
-    
-    vec2 r = vec2(0.);
-    r.x = fbm( st + 1.0 * q + vec2(1.7,9.2) + 0.05 * uTime );
-    r.y = fbm( st + 1.0 * q + vec2(8.3,2.8) + 0.02 * uTime );
-    
-    float f = fbm(st + r);
-    
-    // Cores: Mistura do cyber-roxo com ciano e azul escuro profundo
-    vec3 color = mix(vec3(0.02, 0.04, 0.1), vec3(0.1, 0.2, 0.5), clamp((f*f)*4.0, 0.0, 1.0));
-    color = mix(color, vec3(0.2, 0.05, 0.4), clamp(length(q), 0.0, 1.0));
-    color = mix(color, vec3(0.05, 0.3, 0.4), clamp(length(r.x), 0.0, 1.0));
-    
-    // Brilho volumétrico e atenuação
-    vec3 finalColor = (f*f*f + 0.6*f*f + 0.5*f) * color;
-    
-    // Esmaecimento macio nas bordas
-    float vignette = 1.0 - smoothstep(0.3, 1.5, length(vUv - 0.5));
-    finalColor *= vignette;
-
-    gl_FragColor = vec4(finalColor, vignette * 0.7); // Opacidade sutil
-  }
-`;
-
-function Nebula() {
-  const materialRef = useRef<THREE.ShaderMaterial>(null)
-  const uniforms = useMemo(() => ({ uTime: { value: 0 } }), [])
-
-  useFrame((state) => {
-    if (materialRef.current) materialRef.current.uniforms.uTime.value = state.clock.getElapsedTime()
-  })
-
-  return (
-    <mesh position={[0, 0, -80]}>
-      <planeGeometry args={[300, 200]} />
-      <shaderMaterial
-        ref={materialRef}
-        vertexShader={nebulaVertexShader}
-        fragmentShader={nebulaFragmentShader}
-        uniforms={uniforms}
-        transparent={true}
-        blending={THREE.AdditiveBlending}
-        depthWrite={false}
-      />
-    </mesh>
-  )
-}
 
 // --- SPIRAL GALAXY ---
 const galaxyVertexShader = `
   attribute float aSize;
   attribute vec3 aColor;
   attribute float aPhase;
+  attribute vec3 aRandomDir;
+  
   varying vec3 vColor;
   varying float vAlpha;
+  
   uniform float uTime;
+  uniform float uExplosion;
+  uniform float uFormation;
 
   void main() {
     vColor = aColor;
-    vec4 mvPosition = modelViewMatrix * vec4(position, 1.0);
+    
+    vec3 targetPos = position;
+    
+    // Origem da explosão (em coordenadas locais da galáxia que estão transladadas)
+    // O array positions guarda as coordenadas originais.
+    // Vamos usar (0,0,0) local
+    vec3 origin = vec3(0.0, 0.0, 0.0);
+    vec3 explodePos = origin + aRandomDir * (uExplosion * 300.0); // voam até 300 unidades
+    
+    // Interpolação suave do caos do BigBang para a ordem da Galáxia Espiral
+    vec3 mixedPos = mix(explodePos, targetPos, uFormation);
+    
+    vec4 mvPosition = modelViewMatrix * vec4(mixedPos, 1.0);
     float twinkle = sin(uTime * 1.5 + aPhase) * 0.3 + 0.7;
-    gl_PointSize = aSize * twinkle * (200.0 / -mvPosition.z);
+    
+    // Partículas explodindo no começo são maiores
+    float explosionBoost = (1.0 - uFormation) * 4.0;
+    
+    gl_PointSize = (aSize + explosionBoost) * twinkle * (200.0 / -mvPosition.z);
+    
     // Fade out partículas muito próximas à câmera (evita artefatos)
     vAlpha = smoothstep(0.0, 30.0, -mvPosition.z);
+    
     gl_Position = projectionMatrix * mvPosition;
   }
 `;
@@ -190,28 +125,33 @@ const galaxyVertexShader = `
 const galaxyFragmentShader = `
   varying vec3 vColor;
   varying float vAlpha;
+  uniform float uFormation;
 
   void main() {
     float d = distance(gl_PointCoord, vec2(0.5));
     if (d > 0.5) discard;
     float strength = 0.04 / d - 0.08;
     strength = clamp(strength, 0.0, 1.0);
-    gl_FragColor = vec4(vColor, strength * vAlpha);
+    
+    float boost = (1.0 - uFormation) * 2.0;
+
+    gl_FragColor = vec4(vColor * (1.0 + boost), strength * vAlpha);
   }
 `;
 
 function SpiralGalaxy() {
   const pointsRef = useRef<THREE.Points>(null)
   const materialRef = useRef<THREE.ShaderMaterial>(null)
-  const uniforms = useMemo(() => ({ uTime: { value: 0 } }), [])
+  const uniforms = useMemo(() => ({ uTime: { value: 0 }, uExplosion: { value: 0 }, uFormation: { value: 0 } }), [])
 
   // Espiral logarítmica: Braços longos e núcleo denso (Inspiração Via Láctea)
-  const [positions, colors, sizes, phases] = useMemo(() => {
-    const count = isMobile ? 5000 : 18000 // Mais partículas para não ficar rala com o novo tamanho
+  const [positions, colors, sizes, phases, randomDirs] = useMemo(() => {
+    const count = isMobile ? 8000 : 25000 // Partículas extras para compensar falta da nebulosa
     const positions = new Float32Array(count * 3)
     const colors = new Float32Array(count * 3)
     const sizes = new Float32Array(count)
     const phases = new Float32Array(count)
+    const randomDirs = new Float32Array(count * 3)
 
     const NUM_ARMS = 2
     const ARM_LENGTH = Math.PI * 5  // Braços imensos enrolando bem longe
@@ -263,15 +203,43 @@ function SpiralGalaxy() {
       // Núcleo com partículas maiores, bordas poeira estelar fina
       sizes[i] = THREE.MathUtils.lerp(1.8, 0.4, radialFraction) + Math.random() * 0.5
       phases[i] = Math.random() * Math.PI * 2
+      
+      // Random direction for explosion
+      const u = Math.random();
+      const v = Math.random();
+      const thetaRandom = u * 2.0 * Math.PI;
+      const phiRandom = Math.acos(2.0 * v - 1.0);
+      const rDir = Math.cbrt(Math.random());
+      randomDirs[i * 3]     = rDir * Math.sin(phiRandom) * Math.cos(thetaRandom);
+      randomDirs[i * 3 + 1] = rDir * Math.sin(phiRandom) * Math.sin(thetaRandom);
+      randomDirs[i * 3 + 2] = rDir * Math.cos(phiRandom);
     }
 
-    return [positions, colors, sizes, phases]
+    return [positions, colors, sizes, phases, randomDirs]
   }, [])
 
   useFrame((state) => {
-    if (materialRef.current) materialRef.current.uniforms.uTime.value = state.clock.getElapsedTime()
+    const t = state.clock.getElapsedTime();
+    if (materialRef.current) {
+      materialRef.current.uniforms.uTime.value = t;
+      
+      // Cálculo do progresso do Big Bang
+      // Explosão de 1.0s a 2.5s (rápido)
+      let expl = Math.max(0, (t - EXPLOSION_START) / 1.5);
+      expl = Math.min(expl, 1.0);
+      const easeOutExpo = expl === 1 ? 1 : 1 - Math.pow(2, -10 * expl);
+      materialRef.current.uniforms.uExplosion.value = easeOutExpo;
+
+      // Formação a partir de 2.0s a 4.5s
+      let form = Math.max(0, (t - 2.0) / 2.5);
+      form = Math.min(form, 1.0);
+      // Ease in-out para acomodar as estrelas suavemente
+      const easeInOutCubic = form < 0.5 ? 4 * form * form * form : 1 - Math.pow(-2 * form + 2, 3) / 2;
+      materialRef.current.uniforms.uFormation.value = easeInOutCubic;
+    }
+    
     // Rotação lenta — dá para perceber mas não cansa
-    if (pointsRef.current) pointsRef.current.rotation.y = state.clock.getElapsedTime() * 0.025
+    if (pointsRef.current) pointsRef.current.rotation.y = t * 0.025
   })
 
   useEffect(() => {
@@ -289,6 +257,7 @@ function SpiralGalaxy() {
         <bufferAttribute attach="attributes-aColor"   count={colors.length / 3}    array={colors}    itemSize={3} />
         <bufferAttribute attach="attributes-aSize"    count={sizes.length}          array={sizes}     itemSize={1} />
         <bufferAttribute attach="attributes-aPhase"   count={phases.length}         array={phases}    itemSize={1} />
+        <bufferAttribute attach="attributes-aRandomDir" count={randomDirs.length/3} array={randomDirs} itemSize={3} />
       </bufferGeometry>
       <shaderMaterial
         ref={materialRef}
@@ -323,13 +292,14 @@ function CameraRig({ scrollRef }: { scrollRef: React.RefObject<number> }) {
 
 // --- WRAPPER: StarField + Constellations compartilhando posições ---
 function StarFieldWithConstellations({ dpr }: { dpr: number }) {
-  const starCount = dpr > 1 ? 5000 : 2000
+  const starCount = dpr > 1 ? 10000 : 4000 // MUITO mais estrelas de fundo
 
-  const [positions, colors, sizes, phases] = useMemo(() => {
+  const [positions, colors, sizes, phases, randomDirs] = useMemo(() => {
     const positions = new Float32Array(starCount * 3)
     const colors = new Float32Array(starCount * 3)
     const sizes = new Float32Array(starCount)
     const phases = new Float32Array(starCount)
+    const randomDirs = new Float32Array(starCount * 3)
 
     const colorPalette = [
       new THREE.Color('#ffffff'),
@@ -351,19 +321,41 @@ function StarFieldWithConstellations({ dpr }: { dpr: number }) {
       colors[i * 3] = color.r; colors[i * 3 + 1] = color.g; colors[i * 3 + 2] = color.b
       sizes[i] = Math.random() * 2.0 + 0.5
       phases[i] = Math.random() * Math.PI * 2
+      
+      const distExpl = Math.random();
+      const vx = Math.random() * 2.0 - 1.0;
+      const vy = Math.random() * 2.0 - 1.0;
+      const vz = Math.random() * 2.0 - 1.0;
+      
+      randomDirs[i*3] = vx * (0.5 + distExpl);
+      randomDirs[i*3+1] = vy * (0.5 + distExpl);
+      randomDirs[i*3+2] = vz * (0.5 + distExpl);
     }
-    return [positions, colors, sizes, phases]
+    return [positions, colors, sizes, phases, randomDirs]
   }, [starCount])
 
   const pointsRef = useRef<THREE.Points>(null)
   const materialRef = useRef<THREE.ShaderMaterial>(null)
-  const uniforms = useMemo(() => ({ uTime: { value: 0 } }), [])
+  const uniforms = useMemo(() => ({ uTime: { value: 0 }, uExplosion: { value: 0 }, uFormation: { value: 0 } }), [])
 
   useFrame((state) => {
-    if (materialRef.current) materialRef.current.uniforms.uTime.value = state.clock.getElapsedTime()
+    const t = state.clock.getElapsedTime();
+    if (materialRef.current) {
+      materialRef.current.uniforms.uTime.value = t;
+      
+      let expl = Math.max(0, (t - EXPLOSION_START) / 1.5);
+      expl = Math.min(expl, 1.0);
+      const easeOutExpo = expl === 1 ? 1 : 1 - Math.pow(2, -10 * expl);
+      materialRef.current.uniforms.uExplosion.value = easeOutExpo;
+
+      let form = Math.max(0, (t - 2.0) / 2.5);
+      form = Math.min(form, 1.0);
+      const easeInOutCubic = form < 0.5 ? 4 * form * form * form : 1 - Math.pow(-2 * form + 2, 3) / 2;
+      materialRef.current.uniforms.uFormation.value = easeInOutCubic;
+    }
     if (pointsRef.current) {
-      pointsRef.current.rotation.y = state.clock.getElapsedTime() * 0.02
-      pointsRef.current.rotation.x = state.clock.getElapsedTime() * 0.01
+      pointsRef.current.rotation.y = t * 0.02
+      pointsRef.current.rotation.x = t * 0.01
     }
   })
 
@@ -382,6 +374,7 @@ function StarFieldWithConstellations({ dpr }: { dpr: number }) {
           <bufferAttribute attach="attributes-color" count={starCount} array={colors} itemSize={3} />
           <bufferAttribute attach="attributes-size" count={starCount} array={sizes} itemSize={1} />
           <bufferAttribute attach="attributes-phase" count={starCount} array={phases} itemSize={1} />
+          <bufferAttribute attach="attributes-aRandomDir" count={randomDirs.length/3} array={randomDirs} itemSize={3} />
         </bufferGeometry>
         <shaderMaterial
           ref={materialRef}
@@ -526,6 +519,95 @@ function Constellations({ starPositions }: { starPositions: Float32Array }) {
   )
 }
 
+// --- SINGULARITY (Fase 1) ---
+function Singularity() {
+  const meshRef = useRef<THREE.Mesh>(null);
+  const color = useMemo(() => new THREE.Color("#8b5cf6").multiplyScalar(15), []); // Roxo intenso pro Bloom
+
+  useFrame((state) => {
+    const t = state.clock.getElapsedTime();
+    if (meshRef.current) {
+      if (t < EXPLOSION_START) {
+        // Pulsa durante a espera
+        const freq = 5.0 + t * 5.0; // pulsação acelera
+        const scale = 0.5 + Math.sin(t * freq) * 0.15 + (t / EXPLOSION_START) * 0.2;
+        meshRef.current.scale.setScalar(scale);
+        meshRef.current.visible = true;
+      } else if (t < EXPLOSION_START + 0.3) {
+        // Encolhe violentamente para criar contraste antes da explosão, ou some na hora
+        meshRef.current.visible = false;
+      } else {
+        meshRef.current.visible = false;
+      }
+    }
+  });
+
+  return (
+    <mesh ref={meshRef} position={[-20, -35, -135]}>
+      <sphereGeometry args={[1.5, 32, 32]} />
+      <meshBasicMaterial color={color} toneMapped={false} />
+    </mesh>
+  );
+}
+
+// --- SHOCKWAVE (Fase 2) ---
+function Shockwave() {
+  const meshRef = useRef<THREE.Mesh>(null);
+  const matRef = useRef<THREE.ShaderMaterial>(null);
+  const colorX = useMemo(() => new THREE.Color("#c4b5fd").multiplyScalar(8), []); 
+
+  useFrame((state) => {
+    const t = state.clock.getElapsedTime();
+    if (t >= EXPLOSION_START && t < EXPLOSION_START + 2.0 && meshRef.current && matRef.current) {
+      meshRef.current.visible = true;
+      const p = (t - EXPLOSION_START) / 2.0; // 0 to 1
+      const easeOut = 1 - Math.pow(1 - p, 3); // Expande rápido e desacelera
+      
+      meshRef.current.scale.setScalar(1.0 + easeOut * 250.0);
+      matRef.current.uniforms.uOpacity.value = 1.0 - easeOut;
+      
+      // Face camera softly
+      meshRef.current.quaternion.copy(state.camera.quaternion);
+    } else if (meshRef.current) {
+      meshRef.current.visible = false;
+    }
+  });
+
+  return (
+    <mesh ref={meshRef} position={[-20, -35, -135]} visible={false}>
+      <ringGeometry args={[0.9, 1.0, 128]} />
+      <shaderMaterial
+        ref={matRef}
+        transparent
+        depthWrite={false}
+        blending={THREE.AdditiveBlending}
+        uniforms={{
+          uOpacity: { value: 1.0 },
+          uColor: { value: colorX }
+        }}
+        vertexShader={`
+          varying vec2 vUv;
+          void main() {
+            vUv = uv;
+            gl_Position = projectionMatrix * modelViewMatrix * vec4(position, 1.0);
+          }
+        `}
+        fragmentShader={`
+          uniform float uOpacity;
+          uniform vec3 uColor;
+          varying vec2 vUv;
+          void main() {
+             float dist = distance(vUv, vec2(0.5));
+             // Borda soft
+             float strength = sin(vUv.y * 3.1415);
+             gl_FragColor = vec4(uColor, uOpacity * strength);
+          }
+        `}
+      />
+    </mesh>
+  );
+}
+
 export function SpaceBackground() {
   const dpr = isMobile ? 1 : 1.5
   const scrollRef = useRef<number>(0)
@@ -566,11 +648,18 @@ export function SpaceBackground() {
         {/* Galáxia: muito distante, mínima velocidade de parallax */}
         <SpiralGalaxy />
 
-        {/* Nebulosa: desativada em mobile (FBM é pesado) */}
-        {!isMobile && <Nebula />}
-
         {/* Campo estelar + constelações */}
         <StarFieldWithConstellations dpr={dpr} />
+
+        {/* Efeitos Ativos da Explosão (Intro) */}
+        <Singularity />
+        <Shockwave />
+
+        {/* Pós-processamento: responsável pelo Bloom espetacular */}
+        <EffectComposer disableNormalPass>
+          <Bloom luminanceThreshold={1} mipmapBlur intensity={1.5} />
+          <Noise opacity={0.03} />
+        </EffectComposer>
       </Canvas>
     </div>
   )
