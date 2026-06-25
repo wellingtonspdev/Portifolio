@@ -3,13 +3,13 @@ import type { Locale } from '../types'
 export const en: Locale = {
   meta: {
     lang: 'en',
-    title: 'Wellington Siqueira Porto | Full Stack Developer & Solutions Architect',
-    description: 'Portfolio of Wellington Siqueira Porto. AI-Native Full Stack Engineer, Tech Lead, and AI Researcher. Specialist in Python, Node.js, Cloud FinOps, SaaS, and Zero-Trust Architecture.',
-    keywords: 'Wellington Siqueira Porto, Full Stack Developer, Solutions Architect, Python, Node.js, Cloud FinOps, Applied AI, RAG, TDD, Cisco, Cybersecurity',
-    ogTitle: 'Wellington Siqueira Porto | Full Stack Dev & Solutions Architect',
-    ogDescription: 'Turning complex requirements into scalable architectures. Specialist in Python, Node.js, Cloud FinOps, and AI applied to business.',
-    jobTitle: 'Full Stack Software Engineer & Solutions Architect',
-    knowsAbout: ['Python', 'Node.js', 'React.js', 'Applied Artificial Intelligence', 'Cloud FinOps', 'C/C++', 'Cybersecurity', 'TDD', 'PostgreSQL', 'Linux', 'Local RAG'],
+    title: 'Wellington Siqueira Porto | Full Stack Developer',
+    description: 'Portfolio of Wellington Siqueira Porto. Full Stack Developer, FATEC student, and researcher in data and algorithms.',
+    keywords: 'Wellington Siqueira Porto, Full Stack Developer, Python, Node.js, React, FATEC, CNPq, TDD, PostgreSQL, Docker',
+    ogTitle: 'Wellington Siqueira Porto | Full Stack Developer',
+    ogDescription: 'Real projects, applied research, and academic deliveries in web development, data, and software.',
+    jobTitle: 'Full Stack Developer',
+    knowsAbout: ['Python', 'Node.js', 'React.js', 'TypeScript', 'PHP', 'CodeIgniter', 'Docker', 'PostgreSQL', 'MySQL', 'TDD'],
     credentialName: 'Associate Degree in Multiplatform Software Development',
   },
 
@@ -23,37 +23,37 @@ export const en: Locale = {
   hero: {
     badge: 'Available for Projects & Opportunities',
     phrases: [
-      'AI-Native Solutions Architect',
       'Full Stack Developer',
       'Multiplatform Development Student at FATEC',
       'Data & Algorithms Researcher',
+      'Tech Lead in Academic Project',
     ],
-    tagline: 'Full Stack Engineer who architects to scale — and to protect the bottom line.<br />Applied AI · Cloud FinOps · Zero-Trust',
-    cta: 'Explore the Architecture Decisions',
+    tagline: 'Full Stack developer focused on web products, data, and systems that solve real problems.<br />React · Python · Node.js · Docker',
+    cta: 'Explore the Projects',
   },
 
   about: {
     heading: 'About Me',
     paragraphs: [
-      'I am a <strong>Full Stack Software Engineer and AI-Native Architect</strong> specializing in building resilient and financially optimized distributed systems. I design business-driven architectures — from modular monoliths with <strong>Zero-Trust isolation via RLS</strong> to <strong>Edge AI engines with local RAG</strong> — making decisions guided by <strong>Cloud FinOps</strong> and Unit Economics. Every stack choice has a cost-benefit rationale: from storage with <strong>Zero Egress Fees</strong> to OS-level memory deduplication, the goal is always to scale without letting infrastructure devour the margin.',
-      'Currently pursuing a degree in <strong>Multiplatform Software Development at FATEC Itaquera</strong>, I served as <strong>Tech Lead on the interdisciplinary Define Pilates project</strong>, leading a multidisciplinary squad focused on <strong>TDD and CI/CD</strong>. My technical foundation is validated by official <strong>Cisco Networking Academy</strong> certifications in C/C++, Network Defense, and <strong>Zero-Trust</strong> architectures, supporting the delivery of resilient backends in <strong>Node.js and Python</strong> and high-performance interfaces in <strong>React.js</strong> and <strong>Flutter</strong>.',
-      'I work as a researcher on a <strong>CNPq-sponsored research project</strong>, applying deterministic search algorithms (<strong>Greedy Best-First Search</strong>) to efficient large-scale data processing — building the mathematical foundation that makes AI systems predictable and auditable before any external LLM call. My trajectory points toward the intersection of resilient infrastructure, applied artificial intelligence, and products that solve real problems in complex markets — <strong>FinTech, HealthTech, and AgriTech</strong>. If your challenge is scaling a mission-critical architecture without blowing up OPEX, or building an AI product reliable enough to operate in people\'s real lives, that\'s exactly the conversation I want to have.',
+      'I am a <strong>Full Stack developer</strong> studying at <strong>FATEC Itaquera</strong>, with hands-on experience in academic projects, web systems, APIs, databases, and modern interfaces. I am interested in building clear, well-documented solutions close to real problems.',
+      'I served as <strong>Tech Lead on the interdisciplinary Define Pilates project</strong>, leading a multidisciplinary squad focused on technical organization, TDD, CI/CD, and functional delivery. I also participated in modernizing a legacy reservation system for FATEC, working with PHP, CodeIgniter, Docker, and interface improvements.',
+      'I participate in a <strong>CNPq-sponsored research project</strong>, applying search algorithms and data modeling in a soil sample analysis context. My path combines web development, data, applied research, and the drive to learn in real engineering environments.',
     ],
     cards: [
-      { title: 'Human Debugging', description: 'Root cause analysis to resolve conflicts under high pressure and ensure efficient SLAs, with a focus on CX.' },
-      { title: 'Social Impact', description: 'Using technology and AI to democratize access and solve real problems in society and the market.' },
-      { title: 'Deterministic AI', description: 'Isolating semantic models from the mathematical business rules engine to eliminate hallucinations.' },
+      { title: 'Continuous Learning', description: 'Technical growth through real projects, applied research, and constant study of good practices.' },
+      { title: 'Social Impact', description: 'Using technology to support institutions, education, sustainability, and real problems.' },
+      { title: 'Teamwork', description: 'Experience with technical leadership, communication, code review, and academic delivery organization.' },
     ],
   },
 
   projects: {
-    heading: 'Architecture Dossier',
-    subtitle: 'Projects that demonstrate human impact, architectural intelligence, and technological viability.',
+    heading: 'Featured Projects',
+    subtitle: 'Real deliveries, academic projects, and applied research with code, context, and demonstrable outcomes.',
     labels: {
       inDev: 'In Development',
       hideDetails: 'Hide Details',
-      showDetails: 'View Architecture Decision',
-      problem: 'Problem/Action:',
+      showDetails: 'View Details',
+      problem: 'Problem:',
       solution: 'Solution:',
       viewDemo: 'View Demo',
       code: 'Code',
@@ -61,54 +61,42 @@ export const en: Locale = {
   },
 
   projectData: {
-    'wsp-finance': {
-      subtitle: 'High-Profitability B2B2C SaaS Ecosystem',
-      description: 'Designed for a market where <span class="tabular-nums font-semibold text-accent-end">52%</span> of productive operations time is wasted on rework and digital clutter, WSP Finance was born with an aggressive Cloud FinOps premise. I eradicated legal exposure and reclaimed productive time, sustaining a projected gross margin of <span class="tabular-nums font-semibold text-accent-end">88%</span> at scale — backed by Zero-Trust isolation via RLS, immutable AuditLog, and asynchronous AI engines in strict LGPD compliance.',
-      problem: '<span class="tabular-nums font-semibold text-accent-end">52%</span> of financial teams\' productive capacity was consumed by import friction from legacy ERPs and "data soup", compounded by the critical legal risk of Joint Liability from asset commingling. The approach was to act on predictive error interception — transforming the passive record system into an active data sanitation and compliance engine.',
-      solution: 'An asynchronous Modular Monolith architecture was implemented, hardened with native Row-Level Security (RLS) on PostgreSQL, ensuring Zero-Trust isolation between tenants and CPF/CNPJ contexts. For data processing (Decimal(19,4) typing), a Hybrid AI Fiscal Linter via Transactional Outbox processes in-background with PII Masking. Keys locked with envelope encryption (AWS KMS) and <span class="tabular-nums font-semibold text-accent-end">100%</span> of heavy binaries migrated to Cloudflare R2 (Zero Egress Fee).',
-    },
-    'samurai-pro': {
-      subtitle: 'High-Density Automation & RBI Engineering',
-      description: 'A cloud-native architecture eliminates the main bottleneck of the premium SaaS tooling cost-sharing model: infrastructure costs that prevent scaling. I designed a SaaS automation capable of scaling concurrent connections without linear cost growth, reducing the memory footprint by <span class="tabular-nums font-semibold text-accent-end">93%</span> — from 900MB to under 60MB per session — replacing Chromium instances with TLS Impersonation (curl_cffi) and Remote Browser Isolation with KSM.',
-      problem: 'The premium SaaS tooling cost-sharing model was the only viable path for entrepreneurs, but technically a minefield: memory leaks, WAFs blocking everything, and paralyzed local hardware destroyed operations and end-user trust. The approach was to treat the problem as an enterprise engineering challenge, not as a mere automation script.',
-      solution: 'The Samurai Pro API was architected — a FastAPI backend with Zero-Trust authentication, Fernet encryption (AES-128-CBC), and headless-less automation via TLS Impersonation (curl_cffi) on KSM + Oracle Cloud Free Egress — eliminating the RAM footprint by up to <span class="tabular-nums font-semibold text-accent-end">93%</span> per session and enabling M2M connection scaling without proportional cost growth.',
+    'reserva-laboratorios-fatec': {
+      subtitle: 'Legacy PHP system modernization',
+      description: 'I adapted and modernized a legacy laboratory reservation system for FATEC Itaquera, improving usability, responsiveness, institutional visual identity, and execution documentation without rewriting the application from scratch.',
+      problem: 'The original system worked, but the interface was not intuitive, was strongly desktop-oriented, and made frequent consultation harder for teachers, students, and administrators. Availability, rooms, schedules, and settings required more effort than the institution routine allowed.',
+      solution: 'The solution was an incremental modernization over ClassroomBookings in PHP/CodeIgniter, preserving business rules while reorganizing login, reservation grid, laboratory cards, period details, and administrative settings. The project also received language adjustments, Docker, and public documentation for safer execution.',
     },
     'define-pilates': {
-      subtitle: 'Multi-tenant Strategic Management & Compliance',
-      description: 'I led the architecture of a B2B ecosystem focused on stopping revenue loss from operational failures, delivering a complete solution for health studios in strict compliance with LGPD and CREFITO regulations. The project resolves administrative fragmentation through event-driven automation, enabling financial management and overbooking control to operate seamlessly.',
-      problem: 'Operational fragmentation eroded profit margins. WhatsApp dependency created commercial bottlenecks and opened room for overbooking, limiting the business scalability of studios.',
-      solution: 'API-First architecture on Django. The core ensures strict Zero-Trust isolation between studios through the workspaceId identifier associated with granular Object-Level Permissions via django-guardian. Asynchronous financial engine for payments triggered by Django Signals.',
-    },
-    'viva-healthtech': {
-      subtitle: 'Edge AI & HealthTech for Active Longevity',
-      description: 'An Edge-First architecture eliminates the main scaling obstacle for AI startups targeting the Silver Economy: cloud inference costs. I delivered a digital companion capable of operating with less than 1GB of RAM and 0.05% CPU. The system provides voice responses under 300ms, running <span class="tabular-nums font-semibold text-accent-end">100%</span> offline on the elderly user\'s phone (Privacy by Design), without a single byte traveling to external servers.',
-      problem: 'The "Inference Ceiling" made scaling senior AIs economically unviable, while ageism in design drove users away and Alarm Fatigue destroyed family engagement. The established approach was to treat absolute privacy, cloud computational efficiency, and predictive reporting intelligence (avoiding false positives) as base architectural constraints, not as optional features.',
-      solution: 'Architected a hybrid Edge-to-Cloud ecosystem (Flutter + NestJS / Clean Architecture). Voice processing (Picovoice + Qwen 0.8B) and semantic RAG (sqlite-vec) run locally. The backend ensures asynchronous resilience (Transactional Outbox + BullMQ) and reduces irrelevant alarms by up to <span class="tabular-nums font-semibold text-accent-end">74%</span> via Exception-Based Reporting (SSE). Zero-cost viral growth with Cloudflare R2 and WhatsApp Intents.',
-    },
-    'cnpq-research': {
-      subtitle: 'AI & Optical Processing',
-      description: 'In precision agriculture, data latency means crop loss. We replaced physico-chemical laboratory processes that take days with a computational architecture capable of classifying soil texture in near real-time — achieving a <span class="tabular-nums font-semibold text-accent-end">29%</span> success rate and qualitative coherence in distinguishing soil profiles, resolving the bottleneck that paralyzed field management decisions. The work was presented at three scientific symposiums: 27th SICT-FATEC-SP (October 2025), VII SICT-CPS/CNPq, and CONIC-SEMESP 2025, titled \'Soil Sample Characterization Using Speckle Methodology and Intelligent Search\'. My specific contribution was the modeling and implementation of the relational database to structure scientific data volumes, as well as the implementation of the Greedy Best-First Search algorithm for soil texture classification.',
-      problem: 'The high cost and slowness of laboratory methods delayed the time-to-decision in irrigation and fertilization. Without precise data, agronomists made decisions in the dark, resulting in fatal water waste and input overload. I broke with chemical validation, replacing it with computational optical validation that scales without cloud dependency.',
-      solution: 'I implemented a high-efficiency architecture focused on Local RAG that converts laser readings (Speckle Interferometry + THSP) into digital signatures. These are processed by heuristic AI via Greedy Best-First Search with Binary Search in MATLAB, operating over a relational database to calculate the shortest mathematical distance with ultra-low computational latency.',
+      subtitle: 'Multi-tenant management and compliance',
+      description: 'I led the architecture of a B2B ecosystem for health studios, focused on reducing operational failures and organizing schedule, financial management, and student control in an integrated experience.',
+      problem: 'Administrative fragmentation and dependency on manual controls created commercial bottlenecks, overbooking risk, and difficulty tracking studio operations.',
+      solution: 'As Tech Lead, I conducted an API-first solution with Django and React, applying permission isolation, administrative flow organization, and TDD/CI practices to sustain a complete academic delivery.',
     },
     'ibdn-plataforma': {
-      subtitle: 'ESG Governance Management',
-      description: 'The dependency on manual processes and paperwork caused extreme slowness in issuing and monitoring ecological certifications and plantings, limiting transparency and preventing the institute from scaling.',
-      problem: 'Manual and paper-based processes delayed the issuance of ecological seals and limited the transparency of the Institute\'s environmental certifications.',
-      solution: 'Architected a digital corporate platform (API-First). Structured corporate identity management with Role-Based Access Control (RBAC). Digitized <span class="tabular-nums font-semibold text-accent-end">100%</span> of the Institute\'s seal issuance workflow.',
+      subtitle: 'ESG governance management',
+      description: 'Full stack project to support environmental process digitization, reducing dependency on manual workflows and improving the organization of certifications and institutional information.',
+      problem: 'Manual and paper-based processes delayed ecological seal issuance and limited transparency in the Institute environmental certifications.',
+      solution: 'The solution structured a web platform with authentication, access control, and organization of core flows, bringing the operation closer to a more traceable and scalable model.',
+    },
+    'cnpq-research': {
+      subtitle: 'AI and optical processing',
+      description: 'I participated in applied research on soil sample characterization using Speckle methodology and intelligent search, presented in scientific symposiums and focused on using algorithms to support experimental data analysis.',
+      problem: 'Traditional laboratory methods can make soil analysis slow and costly. The research challenge was to explore a computational approach to organize optical signatures and support qualitative distinction of soil profiles.',
+      solution: 'My contribution involved relational database modeling for scientific data and implementation of a Greedy Best-First Search algorithm for classification, connecting data fundamentals, heuristic search, and applied research.',
     },
   },
 
   skills: {
     heading: 'Tech Stack & Skills',
-    subtitle: 'Stack validated by Cisco certifications and real production projects.',
+    subtitle: 'Skills applied across academic projects, real systems, CNPq research, and legacy modernization.',
     items: [
-      { title: 'Backend & APIs', description: 'Python 3 (FastAPI, Django), Node.js (NestJS, Express), TypeScript, Java, microservices and modular monoliths.' },
-      { title: 'AI & Data', description: 'RAG (Local & Cloud), Google Vertex AI, GPT-4o Vision, Vector Databases (sqlite-vec), PostgreSQL (JSONB/RLS), Greedy Best-First Search.' },
-      { title: 'Cloud & FinOps', description: 'Cloudflare R2 (Zero Egress Fee), Docker, Redis, BullMQ, Transactional Outbox, Linux KSM, and CI/CD.' },
-      { title: 'Automation & RPA', description: 'Python RPA with Playwright and Headless-less Automation. Robot auto-healing via GPT-4o Vision inference (DOM selector replacement). High-performance Remote Browser Isolation (RBI) SaaS platforms.' },
-      { title: 'Security & Evasion', description: 'Web Application Firewall (Cloudflare/Akamai) bypass via TLS signature reconstruction with curl_cffi (CFFI). Zero-Trust architectures, RBAC, JWT, and LGPD compliance.' },
-      { title: 'Frontend & Soft Skills', description: 'React.js, Next.js, Tailwind CSS, Three.js, Framer Motion. Technical Mentoring, Educational Code Review, Human Debugging, and TDD.' },
+      { title: 'Backend & APIs', description: 'Python, Django, FastAPI, PHP, CodeIgniter 3, Node.js, TypeScript, Java, REST APIs, authentication, and authorization.' },
+      { title: 'Frontend & UI', description: 'React.js, Tailwind CSS, JavaScript, TypeScript, responsiveness, usability, Framer Motion, and Three.js.' },
+      { title: 'Databases & Data', description: 'MySQL, PostgreSQL, relational modeling, scientific data organization, queries, and structures for applied research.' },
+      { title: 'DevOps & Delivery', description: 'Docker, Git, GitHub, GitHub Actions, CI/CD, technical documentation, and local project execution.' },
+      { title: 'Quality & Good Practices', description: 'TDD, code review, architecture organization, legacy maintenance, documentation, and incremental improvement.' },
+      { title: 'Professional Skills', description: 'Academic Tech Lead experience, team communication, delivery organization, continuous learning, applied research, and focus on real problems.' },
     ],
   },
 
@@ -125,7 +113,7 @@ export const en: Locale = {
   },
 
   footer: {
-    cta: 'Got a complex problem? Let\'s architect the solution.',
+    cta: 'Got a complex problem? Let us build the solution.',
     copyright: '© 2026 Wellington Siqueira Porto. All rights reserved.',
   },
 
