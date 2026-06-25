@@ -1,6 +1,7 @@
 import { useState, useCallback, useEffect } from 'react'
+import { createPortal } from 'react-dom'
 import { motion, AnimatePresence } from 'framer-motion'
-import { ChevronDown, Cpu, Database, Activity, LayoutDashboard, Leaf, Microscope, ExternalLink, Github, ChevronLeft, ChevronRight } from 'lucide-react'
+import { ChevronDown, Cpu, Database, Activity, LayoutDashboard, Leaf, Microscope, ExternalLink, Github, ChevronLeft, ChevronRight, X } from 'lucide-react'
 import { Project } from '../data/projects'
 import { clsx } from 'clsx'
 import useEmblaCarousel from 'embla-carousel-react'
@@ -69,7 +70,7 @@ const SingleAssetView = ({ src, alt }: { src: string, alt: string }) => {
   );
 };
 
-const MultiAssetCarousel = ({ assets, altTitle }: { assets: string[], altTitle: string }) => {
+const MultiAssetCarousel = ({ assets, altTitle, onOpen }: { assets: string[], altTitle: string, onOpen?: (index: number) => void }) => {
   const [emblaRef, emblaApi] = useEmblaCarousel({ loop: true }, [Autoplay({ delay: 3500, stopOnInteraction: false })])
   const [selectedIndex, setSelectedIndex] = useState(0)
 
@@ -88,26 +89,39 @@ const MultiAssetCarousel = ({ assets, altTitle }: { assets: string[], altTitle: 
   }, [emblaApi, onSelect])
 
   return (
-    <div className="relative w-full h-full group" style={{ maskImage: 'linear-gradient(to right, transparent 0%, black 15%, black 85%, transparent 100%)', WebkitMaskImage: 'linear-gradient(to right, transparent 0%, black 15%, black 85%, transparent 100%)' }}>
+    <div className="relative w-full h-full group" style={{ maskImage: 'linear-gradient(to right, transparent 0%, black 5%, black 95%, transparent 100%)', WebkitMaskImage: 'linear-gradient(to right, transparent 0%, black 5%, black 95%, transparent 100%)' }}>
       <div className="overflow-hidden h-full embla cursor-grab active:cursor-grabbing" ref={emblaRef}>
         <div className="flex h-full embla__container touch-pan-y" style={{ willChange: 'transform' }}>
           {assets.map((src, index) => {
             const isLogo = src.includes('Logo_Define_Pilates');
             
             return (
-              <div className={clsx("relative flex-[0_0_100%] min-w-0 h-full embla__slide overflow-hidden flex items-center justify-center", !isLogo && "pb-8 pt-1")} key={index}>
+              <div className={clsx("relative flex-[0_0_100%] min-w-0 h-full embla__slide overflow-hidden flex items-center justify-center", !isLogo && "px-3 pb-9 pt-3")} key={index}>
                 {isLogo && <div className="absolute inset-0 w-full h-full bg-gradient-to-br from-[#0ac2ac] to-[#0d9488] z-0" />}
                 {!isLogo && <img src={src} aria-hidden="true" className="absolute inset-0 w-full h-full object-cover opacity-20 blur-2xl scale-[1.3] pointer-events-none" />}
                 
-                <img 
-                  src={src} 
-                  alt={`${altTitle} - slide ${index + 1}`} 
-                  loading={index === 0 ? "eager" : "lazy"} 
-                  className={clsx(
-                    "max-w-full relative z-10", 
-                    isLogo ? "absolute inset-0 w-full h-full object-contain p-8 pointer-events-none block" : "w-auto h-full object-contain rounded-lg shadow-[0_10px_35px_rgba(0,0,0,0.8)] border border-white/5"
-                  )} 
-                />
+                {isLogo ? (
+                  <img
+                    src={src}
+                    alt={`${altTitle} - slide ${index + 1}`}
+                    loading={index === 0 ? "eager" : "lazy"}
+                    className="max-w-full relative z-10 absolute inset-0 w-full h-full object-contain p-8 pointer-events-none block"
+                  />
+                ) : (
+                  <button
+                    type="button"
+                    onClick={() => onOpen?.(index)}
+                    className="relative z-10 w-full h-full cursor-zoom-in focus:outline-none focus-visible:ring-2 focus-visible:ring-cyan-400 focus-visible:ring-offset-2 focus-visible:ring-offset-[#0A0D14] rounded-lg"
+                    aria-label={`Ampliar ${altTitle} - slide ${index + 1}`}
+                  >
+                    <img
+                      src={src}
+                      alt={`${altTitle} - slide ${index + 1}`}
+                      loading={index === 0 ? "eager" : "lazy"}
+                      className="w-full h-full object-contain rounded-lg shadow-[0_10px_35px_rgba(0,0,0,0.8)] border border-white/5"
+                    />
+                  </button>
+                )}
                 
                 {!isLogo && <div className="absolute inset-0 bg-gradient-to-t from-[#0A0D14] via-[#0A0D14]/10 to-transparent pointer-events-none z-20" />}
               </div>
@@ -139,8 +153,125 @@ const MultiAssetCarousel = ({ assets, altTitle }: { assets: string[], altTitle: 
 
 export function ProjectCard({ project }: { project: Project }) {
   const [isExpanded, setIsExpanded] = useState(false)
+  const [lightboxIndex, setLightboxIndex] = useState<number | null>(null)
   const { t } = useLanguage()
   const pd = t.projectData[project.id]
+  const lightboxAssets = project.images && project.images.length > 1 ? project.images : []
+  const isLightboxOpen = lightboxIndex !== null && lightboxAssets.length > 0
+  const activeLightboxIndex = lightboxIndex ?? 0
+
+  const closeLightbox = useCallback(() => {
+    setLightboxIndex(null)
+  }, [])
+
+  const showPreviousImage = useCallback(() => {
+    setLightboxIndex((current) => {
+      if (current === null || lightboxAssets.length === 0) return current
+      return (current - 1 + lightboxAssets.length) % lightboxAssets.length
+    })
+  }, [lightboxAssets.length])
+
+  const showNextImage = useCallback(() => {
+    setLightboxIndex((current) => {
+      if (current === null || lightboxAssets.length === 0) return current
+      return (current + 1) % lightboxAssets.length
+    })
+  }, [lightboxAssets.length])
+
+  useEffect(() => {
+    if (!isLightboxOpen) return
+
+    const previousOverflow = document.body.style.overflow
+    document.body.style.overflow = 'hidden'
+
+    const handleKeyDown = (event: KeyboardEvent) => {
+      if (event.key === 'Escape') closeLightbox()
+      if (event.key === 'ArrowLeft') showPreviousImage()
+      if (event.key === 'ArrowRight') showNextImage()
+    }
+
+    window.addEventListener('keydown', handleKeyDown)
+    return () => {
+      document.body.style.overflow = previousOverflow
+      window.removeEventListener('keydown', handleKeyDown)
+    }
+  }, [closeLightbox, isLightboxOpen, showNextImage, showPreviousImage])
+
+  const lightbox = (
+    <AnimatePresence>
+      {isLightboxOpen && (
+        <motion.div
+          className="fixed inset-0 z-[9999] flex items-center justify-center bg-black/90 backdrop-blur-md px-4 py-6"
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          exit={{ opacity: 0 }}
+          onClick={closeLightbox}
+          role="dialog"
+          aria-modal="true"
+          aria-label={project.title}
+        >
+          <button
+            type="button"
+            onClick={closeLightbox}
+            className="fixed right-4 top-4 md:right-6 md:top-6 w-11 h-11 flex items-center justify-center rounded-full bg-black/70 border border-white/20 text-white hover:bg-white/20 transition-colors z-[10010]"
+            aria-label="Fechar"
+          >
+            <X className="w-5 h-5" />
+          </button>
+
+          <button
+            type="button"
+            onClick={(event) => {
+              event.stopPropagation()
+              showPreviousImage()
+            }}
+            className="fixed left-3 md:left-6 top-1/2 -translate-y-1/2 w-11 h-11 flex items-center justify-center rounded-full bg-black/70 border border-white/20 text-white hover:bg-white/20 transition-colors z-[10010]"
+            aria-label="Imagem anterior"
+          >
+            <ChevronLeft className="w-6 h-6" />
+          </button>
+
+          <button
+            type="button"
+            onClick={(event) => {
+              event.stopPropagation()
+              showNextImage()
+            }}
+            className="fixed right-3 md:right-6 top-1/2 -translate-y-1/2 w-11 h-11 flex items-center justify-center rounded-full bg-black/70 border border-white/20 text-white hover:bg-white/20 transition-colors z-[10010]"
+            aria-label="Próxima imagem"
+          >
+            <ChevronRight className="w-6 h-6" />
+          </button>
+
+          <motion.div
+            className="relative max-w-[94vw] max-h-[88vh] flex flex-col items-center gap-4"
+            initial={{ opacity: 0, scale: 0.96, y: 12 }}
+            animate={{ opacity: 1, scale: 1, y: 0 }}
+            exit={{ opacity: 0, scale: 0.96, y: 12 }}
+            onClick={(event) => event.stopPropagation()}
+          >
+            <img
+              src={lightboxAssets[activeLightboxIndex]}
+              alt={`${project.title} - slide ${activeLightboxIndex + 1}`}
+              className="max-w-[94vw] max-h-[78vh] md:max-h-[82vh] object-contain rounded-lg border border-white/10 shadow-[0_24px_80px_rgba(0,0,0,0.65)] bg-black/30"
+            />
+
+            <div className="flex items-center justify-center gap-2 rounded-full bg-black/55 border border-white/10 px-4 py-3">
+              {lightboxAssets.map((_, index) => (
+                <button
+                  key={index}
+                  type="button"
+                  onClick={() => setLightboxIndex(index)}
+                  className={`h-2 rounded-full transition-all duration-300 ${index === activeLightboxIndex ? 'w-8 bg-cyan-400 shadow-[0_0_8px_#00f2ff]' : 'w-2 bg-white/35 hover:bg-white/60'}`}
+                  aria-label={`Ir para imagem ${index + 1}`}
+                />
+              ))}
+            </div>
+          </motion.div>
+        </motion.div>
+      )}
+    </AnimatePresence>
+  )
 
   return (
     <motion.article
@@ -151,7 +282,7 @@ export function ProjectCard({ project }: { project: Project }) {
       transition={{ duration: 0.7, ease: [0.2, 0.8, 0.2, 1] }}
     >
       {/* Visual Header (Ícone ou Imagem) */}
-      <div className="relative h-[240px] w-full overflow-hidden flex flex-col items-center justify-center p-6 text-center border-b border-white/5 bg-white/5 group-hover:bg-white/10 transition-colors">
+      <div className="relative h-[320px] md:h-[360px] w-full overflow-hidden flex flex-col items-center justify-center p-6 text-center border-b border-white/5 bg-white/5 group-hover:bg-white/10 transition-colors">
 
         {/* Este é o Efeito "Gooey/Liquid" em CSS que distorce as cores por baixo quando o card passa por cima do fundo */}
         <div className="absolute inset-0 z-0 bg-gradient-to-b from-transparent to-black/40 pointer-events-none" />
@@ -166,7 +297,7 @@ export function ProjectCard({ project }: { project: Project }) {
         <AnimatePresence mode="wait">
           {project.images && project.images.length > 1 ? (
              <motion.div key="multi" initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} className="absolute inset-0 w-full h-full z-10">
-               <MultiAssetCarousel assets={project.images} altTitle={project.title} />
+               <MultiAssetCarousel assets={project.images} altTitle={project.title} onOpen={setLightboxIndex} />
              </motion.div>
           ) : project.images && project.images.length === 1 ? (
              <motion.div key="single" initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} className="absolute inset-0 flex items-center justify-center z-20">
@@ -250,6 +381,7 @@ export function ProjectCard({ project }: { project: Project }) {
         </div>
 
       </div>
+      {typeof document !== 'undefined' ? createPortal(lightbox, document.body) : null}
     </motion.article>
   )
 }

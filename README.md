@@ -1,54 +1,45 @@
-# 🚀 Portfólio — Wellington Siqueira Porto
+# Portfólio — Wellington Siqueira Porto
 
-Portfólio pessoal imersivo com tema espacial 3D, construído com **React**, **TypeScript**, **Three.js** e **Framer Motion**. Apresenta minha trajetória como Engenheiro Full Stack, Tech Lead e Pesquisador, com foco em arquiteturas AI-Native, Cloud FinOps e soluções de alta performance.
+Portfólio pessoal construído com **React**, **TypeScript**, **Three.js** e **Framer Motion**. O site apresenta minha trajetória como desenvolvedor Full Stack, estudante da FATEC e pesquisador, com foco em projetos reais, entregas acadêmicas e pesquisa aplicada.
 
-> **[🔗 Ver Online](https://wellingtonspdev.github.io/Portifolio/)**
-
----
-
-## 👨‍💻 Sobre Mim
-
-Engenheiro de Software Full Stack cursando o 4º semestre de **Desenvolvimento de Software Multiplataforma na FATEC Itaquera**. Pesquisador do **CNPq** com foco em Inteligência Artificial Aplicada e Algoritmos Estruturais. Tech Lead com experiência em TDD, CI/CD e liderança de equipes.
+> **[Ver Online](https://wellingtonspdev.github.io/Portifolio/)**
 
 ---
 
-## 🛠️ Tech Stack do Portfólio
+## Sobre Mim
+
+Desenvolvedor Full Stack cursando **Desenvolvimento de Software Multiplataforma na FATEC Itaquera**. Tenho experiência prática em projetos web, APIs, bancos de dados, interfaces modernas, liderança técnica acadêmica e pesquisa aplicada pelo **CNPq**.
+
+---
+
+## Tech Stack do Portfólio
 
 | Camada | Tecnologias |
 |---|---|
 | **Framework** | React 18 + TypeScript |
 | **Build Tool** | Vite 5 |
 | **3D / Visual** | Three.js, React Three Fiber, React Three Drei |
-| **Animações** | Framer Motion, Lenis (Smooth Scroll) |
+| **Animações** | Framer Motion, Lenis |
 | **Estilização** | Tailwind CSS 3 |
 | **SEO** | React Helmet Async |
 | **Ícones** | Lucide React |
-| **Deploy** | GitHub Pages (via GitHub Actions) |
+| **Deploy** | GitHub Pages via GitHub Actions |
 
 ---
 
-## 📂 Estrutura do Projeto
+## Estrutura do Projeto
 
-```
+```text
 Portifolio/
-├── .github/workflows/    # CI/CD (GitHub Actions)
+├── .github/workflows/         # CI/CD
 ├── src/
-│   ├── components/
-│   │   ├── AboutSection.tsx        # Seção "Sobre Mim"
-│   │   ├── CertificationsSection.tsx # Certificações
-│   │   ├── Footer.tsx              # Rodapé com contato
-│   │   ├── Hero.tsx                # Hero com efeito typewriter
-│   │   ├── Layout.tsx              # Layout + Navbar
-│   │   ├── ProjectCard.tsx         # Card de projeto individual
-│   │   ├── ProjectSection.tsx      # Seção de projetos
-│   │   ├── SEO.tsx                 # Meta tags e Open Graph
-│   │   ├── SkillsSection.tsx       # Tech Stack & Competências
-│   │   └── SpaceBackground.tsx     # Background 3D espacial (Three.js)
+│   ├── components/            # Seções e componentes visuais
 │   ├── data/
-│   │   └── projects.ts            # Dados dos projetos
-│   ├── App.tsx                    # Orquestrador principal
-│   ├── index.css                  # Estilos globais
-│   └── main.tsx                   # Entry point
+│   │   └── projects.ts        # Dados dos projetos
+│   ├── i18n/                  # Traduções pt-BR/en
+│   ├── App.tsx
+│   ├── index.css
+│   └── main.tsx
 ├── index.html
 ├── package.json
 ├── tailwind.config.js
@@ -58,58 +49,56 @@ Portifolio/
 
 ---
 
-## 🎯 Projetos em Destaque
+## Projetos em Destaque
 
-### ⚡ Samurai Pro — Automação RBI
-Redução de consumo de RAM de 900MB para <60MB por sessão em automação web com KSM Linux e auto-healing via GPT-4o Vision.
-- **Tech:** Python, Docker, GPT-4o Vision
+### Reserva de Laboratórios FATEC
 
-### 💰 WSP Finance — Cloud FinOps SaaS
-Redução de 28% no OPEX de nuvem com Cofre Digital via Cloudflare R2 (Zero Egress Fee) e análise fiscal com Google Vertex AI.
-- **Tech:** Node.js, PostgreSQL (RLS), Cloudflare R2
+Modernização de um sistema legado de reserva de laboratórios baseado em **PHP**, **CodeIgniter** e **MySQL**, adaptado ao contexto da FATEC Itaquera. O trabalho melhorou usabilidade, responsividade, identidade visual institucional, organização das telas principais e documentação de execução com Docker.
 
-### 🏥 VIVA Telemetria — HealthTech
-Blindagem do Event Loop com Transactional Outbox + BullMQ/Redis e motor RAG Local on-premise com <30MB de RAM.
-- **Tech:** NestJS, BullMQ, sqlite-vec
+- **Tech:** PHP, CodeIgniter 3, MySQL, Docker, CSS/Tailwind, JavaScript
+- [Código](https://github.com/wellingtonspdev/reserva-laboratorios-fatec)
 
-### 🧘‍♀️ Define Pilates — SaaS B2B
-Liderança de equipe de 8 devs com 100% de cobertura em testes core e isolamento Multi-tenant via PostgreSQL JSONB.
-- **Tech:** Django REST, React, TDD
+### Define Pilates SaaS
+
+Projeto acadêmico full stack para gestão de estúdios de Pilates, com agenda, controle de alunos, administração e fluxo operacional. Atuei como Tech Lead, organizando arquitetura, entregas e práticas de desenvolvimento.
+
+- **Tech:** Django, React, MySQL, Tailwind CSS, TDD
 - [Ver Demo](https://pi-3-semestre.github.io/Demo-Define-Pilates/) | [Código](https://github.com/PI-3-Semestre/projeto-estudio-pilates.git)
 
-### 🌿 Plataforma Ambiental IBDN
-Solução full stack com RBAC e JWT para modernizar a emissão de certificados ambientais.
-- **Tech:** FastAPI, MySQL, React, Zustand
+### Plataforma Ambiental IBDN
 
-### 🔬 Análise Óptica & IA — Pesquisa CNPq
-Algoritmos de Greedy Best-First Search para classificação de rugosidade de solo via Interferometria Speckle.
-- **Tech:** Python, Computer Vision, IA Estrutural
+Solução full stack para apoiar a digitalização de processos ambientais, com autenticação, controle de acesso e organização de fluxos institucionais.
+
+- **Tech:** Python, API, MySQL, React, Zustand
+- [Ver Demo](https://wellingtonspdev.github.io/IBDN-Demo/) | [Código](https://github.com/DSM2SEM2025/IBDN.git)
+
+### Pesquisa CNPq / Iniciação Científica
+
+Pesquisa aplicada à caracterização de amostras de solo com metodologia Speckle e busca inteligente. Minha contribuição envolveu modelagem de banco de dados relacional e implementação de algoritmo **Greedy Best-First Search** para apoiar a análise dos dados experimentais.
+
+- **Tech:** Python, dados, banco relacional, algoritmos de busca, pesquisa aplicada
 
 ---
 
-## ⚙️ Competências Técnicas
+## Competências Técnicas
 
 | Área | Tecnologias |
 |---|---|
-| **Backend & APIs** | Python 3 (FastAPI, Django), Node.js (NestJS, Express), TypeScript, Java |
-| **IA & Dados** | RAG, Google Vertex AI, GPT-4o Vision, Bancos Vetoriais (sqlite-vec), PostgreSQL (JSONB/RLS) |
-| **Cloud & FinOps** | Cloudflare R2, Docker, Redis, BullMQ, Transactional Outbox, KSM Linux, CI/CD |
-| **Frontend** | React.js, Next.js, Tailwind CSS, Three.js, Framer Motion |
-| **Liderança** | Mentoria Técnica, Code Review Educativo, TDD, Debugging Humano |
+| **Backend & APIs** | Python, Django, FastAPI, PHP, CodeIgniter 3, Node.js, TypeScript, Java, APIs REST |
+| **Frontend & UI** | React.js, Tailwind CSS, JavaScript, TypeScript, responsividade, usabilidade, Three.js, Framer Motion |
+| **Banco de Dados & Dados** | MySQL, PostgreSQL, modelagem relacional, dados científicos, algoritmos de busca |
+| **DevOps & Entrega** | Docker, Git, GitHub, GitHub Actions, CI/CD, documentação técnica |
+| **Qualidade & Boas Práticas** | TDD, code review, manutenção de legado, melhoria incremental, organização de arquitetura |
+| **Competências Profissionais** | Tech Lead acadêmico, comunicação, organização de entregas, pesquisa aplicada, aprendizado contínuo |
 
 ---
 
-## 🚀 Como Executar Localmente
+## Como Executar Localmente
 
 ```bash
-# Clone o repositório
 git clone https://github.com/wellingtonspdev/Portifolio.git
-
-# Instale as dependências
 cd Portifolio
 npm install
-
-# Inicie o servidor de desenvolvimento
 npm run dev
 ```
 
@@ -117,7 +106,7 @@ O projeto estará disponível em `http://localhost:5173`.
 
 ---
 
-## 📫 Contato
+## Contato
 
 - **Email:** wellingtonsp.dev@gmail.com
 - **LinkedIn:** [wellingtonsp-dev](https://www.linkedin.com/in/wellingtonsp-dev)
