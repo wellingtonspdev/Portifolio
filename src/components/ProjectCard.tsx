@@ -96,7 +96,7 @@ const MultiAssetCarousel = ({ assets, altTitle, onOpen }: { assets: string[], al
             const isLogo = src.includes('Logo_Define_Pilates');
             
             return (
-              <div className={clsx("relative flex-[0_0_100%] min-w-0 h-full embla__slide overflow-hidden flex items-center justify-center", !isLogo && "px-3 pb-9 pt-3")} key={index}>
+              <div className={clsx("relative flex-[0_0_100%] min-w-0 h-full embla__slide overflow-hidden flex items-center justify-center", !isLogo && "px-4 pb-10 pt-4")} key={index}>
                 {isLogo && <div className="absolute inset-0 w-full h-full bg-gradient-to-br from-[#0ac2ac] to-[#0d9488] z-0" />}
                 {!isLogo && <img src={src} aria-hidden="true" className="absolute inset-0 w-full h-full object-cover opacity-20 blur-2xl scale-[1.3] pointer-events-none" />}
                 
@@ -111,14 +111,14 @@ const MultiAssetCarousel = ({ assets, altTitle, onOpen }: { assets: string[], al
                   <button
                     type="button"
                     onClick={() => onOpen?.(index)}
-                    className="relative z-10 w-full h-full cursor-zoom-in focus:outline-none focus-visible:ring-2 focus-visible:ring-cyan-400 focus-visible:ring-offset-2 focus-visible:ring-offset-[#0A0D14] rounded-lg"
+                    className="relative z-10 flex h-full w-full items-center justify-center cursor-zoom-in focus:outline-none focus-visible:ring-2 focus-visible:ring-cyan-400 focus-visible:ring-offset-2 focus-visible:ring-offset-[#0A0D14] rounded-lg"
                     aria-label={`Ampliar ${altTitle} - slide ${index + 1}`}
                   >
                     <img
                       src={src}
                       alt={`${altTitle} - slide ${index + 1}`}
                       loading={index === 0 ? "eager" : "lazy"}
-                      className="w-full h-full object-contain rounded-lg shadow-[0_10px_35px_rgba(0,0,0,0.8)] border border-white/5"
+                      className="max-h-full max-w-full h-auto w-auto object-contain rounded-lg shadow-[0_10px_35px_rgba(0,0,0,0.8)] border border-white/10"
                     />
                   </button>
                 )}
