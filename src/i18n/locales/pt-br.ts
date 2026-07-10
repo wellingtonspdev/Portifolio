@@ -3,12 +3,12 @@ import type { Locale } from '../types'
 export const ptBR: Locale = {
   meta: {
     lang: 'pt-br',
-    title: 'Wellington Siqueira Porto | Desenvolvedor Full Stack & Arquiteto de Soluções',
-    description: 'Portfólio de Wellington Siqueira Porto. Desenvolvedor Full Stack, estudante da FATEC e pesquisador em dados e algoritmos.',
+    title: 'Wellington Siqueira Porto | Desenvolvedor de Software Júnior',
+    description: 'Portfólio de Wellington Siqueira Porto, Desenvolvedor de Software Júnior com experiência em Full Stack, Backend, aplicações web, estágio Fatec e pesquisa aplicada.',
     keywords: 'desenvolvedor júnior, estágio desenvolvimento de software, desenvolvedor full stack, desenvolvedor backend, PHP, CodeIgniter, Node.js, React, TypeScript, Python, Express, Prisma, PostgreSQL, MySQL, Docker, APIs REST, sistemas legados, UX/UI, Fatec Itaquera',
-    ogTitle: 'Wellington Siqueira Porto | Desenvolvedor Full Stack',
-    ogDescription: 'Projetos reais, pesquisa aplicada e entregas acadêmicas em desenvolvimento web, dados e software.',
-    jobTitle: 'Desenvolvedor Full Stack',
+    ogTitle: 'Wellington Siqueira Porto | Desenvolvedor de Software Júnior',
+    ogDescription: 'Full Stack, Backend e aplicações web com projetos reais, experiência Fatec e pesquisa aplicada.',
+    jobTitle: 'Desenvolvedor de Software Júnior',
     knowsAbout: ['Python', 'Node.js', 'Express.js', 'React.js', 'TypeScript', 'PHP', 'CodeIgniter 3', 'Docker', 'PostgreSQL', 'MySQL', 'MariaDB', 'Prisma', 'TDD', 'APIs REST', 'UX/UI'],
     credentialName: 'Tecnólogo em Desenvolvimento de Software Multiplataforma',
   },
@@ -25,6 +25,7 @@ export const ptBR: Locale = {
 
   hero: {
     badge: 'Disponível para Projetos e Oportunidades',
+    role: 'Desenvolvedor de Software Júnior · Full Stack · Backend',
     phrases: [
       'Desenvolvedor Full Stack',
       'Estudante de Desenvolvimento Multiplataforma da FATEC',

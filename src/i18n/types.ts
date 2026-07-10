@@ -21,6 +21,7 @@ export type Locale = {
   }
   hero: {
     badge: string
+    role: string
     phrases: string[]
     tagline: string
     cta: string

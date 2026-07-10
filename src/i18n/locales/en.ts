@@ -3,12 +3,12 @@ import type { Locale } from '../types'
 export const en: Locale = {
   meta: {
     lang: 'en',
-    title: 'Wellington Siqueira Porto | Full Stack Developer',
-    description: 'Portfolio of Wellington Siqueira Porto. Full Stack Developer, FATEC student, and researcher in data and algorithms.',
+    title: 'Wellington Siqueira Porto | Junior Software Developer',
+    description: 'Portfolio of Wellington Siqueira Porto, a Junior Software Developer with hands-on experience in Full Stack, Backend, web applications, a FATEC internship, and applied research.',
     keywords: 'junior software developer, software development internship, full stack developer, backend developer, PHP, CodeIgniter, Node.js, React, TypeScript, Python, Express, Prisma, PostgreSQL, MySQL, Docker, REST APIs, legacy systems, UX/UI, FATEC Itaquera',
-    ogTitle: 'Wellington Siqueira Porto | Full Stack Developer',
-    ogDescription: 'Real projects, applied research, and academic deliveries in web development, data, and software.',
-    jobTitle: 'Full Stack Developer',
+    ogTitle: 'Wellington Siqueira Porto | Junior Software Developer',
+    ogDescription: 'Full Stack, Backend, and web applications backed by real projects, FATEC experience, and applied research.',
+    jobTitle: 'Junior Software Developer',
     knowsAbout: ['Python', 'Node.js', 'Express.js', 'React.js', 'TypeScript', 'PHP', 'CodeIgniter 3', 'Docker', 'PostgreSQL', 'MySQL', 'MariaDB', 'Prisma', 'TDD', 'REST APIs', 'UX/UI'],
     credentialName: 'Associate Degree in Multiplatform Software Development',
   },
@@ -25,6 +25,7 @@ export const en: Locale = {
 
   hero: {
     badge: 'Available for Projects & Opportunities',
+    role: 'Junior Software Developer · Full Stack · Backend',
     phrases: [
       'Full Stack Developer',
       'Multiplatform Development Student at FATEC',
