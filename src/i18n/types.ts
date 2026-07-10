@@ -42,6 +42,9 @@ export type Locale = {
       solution: string
       viewDemo: string
       code: string
+      backToPortfolio: string
+      detailsLabel: string
+      viewCase: string
     }
   }
   projectData: Record<string, {

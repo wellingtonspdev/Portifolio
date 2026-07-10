@@ -6,6 +6,11 @@ export function SeoComponent() {
   const { t } = useLanguage()
   const indexedSkills = Array.from(new Set([...t.meta.knowsAbout, ...keywords])).slice(0, 60)
   const siteUrl = 'https://wellingtonspdev.github.io/Portifolio/'
+  const relativePath = typeof window === 'undefined' ? '' : window.location.pathname.replace(import.meta.env.BASE_URL, '')
+  const canonicalUrl = `${siteUrl}${relativePath}`
+  const localizedPath = relativePath.replace(/^en\//, '')
+  const portugueseUrl = `${siteUrl}${localizedPath}`
+  const englishUrl = `${siteUrl}en/${localizedPath}`
   const ogImageUrl = `${siteUrl}og-image.png`
 
   const schemaData = {
@@ -18,7 +23,7 @@ export function SeoComponent() {
         "jobTitle": t.meta.jobTitle,
         "description": t.meta.description,
         "email": "wellingtonsp.dev@gmail.com",
-        "url": siteUrl,
+        "url": canonicalUrl,
         "sameAs": [
           "https://www.linkedin.com/in/wellingtonsp-dev",
           "https://github.com/wellingtonspdev"
@@ -43,7 +48,7 @@ export function SeoComponent() {
       {
         "@type": "WebSite",
         "@id": `${siteUrl}#website`,
-        "url": siteUrl,
+        "url": canonicalUrl,
         "name": "Wellington Siqueira Porto — Portfólio",
         "inLanguage": t.meta.lang,
         "publisher": { "@id": `${siteUrl}#wellington-siqueira-porto` }
@@ -51,7 +56,7 @@ export function SeoComponent() {
       {
         "@type": "ProfilePage",
         "@id": `${siteUrl}#profile`,
-        "url": siteUrl,
+        "url": canonicalUrl,
         "name": t.meta.title,
         "inLanguage": t.meta.lang,
         "mainEntity": { "@id": `${siteUrl}#wellington-siqueira-porto` },
@@ -67,11 +72,13 @@ export function SeoComponent() {
       <meta name="keywords" content={t.meta.keywords} />
       <meta name="author" content="Wellington Siqueira Porto" />
       <meta name="robots" content="index, follow" />
-      <link rel="canonical" href={siteUrl} />
+      <link rel="canonical" href={canonicalUrl} />
+      <link rel="alternate" hrefLang="pt-BR" href={portugueseUrl} />
+      <link rel="alternate" hrefLang="en" href={englishUrl} />
 
       {/* Open Graph / Facebook / LinkedIn */}
       <meta property="og:type" content="website" />
-      <meta property="og:url" content={siteUrl} />
+      <meta property="og:url" content={canonicalUrl} />
       <meta property="og:site_name" content="Wellington Siqueira Porto — Portfólio" />
       <meta property="og:locale" content={t.meta.lang === 'pt-br' ? 'pt_BR' : 'en_US'} />
       <meta property="og:title" content={t.meta.ogTitle} />
@@ -82,7 +89,7 @@ export function SeoComponent() {
 
       {/* Twitter */}
       <meta property="twitter:card" content="summary_large_image" />
-      <meta property="twitter:url" content={siteUrl} />
+      <meta property="twitter:url" content={canonicalUrl} />
       <meta property="twitter:title" content={t.meta.ogTitle} />
       <meta property="twitter:description" content={t.meta.ogDescription} />
       <meta property="twitter:image" content={ogImageUrl} />

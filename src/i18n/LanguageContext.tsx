@@ -12,6 +12,7 @@ const locales: Record<Lang, Locale> = {
 
 function getInitialLang(): Lang {
   if (typeof window === 'undefined') return 'pt-br'
+  if (window.location.pathname.includes('/en/')) return 'en'
   const stored = localStorage.getItem('lang') as Lang | null
   if (stored && stored in locales) return stored
   return navigator.language.startsWith('en') ? 'en' : 'pt-br'

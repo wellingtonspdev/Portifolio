@@ -61,6 +61,9 @@ export const ptBR: Locale = {
       solution: 'Solução:',
       viewDemo: 'Ver Demo',
       code: 'Código',
+      backToPortfolio: 'Voltar ao portfólio',
+      detailsLabel: 'Detalhes do projeto',
+      viewCase: 'Ver case completo',
     },
   },
 

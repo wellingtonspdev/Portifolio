@@ -61,6 +61,9 @@ export const en: Locale = {
       solution: 'Solution:',
       viewDemo: 'View Demo',
       code: 'Code',
+      backToPortfolio: 'Back to portfolio',
+      detailsLabel: 'Project details',
+      viewCase: 'View full case',
     },
   },
 

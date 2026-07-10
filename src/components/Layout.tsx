@@ -1,12 +1,20 @@
-import { ReactNode } from 'react'
+import { lazy, ReactNode, Suspense, useEffect, useState } from 'react'
 import { motion } from 'framer-motion'
-import { SpaceBackground } from './SpaceBackground'
 import { WhatsAppButton } from './WhatsAppButton'
 import { useLanguage } from '../i18n'
 import { ResumeButton } from './ResumeButton'
+import { getBasePath, getCurrentProjectId, getProjectPath } from '../routing'
+
+const SpaceBackground = lazy(() => import('./SpaceBackground').then((module) => ({ default: module.SpaceBackground })))
 
 function LanguageToggle() {
   const { lang, setLanguage } = useLanguage()
+
+  const changeLanguage = (language: 'pt-br' | 'en') => {
+    setLanguage(language)
+    const projectId = getCurrentProjectId()
+    window.location.assign(projectId ? getProjectPath(projectId, language) : getBasePath(language))
+  }
 
   return (
     <div className="flex items-center bg-white/5 border border-white/10 rounded-full p-0.5 backdrop-blur-md" role="radiogroup" aria-label="Language">
@@ -15,7 +23,7 @@ function LanguageToggle() {
           key={l}
           role="radio"
           aria-checked={lang === l}
-          onClick={() => setLanguage(l)}
+          onClick={() => changeLanguage(l)}
           className="relative px-3 py-1 text-xs font-bold uppercase tracking-wider transition-colors duration-200 rounded-full z-10"
           style={{ color: lang === l ? '#ffffff' : '#9ca3af' }}
         >
@@ -36,11 +44,22 @@ function LanguageToggle() {
 
 export function Layout({ children }: { children: ReactNode }) {
   const { t } = useLanguage()
+  const [showBackground, setShowBackground] = useState(false)
+
+  useEffect(() => {
+    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return
+    const schedule = window.requestIdleCallback ?? ((callback: IdleRequestCallback) => window.setTimeout(callback, 600))
+    const cancel = window.cancelIdleCallback ?? window.clearTimeout
+    const id = schedule(() => setShowBackground(true))
+    return () => cancel(id)
+  }, [])
+
+  const homePath = getBasePath(t.meta.lang === 'en' ? 'en' : 'pt-br')
 
   return (
     <div className="relative min-h-screen">
       {/* Motor Gráfico Deep Space injetado no fundo da página */}
-      <SpaceBackground />
+      {showBackground && <Suspense fallback={null}><SpaceBackground /></Suspense>}
 
       <motion.header 
          initial={{ opacity: 0, y: -20 }}
@@ -53,12 +72,12 @@ export function Layout({ children }: { children: ReactNode }) {
             </span>
             <div className="flex items-center gap-6">
               <div className="hidden md:flex gap-6">
-                <a href="#sobre" className="text-sm font-semibold text-gray-300 hover:text-white transition-colors">{t.nav.about}</a>
-                <a href="#experiencia" className="text-sm font-semibold text-gray-300 hover:text-white transition-colors">{t.nav.experience}</a>
-                <a href="#projetos" className="text-sm font-semibold text-gray-300 hover:text-white transition-colors">{t.nav.cases}</a>
-                <a href="#skills" className="text-sm font-semibold text-gray-300 hover:text-white transition-colors">{t.nav.skills}</a>
-                <a href="#competencias" className="text-sm font-semibold text-gray-300 hover:text-white transition-colors">{t.nav.keywords}</a>
-                <a href="#certificacoes" className="text-sm font-semibold text-gray-300 hover:text-white transition-colors">{t.nav.certs}</a>
+                <a href={`${homePath}#sobre`} className="text-sm font-semibold text-gray-300 hover:text-white transition-colors">{t.nav.about}</a>
+                <a href={`${homePath}#experiencia`} className="text-sm font-semibold text-gray-300 hover:text-white transition-colors">{t.nav.experience}</a>
+                <a href={`${homePath}#projetos`} className="text-sm font-semibold text-gray-300 hover:text-white transition-colors">{t.nav.cases}</a>
+                <a href={`${homePath}#skills`} className="text-sm font-semibold text-gray-300 hover:text-white transition-colors">{t.nav.skills}</a>
+                <a href={`${homePath}#competencias`} className="text-sm font-semibold text-gray-300 hover:text-white transition-colors">{t.nav.keywords}</a>
+                <a href={`${homePath}#certificacoes`} className="text-sm font-semibold text-gray-300 hover:text-white transition-colors">{t.nav.certs}</a>
               </div>
               <ResumeButton label={t.nav.resume} variant="secondary" className="hidden lg:inline-flex px-3 py-2 text-xs" />
               <LanguageToggle />
