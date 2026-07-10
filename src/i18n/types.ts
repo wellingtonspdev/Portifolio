@@ -12,9 +12,12 @@ export type Locale = {
   }
   nav: {
     about: string
+    experience: string
     cases: string
     skills: string
+    keywords: string
     certs: string
+    resume: string
   }
   hero: {
     badge: string
@@ -51,10 +54,33 @@ export type Locale = {
     subtitle: string
     items: { title: string; description: string }[]
   }
+  experience: {
+    heading: string
+    subtitle: string
+    type: string
+    role: string
+    organization: string
+    period: string
+    location: string
+    summary: string
+    highlightsLabel: string
+    highlights: string[]
+    technologiesLabel: string
+    technologies: string[]
+  }
+  keywords: {
+    heading: string
+    summary: string
+    button: string
+    description: string
+  }
   certs: {
     heading: string
     subtitle: string
     dates: Record<number, string>
+    items: string[]
+    languagesHeading: string
+    languages: string
   }
   footer: {
     cta: string

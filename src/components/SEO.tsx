@@ -1,8 +1,10 @@
 import { Helmet } from 'react-helmet-async'
 import { useLanguage } from '../i18n'
+import { keywords } from '../data/keywords'
 
 export function SeoComponent() {
   const { t } = useLanguage()
+  const indexedSkills = Array.from(new Set([...t.meta.knowsAbout, ...keywords])).slice(0, 60)
 
   const schemaData = {
     "@context": "https://schema.org",
@@ -15,7 +17,12 @@ export function SeoComponent() {
       "https://www.linkedin.com/in/wellingtonsp-dev",
       "https://github.com/wellingtonspdev"
     ],
-    "knowsAbout": t.meta.knowsAbout,
+    "knowsAbout": indexedSkills,
+    "hasOccupation": {
+      "@type": "Occupation",
+      "name": t.meta.jobTitle,
+      "occupationalCategory": "15-1252.00"
+    },
     "hasCredential": [
       {
         "@type": "EducationalOccupationalCredential",
@@ -26,8 +33,7 @@ export function SeoComponent() {
         },
         "name": t.meta.credentialName
       }
-    ],
-    "occupationalCategory": "15-1252.00"
+    ]
   }
 
   return (

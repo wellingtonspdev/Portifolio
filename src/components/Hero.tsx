@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react'
 import { motion } from 'framer-motion'
 import { useLanguage } from '../i18n'
+import { ResumeButton } from './ResumeButton'
 
 export function Hero() {
   const { t } = useLanguage()
@@ -70,6 +71,7 @@ export function Hero() {
             <a href="https://github.com/wellingtonspdev" target="_blank" rel="noreferrer" className="glass-card text-white font-bold py-3 px-8 rounded-xl hover:bg-white/10 transition-all duration-300">
               GitHub
             </a>
+            <ResumeButton label={t.nav.resume} />
           </div>
         </motion.div>
       </div>

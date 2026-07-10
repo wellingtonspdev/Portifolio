@@ -5,8 +5,10 @@ import { SeoComponent } from './components/SEO'
 import { Layout } from './components/Layout'
 import { Hero } from './components/Hero'
 import { AboutSection } from './components/AboutSection'
+import { ExperienceSection } from './components/ExperienceSection'
 import { ProjectSection } from './components/ProjectSection'
 import { SkillsSection } from './components/SkillsSection'
+import { KeywordsSection } from './components/KeywordsSection'
 import { CertificationsSection } from './components/CertificationsSection'
 import { Footer } from './components/Footer'
 
@@ -42,8 +44,10 @@ function App() {
         {/* Todas as seções agora orquestradas modularmente! */}
         <Hero />
         <AboutSection />
+        <ExperienceSection />
         <ProjectSection />
         <SkillsSection />
+        <KeywordsSection />
         <CertificationsSection />
       </Layout>
       <Footer />

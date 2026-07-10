@@ -81,6 +81,21 @@ export const projectsData: Project[] = [
     }
   },
   {
+    id: "wsp-finance",
+    title: "WSP Finance",
+    subtitle: "Plataforma SaaS de gestão financeira com IA",
+    description: "Projeto de backend para apoiar automação de rotinas, organização financeira e fluxos multiusuário, com regras de negócio, auditoria e isolamento de dados.",
+    problem: "Rotinas financeiras e operacionais dependem de informações organizadas, regras consistentes e controle de acesso para que a tomada de decisão seja segura e rastreável.",
+    solution: "Desenvolvi componentes de backend com Node.js, TypeScript, Express, Prisma e PostgreSQL, aplicando APIs REST, testes automatizados e práticas de segurança para apoiar uma plataforma financeira SaaS.",
+    icon: "Database",
+    badges: [
+      { text: "Node.js / TypeScript", colorClass: "border-emerald-800 text-emerald-300" },
+      { text: "Express / Prisma / PostgreSQL", colorClass: "border-blue-800 text-blue-300" },
+      { text: "SaaS / Segurança", colorClass: "border-indigo-800 text-indigo-300" }
+    ],
+    links: {},
+  },
+  {
     id: "ibdn-plataforma",
     title: "Plataforma Ambiental IBDN",
     subtitle: "Gestão de governança ESG",

@@ -242,9 +242,12 @@ function SpiralGalaxy() {
   })
 
   useEffect(() => {
+    const points = pointsRef.current
+    const material = materialRef.current
+
     return () => {
-      pointsRef.current?.geometry.dispose()
-      materialRef.current?.dispose()
+      points?.geometry.dispose()
+      material?.dispose()
     }
   }, [])
 
@@ -359,9 +362,12 @@ function StarFieldWithConstellations({ dpr }: { dpr: number }) {
   })
 
   useEffect(() => {
+    const points = pointsRef.current
+    const material = materialRef.current
+
     return () => {
-      pointsRef.current?.geometry.dispose()
-      materialRef.current?.dispose()
+      points?.geometry.dispose()
+      material?.dispose()
     }
   }, [])
 
