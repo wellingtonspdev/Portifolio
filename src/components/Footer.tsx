@@ -1,6 +1,7 @@
 import { Github, Linkedin, Mail, MessageCircle } from 'lucide-react'
 import { motion } from 'framer-motion'
 import { useLanguage } from '../i18n'
+import { ResumeButton } from './ResumeButton'
 
 export function Footer() {
   const { t } = useLanguage()
@@ -46,6 +47,10 @@ export function Footer() {
             <MessageCircle className="w-8 h-8" />
           </a>
         </motion.div>
+
+        <div className="mb-10">
+          <ResumeButton label={t.nav.resume} />
+        </div>
 
         <p className="text-[10px] text-gray-600 tracking-widest uppercase">
           {t.footer.copyright}

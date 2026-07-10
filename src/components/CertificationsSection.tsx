@@ -3,11 +3,14 @@ import { ShieldAlert, Network, TerminalSquare, Lock, Code2 } from 'lucide-react'
 import { useLanguage } from '../i18n'
 
 const certsMeta = [
-  { id: 1, title: 'Cyber Threat Management', icon: ShieldAlert },
-  { id: 2, title: 'Network Defense', icon: Network },
-  { id: 3, title: 'Linux Unhatched', icon: TerminalSquare },
-  { id: 4, title: 'Endpoint Security', icon: Lock },
-  { id: 5, title: 'C/C++ Advanced', icon: Code2 },
+  { id: 1, icon: Code2 },
+  { id: 2, icon: Code2 },
+  { id: 3, icon: Code2 },
+  { id: 4, icon: Lock },
+  { id: 5, icon: Network },
+  { id: 6, icon: TerminalSquare },
+  { id: 7, icon: ShieldAlert },
+  { id: 8, icon: Code2 },
 ]
 
 export function CertificationsSection() {
@@ -44,11 +47,12 @@ export function CertificationsSection() {
                 <cert.icon className="w-5 h-5 text-accent-start" />
                 <div className="text-left">
                   <p className="text-[10px] font-bold text-gray-500 uppercase tracking-wider">{t.certs.dates[cert.id]}</p>
-                  <p className="text-sm font-bold text-white">{cert.title}</p>
+                  <p className="text-sm font-bold text-white">{t.certs.items[cert.id - 1]}</p>
                 </div>
               </motion.div>
             ))}
           </div>
+          <p className="mt-8 text-sm text-gray-400"><span className="font-bold text-gray-300">{t.certs.languagesHeading}</span> {t.certs.languages}</p>
         </div>
       </div>
     </section>

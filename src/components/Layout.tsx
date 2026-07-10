@@ -3,6 +3,7 @@ import { motion } from 'framer-motion'
 import { SpaceBackground } from './SpaceBackground'
 import { WhatsAppButton } from './WhatsAppButton'
 import { useLanguage } from '../i18n'
+import { ResumeButton } from './ResumeButton'
 
 function LanguageToggle() {
   const { lang, setLanguage } = useLanguage()
@@ -53,10 +54,13 @@ export function Layout({ children }: { children: ReactNode }) {
             <div className="flex items-center gap-6">
               <div className="hidden md:flex gap-6">
                 <a href="#sobre" className="text-sm font-semibold text-gray-300 hover:text-white transition-colors">{t.nav.about}</a>
+                <a href="#experiencia" className="text-sm font-semibold text-gray-300 hover:text-white transition-colors">{t.nav.experience}</a>
                 <a href="#projetos" className="text-sm font-semibold text-gray-300 hover:text-white transition-colors">{t.nav.cases}</a>
                 <a href="#skills" className="text-sm font-semibold text-gray-300 hover:text-white transition-colors">{t.nav.skills}</a>
+                <a href="#competencias" className="text-sm font-semibold text-gray-300 hover:text-white transition-colors">{t.nav.keywords}</a>
                 <a href="#certificacoes" className="text-sm font-semibold text-gray-300 hover:text-white transition-colors">{t.nav.certs}</a>
               </div>
+              <ResumeButton label={t.nav.resume} variant="secondary" className="hidden lg:inline-flex px-3 py-2 text-xs" />
               <LanguageToggle />
             </div>
          </nav>
