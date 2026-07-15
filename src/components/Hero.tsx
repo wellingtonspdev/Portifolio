@@ -54,6 +54,10 @@ export function Hero() {
             Wellington Siqueira Porto
           </h1>
 
+          <p className="text-sm md:text-base font-bold uppercase tracking-[0.16em] text-gray-300 mb-4">
+            {t.hero.role}
+          </p>
+
           <h2 className="text-xl md:text-3xl font-bold text-accent-end mb-8 h-8 md:h-10 flex justify-center">
             <span>{text}</span>
             <span className="animate-pulse ml-1">|</span>

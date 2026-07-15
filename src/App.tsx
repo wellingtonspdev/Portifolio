@@ -1,6 +1,5 @@
 import { useEffect } from 'react'
 import Lenis from 'lenis'
-import { HelmetProvider } from 'react-helmet-async'
 import { SeoComponent } from './components/SEO'
 import { Layout } from './components/Layout'
 import { Hero } from './components/Hero'
@@ -11,8 +10,11 @@ import { SkillsSection } from './components/SkillsSection'
 import { KeywordsSection } from './components/KeywordsSection'
 import { CertificationsSection } from './components/CertificationsSection'
 import { Footer } from './components/Footer'
+import { ProjectDetailPage } from './components/ProjectDetailPage'
+import { getCurrentProjectId } from './routing'
 
 function App() {
+  const projectId = getCurrentProjectId()
   useEffect(() => {
     // Inicialização do Lenis para o Smooth Scroll
     const lenis = new Lenis({
@@ -38,20 +40,21 @@ function App() {
   }, [])
 
   return (
-    <HelmetProvider>
+    <>
       <SeoComponent />
       <Layout>
-        {/* Todas as seções agora orquestradas modularmente! */}
-        <Hero />
-        <AboutSection />
-        <ExperienceSection />
-        <ProjectSection />
-        <SkillsSection />
-        <KeywordsSection />
-        <CertificationsSection />
+        {projectId ? <ProjectDetailPage projectId={projectId} /> : <>
+          <Hero />
+          <AboutSection />
+          <ExperienceSection />
+          <ProjectSection />
+          <SkillsSection />
+          <KeywordsSection />
+          <CertificationsSection />
+        </>}
       </Layout>
       <Footer />
-    </HelmetProvider>
+    </>
   )
 }
 

@@ -7,6 +7,7 @@ import { clsx } from 'clsx'
 import useEmblaCarousel from 'embla-carousel-react'
 import Autoplay from 'embla-carousel-autoplay'
 import { useLanguage } from '../i18n'
+import { getProjectPath } from '../routing'
 
 const iconMap: Record<string, React.ReactNode> = {
   Cpu: <Cpu className="w-16 h-16 mb-4 text-indigo-400 group-hover:scale-110 transition-transform relative z-20" />,
@@ -321,6 +322,13 @@ export function ProjectCard({ project }: { project: Project }) {
         <p className="text-sm text-gray-300 mb-4 leading-relaxed font-medium">
           {formatDescription(pd?.description ?? project.description)}
         </p>
+
+        <a
+          href={getProjectPath(project.id, t.meta.lang === 'en' ? 'en' : 'pt-br')}
+          className="text-accent-end text-xs font-bold uppercase tracking-wider mb-3 hover:text-accent-start transition-colors w-fit"
+        >
+          {t.projects.labels.viewCase}
+        </a>
 
         <button
           onClick={() => setIsExpanded(!isExpanded)}

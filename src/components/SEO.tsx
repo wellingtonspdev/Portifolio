@@ -5,33 +5,62 @@ import { keywords } from '../data/keywords'
 export function SeoComponent() {
   const { t } = useLanguage()
   const indexedSkills = Array.from(new Set([...t.meta.knowsAbout, ...keywords])).slice(0, 60)
+  const siteUrl = 'https://wellingtonspdev.github.io/Portifolio/'
+  const relativePath = typeof window === 'undefined' ? '' : window.location.pathname.replace(import.meta.env.BASE_URL, '')
+  const canonicalUrl = `${siteUrl}${relativePath}`
+  const localizedPath = relativePath.replace(/^en\//, '')
+  const portugueseUrl = `${siteUrl}${localizedPath}`
+  const englishUrl = `${siteUrl}en/${localizedPath}`
+  const ogImageUrl = `${siteUrl}og-image.png`
 
   const schemaData = {
     "@context": "https://schema.org",
-    "@type": "Person",
-    "name": "Wellington Siqueira Porto",
-    "jobTitle": t.meta.jobTitle,
-    "email": "wellingtonsp.dev@gmail.com",
-    "url": "https://wellingtonspdev.github.io/Portifolio/",
-    "sameAs": [
-      "https://www.linkedin.com/in/wellingtonsp-dev",
-      "https://github.com/wellingtonspdev"
-    ],
-    "knowsAbout": indexedSkills,
-    "hasOccupation": {
-      "@type": "Occupation",
-      "name": t.meta.jobTitle,
-      "occupationalCategory": "15-1252.00"
-    },
-    "hasCredential": [
+    "@graph": [
       {
-        "@type": "EducationalOccupationalCredential",
-        "credentialCategory": "degree",
-        "recognizedBy": {
-          "@type": "Organization",
-          "name": "FATEC Itaquera"
+        "@type": "Person",
+        "@id": `${siteUrl}#wellington-siqueira-porto`,
+        "name": "Wellington Siqueira Porto",
+        "jobTitle": t.meta.jobTitle,
+        "description": t.meta.description,
+        "email": "wellingtonsp.dev@gmail.com",
+        "url": canonicalUrl,
+        "sameAs": [
+          "https://www.linkedin.com/in/wellingtonsp-dev",
+          "https://github.com/wellingtonspdev"
+        ],
+        "knowsAbout": indexedSkills,
+        "hasOccupation": {
+          "@type": "Occupation",
+          "name": t.meta.jobTitle,
+          "occupationalCategory": "15-1252.00"
         },
-        "name": t.meta.credentialName
+        "affiliation": {
+          "@type": "CollegeOrUniversity",
+          "name": "FATEC Itaquera Professor Miguel Reale"
+        },
+        "subjectOf": {
+          "@type": "DigitalDocument",
+          "name": "Currículo de Wellington Siqueira Porto",
+          "encodingFormat": "application/pdf",
+          "contentUrl": `${siteUrl}docs/curriculo-wellington-siqueira-porto.pdf`
+        }
+      },
+      {
+        "@type": "WebSite",
+        "@id": `${siteUrl}#website`,
+        "url": canonicalUrl,
+        "name": "Wellington Siqueira Porto — Portfólio",
+        "inLanguage": t.meta.lang,
+        "publisher": { "@id": `${siteUrl}#wellington-siqueira-porto` }
+      },
+      {
+        "@type": "ProfilePage",
+        "@id": `${siteUrl}#profile`,
+        "url": canonicalUrl,
+        "name": t.meta.title,
+        "inLanguage": t.meta.lang,
+        "mainEntity": { "@id": `${siteUrl}#wellington-siqueira-porto` },
+        "isPartOf": { "@id": `${siteUrl}#website` }
       }
     ]
   }
@@ -43,20 +72,27 @@ export function SeoComponent() {
       <meta name="keywords" content={t.meta.keywords} />
       <meta name="author" content="Wellington Siqueira Porto" />
       <meta name="robots" content="index, follow" />
+      <link rel="canonical" href={canonicalUrl} />
+      <link rel="alternate" hrefLang="pt-BR" href={portugueseUrl} />
+      <link rel="alternate" hrefLang="en" href={englishUrl} />
 
       {/* Open Graph / Facebook / LinkedIn */}
       <meta property="og:type" content="website" />
-      <meta property="og:url" content="https://wellingtonspdev.github.io/Portifolio/" />
+      <meta property="og:url" content={canonicalUrl} />
+      <meta property="og:site_name" content="Wellington Siqueira Porto — Portfólio" />
+      <meta property="og:locale" content={t.meta.lang === 'pt-br' ? 'pt_BR' : 'en_US'} />
       <meta property="og:title" content={t.meta.ogTitle} />
       <meta property="og:description" content={t.meta.ogDescription} />
-      <meta property="og:image" content="https://raw.githubusercontent.com/wellingtonspdev/Portifolio/main/assets/og-image.png" />
+      <meta property="og:image" content={ogImageUrl} />
+      <meta property="og:image:width" content="1200" />
+      <meta property="og:image:height" content="630" />
 
       {/* Twitter */}
       <meta property="twitter:card" content="summary_large_image" />
-      <meta property="twitter:url" content="https://wellingtonspdev.github.io/Portifolio/" />
+      <meta property="twitter:url" content={canonicalUrl} />
       <meta property="twitter:title" content={t.meta.ogTitle} />
       <meta property="twitter:description" content={t.meta.ogDescription} />
-      <meta property="twitter:image" content="https://raw.githubusercontent.com/wellingtonspdev/Portifolio/main/assets/og-image.png" />
+      <meta property="twitter:image" content={ogImageUrl} />
 
       {/* Script JSON-LD Injetado Corretamente */}
       <script type="application/ld+json">

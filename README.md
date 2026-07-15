@@ -1,6 +1,6 @@
 # Portfólio — Wellington Siqueira Porto
 
-Portfólio pessoal construído com **React**, **TypeScript**, **Three.js** e **Framer Motion**. O site apresenta minha trajetória como desenvolvedor Full Stack, estudante da FATEC e pesquisador, com foco em projetos reais, entregas acadêmicas e pesquisa aplicada.
+Portfólio pessoal construído com **React**, **TypeScript**, **Three.js** e **Framer Motion**. O site apresenta minha trajetória como **Desenvolvedor de Software Júnior**, com foco em Full Stack, Backend, aplicações web, projetos reais, experiência prática na Fatec e pesquisa aplicada.
 
 > **[Ver Online](https://wellingtonspdev.github.io/Portifolio/)**
 
@@ -9,6 +9,15 @@ Portfólio pessoal construído com **React**, **TypeScript**, **Three.js** e **F
 ## Sobre Mim
 
 Desenvolvedor Full Stack cursando **Desenvolvimento de Software Multiplataforma na FATEC Itaquera**. Tenho experiência prática em projetos web, APIs, bancos de dados, interfaces modernas, liderança técnica acadêmica e pesquisa aplicada pelo **CNPq**.
+
+## Perfil e Evidências Profissionais
+
+- **Experiência prática:** estágio voluntário em desenvolvimento de software no projeto Reserva de Laboratórios FATEC.
+- **Currículo:** [baixar currículo em PDF](https://wellingtonspdev.github.io/Portifolio/docs/curriculo-wellington-siqueira-porto.pdf).
+- **LinkedIn:** [wellingtonsp-dev](https://www.linkedin.com/in/wellingtonsp-dev).
+- **GitHub:** [wellingtonspdev](https://github.com/wellingtonspdev).
+
+Os projetos abaixo possuem contexto, tecnologias e links de código para facilitar a avaliação técnica por recrutadores.
 
 ---
 

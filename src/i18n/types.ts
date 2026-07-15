@@ -21,6 +21,7 @@ export type Locale = {
   }
   hero: {
     badge: string
+    role: string
     phrases: string[]
     tagline: string
     cta: string
@@ -41,6 +42,9 @@ export type Locale = {
       solution: string
       viewDemo: string
       code: string
+      backToPortfolio: string
+      detailsLabel: string
+      viewCase: string
     }
   }
   projectData: Record<string, {
