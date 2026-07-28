@@ -4,7 +4,9 @@ import { SeoComponent } from './components/SEO'
 import { Layout } from './components/Layout'
 import { Hero } from './components/Hero'
 import { AboutSection } from './components/AboutSection'
+import { CareerSection } from './components/CareerSection'
 import { ExperienceSection } from './components/ExperienceSection'
+import { SupplementaryExperienceSection } from './components/SupplementaryExperienceSection'
 import { ProjectSection } from './components/ProjectSection'
 import { SkillsSection } from './components/SkillsSection'
 import { KeywordsSection } from './components/KeywordsSection'
@@ -46,7 +48,9 @@ function App() {
         {projectId ? <ProjectDetailPage projectId={projectId} /> : <>
           <Hero />
           <AboutSection />
+          <CareerSection />
           <ExperienceSection />
+          <SupplementaryExperienceSection />
           <ProjectSection />
           <SkillsSection />
           <KeywordsSection />

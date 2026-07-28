@@ -8,11 +8,12 @@ Portfólio pessoal construído com **React**, **TypeScript**, **Three.js** e **F
 
 ## Sobre Mim
 
-Desenvolvedor Full Stack cursando **Desenvolvimento de Software Multiplataforma na FATEC Itaquera**. Tenho experiência prática em projetos web, APIs, bancos de dados, interfaces modernas, liderança técnica acadêmica e pesquisa aplicada pelo **CNPq**.
+Desenvolvedor de Software Júnior cursando **Desenvolvimento de Software Multiplataforma na FATEC Itaquera** (ago/2024 — jun/2027). Tenho experiência prática em projetos web, APIs, bancos de dados, interfaces modernas, liderança técnica acadêmica e pesquisa aplicada pelo **CNPq**.
 
 ## Perfil e Evidências Profissionais
 
 - **Experiência prática:** estágio voluntário em desenvolvimento de software no projeto Reserva de Laboratórios FATEC.
+- **Pesquisa aplicada:** iniciação científica CNPq com modelagem relacional e Greedy Best-First Search, apresentada em eventos científicos.
 - **Currículo:** [baixar currículo em PDF](https://wellingtonspdev.github.io/Portifolio/docs/curriculo-wellington-siqueira-porto.pdf).
 - **LinkedIn:** [wellingtonsp-dev](https://www.linkedin.com/in/wellingtonsp-dev).
 - **GitHub:** [wellingtonspdev](https://github.com/wellingtonspdev).
@@ -67,16 +68,16 @@ Modernização de um sistema legado de reserva de laboratórios baseado em **PHP
 - **Tech:** PHP, CodeIgniter 3, MySQL, Docker, CSS/Tailwind, JavaScript
 - [Código](https://github.com/wellingtonspdev/reserva-laboratorios-fatec)
 
-### Define Pilates SaaS
+### Define Pilates
 
-Projeto acadêmico full stack para gestão de estúdios de Pilates, com agenda, controle de alunos, administração e fluxo operacional. Atuei como Tech Lead, organizando arquitetura, entregas e práticas de desenvolvimento.
+Projeto acadêmico full stack para gestão de estúdios de Pilates, com agenda, controle de alunos, administração e fluxo operacional. Atuei como **Tech Lead acadêmico**, organizando tarefas, integração frontend/backend, documentação de APIs, testes e entregas.
 
 - **Tech:** Django, React, MySQL, Tailwind CSS, TDD
 - [Ver Demo](https://pi-3-semestre.github.io/Demo-Define-Pilates/) | [Código](https://github.com/PI-3-Semestre/projeto-estudio-pilates.git)
 
 ### Plataforma Ambiental IBDN
 
-Solução full stack para apoiar a digitalização de processos ambientais, com autenticação, controle de acesso e organização de fluxos institucionais.
+Projeto acadêmico em equipe para apoiar a digitalização de processos ambientais, com autenticação, controle de acesso e organização de fluxos institucionais. Minha contribuição individual documentada inclui um carrossel com cerca de 30 parceiros e patrocinadores.
 
 - **Tech:** Python, API, MySQL, React, Zustand
 - [Ver Demo](https://wellingtonspdev.github.io/IBDN-Demo/) | [Código](https://github.com/DSM2SEM2025/IBDN.git)
@@ -93,7 +94,7 @@ Pesquisa aplicada à caracterização de amostras de solo com metodologia Speckl
 
 | Área | Tecnologias |
 |---|---|
-| **Backend & APIs** | Python, Django, FastAPI, PHP, CodeIgniter 3, Node.js, TypeScript, Java, APIs REST |
+| **Backend & APIs** | Python, Django, PHP, CodeIgniter 3, Node.js, Express, TypeScript, APIs REST |
 | **Frontend & UI** | React.js, Tailwind CSS, JavaScript, TypeScript, responsividade, usabilidade, Three.js, Framer Motion |
 | **Banco de Dados & Dados** | MySQL, PostgreSQL, modelagem relacional, dados científicos, algoritmos de busca |
 | **DevOps & Entrega** | Docker, Git, GitHub, GitHub Actions, CI/CD, documentação técnica |
