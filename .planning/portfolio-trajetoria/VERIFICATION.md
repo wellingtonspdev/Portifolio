@@ -17,3 +17,9 @@ O build emite apenas o aviso de chunk 3D acima de 500 kB, já existente e fora d
 - Conteúdo PT-BR/EN, slug tipado e páginas estáticas do novo case foram adicionados.
 - O gerador estático foi alinhado ao posicionamento atual do WSP Finance.
 - `npm run build` e `npm run lint` passaram em 28 de julho de 2026.
+
+## Transições dos cases
+
+- O Big Bang deixou de reiniciar ao abrir cases ou voltar para a página inicial: o estado da introdução é mantido por aba com `sessionStorage`.
+- Cases receberam entrada de 240 ms por opacidade, deslocamento e escala sutis; a preferência de movimento reduzido elimina a transição e o fundo animado.
+- `git diff --check`, `npm run build` e `npm run lint` passaram em 28 de julho de 2026.

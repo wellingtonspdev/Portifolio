@@ -138,10 +138,10 @@ const galaxyFragmentShader = `
   }
 `;
 
-function SpiralGalaxy() {
+function SpiralGalaxy({ playIntro }: { playIntro: boolean }) {
   const pointsRef = useRef<THREE.Points>(null)
   const materialRef = useRef<THREE.ShaderMaterial>(null)
-  const uniforms = useMemo(() => ({ uTime: { value: 0 }, uExplosion: { value: 0 }, uFormation: { value: 0 } }), [])
+  const uniforms = useMemo(() => ({ uTime: { value: 0 }, uExplosion: { value: playIntro ? 0 : 1 }, uFormation: { value: playIntro ? 0 : 1 } }), [playIntro])
 
   // Espiral logarítmica: Braços longos e núcleo denso (Inspiração Via Láctea)
   const [positions, colors, sizes, phases, randomDirs] = useMemo(() => {
@@ -222,19 +222,17 @@ function SpiralGalaxy() {
     if (materialRef.current) {
       materialRef.current.uniforms.uTime.value = t;
       
-      // Cálculo do progresso do Big Bang
-      // Explosão de 1.0s a 2.5s (rápido)
-      let expl = Math.max(0, (t - EXPLOSION_START) / 1.5);
-      expl = Math.min(expl, 1.0);
-      const easeOutExpo = expl === 1 ? 1 : 1 - Math.pow(2, -10 * expl);
-      materialRef.current.uniforms.uExplosion.value = easeOutExpo;
+      if (playIntro) {
+        let expl = Math.max(0, (t - EXPLOSION_START) / 1.5);
+        expl = Math.min(expl, 1.0);
+        const easeOutExpo = expl === 1 ? 1 : 1 - Math.pow(2, -10 * expl);
+        materialRef.current.uniforms.uExplosion.value = easeOutExpo;
 
-      // Formação a partir de 2.0s a 4.5s
-      let form = Math.max(0, (t - 2.0) / 2.5);
-      form = Math.min(form, 1.0);
-      // Ease in-out para acomodar as estrelas suavemente
-      const easeInOutCubic = form < 0.5 ? 4 * form * form * form : 1 - Math.pow(-2 * form + 2, 3) / 2;
-      materialRef.current.uniforms.uFormation.value = easeInOutCubic;
+        let form = Math.max(0, (t - 2.0) / 2.5);
+        form = Math.min(form, 1.0);
+        const easeInOutCubic = form < 0.5 ? 4 * form * form * form : 1 - Math.pow(-2 * form + 2, 3) / 2;
+        materialRef.current.uniforms.uFormation.value = easeInOutCubic;
+      }
     }
     
     // Rotação lenta — dá para perceber mas não cansa
@@ -293,7 +291,7 @@ function CameraRig({ scrollRef }: { scrollRef: React.RefObject<number> }) {
 }
 
 // --- WRAPPER: StarField + Constellations compartilhando posições ---
-function StarFieldWithConstellations({ dpr }: { dpr: number }) {
+function StarFieldWithConstellations({ dpr, playIntro }: { dpr: number; playIntro: boolean }) {
   const starCount = dpr > 1 ? 10000 : 4000 // MUITO mais estrelas de fundo
 
   const [positions, colors, sizes, phases, randomDirs] = useMemo(() => {
@@ -338,22 +336,24 @@ function StarFieldWithConstellations({ dpr }: { dpr: number }) {
 
   const pointsRef = useRef<THREE.Points>(null)
   const materialRef = useRef<THREE.ShaderMaterial>(null)
-  const uniforms = useMemo(() => ({ uTime: { value: 0 }, uExplosion: { value: 0 }, uFormation: { value: 0 } }), [])
+  const uniforms = useMemo(() => ({ uTime: { value: 0 }, uExplosion: { value: playIntro ? 0 : 1 }, uFormation: { value: playIntro ? 0 : 1 } }), [playIntro])
 
   useFrame((state) => {
     const t = state.clock.getElapsedTime();
     if (materialRef.current) {
       materialRef.current.uniforms.uTime.value = t;
       
-      let expl = Math.max(0, (t - EXPLOSION_START) / 1.5);
-      expl = Math.min(expl, 1.0);
-      const easeOutExpo = expl === 1 ? 1 : 1 - Math.pow(2, -10 * expl);
-      materialRef.current.uniforms.uExplosion.value = easeOutExpo;
+      if (playIntro) {
+        let expl = Math.max(0, (t - EXPLOSION_START) / 1.5);
+        expl = Math.min(expl, 1.0);
+        const easeOutExpo = expl === 1 ? 1 : 1 - Math.pow(2, -10 * expl);
+        materialRef.current.uniforms.uExplosion.value = easeOutExpo;
 
-      let form = Math.max(0, (t - 2.0) / 2.5);
-      form = Math.min(form, 1.0);
-      const easeInOutCubic = form < 0.5 ? 4 * form * form * form : 1 - Math.pow(-2 * form + 2, 3) / 2;
-      materialRef.current.uniforms.uFormation.value = easeInOutCubic;
+        let form = Math.max(0, (t - 2.0) / 2.5);
+        form = Math.min(form, 1.0);
+        const easeInOutCubic = form < 0.5 ? 4 * form * form * form : 1 - Math.pow(-2 * form + 2, 3) / 2;
+        materialRef.current.uniforms.uFormation.value = easeInOutCubic;
+      }
     }
     if (pointsRef.current) {
       pointsRef.current.rotation.y = t * 0.02
@@ -626,7 +626,7 @@ function BigBangCore() {
   );
 }
 
-export function SpaceBackground() {
+export function SpaceBackground({ playIntro }: { playIntro: boolean }) {
   const dpr = isMobile ? 1 : 1.5
   const scrollRef = useRef<number>(0)
 
@@ -664,13 +664,13 @@ export function SpaceBackground() {
         <CameraRig scrollRef={scrollRef} />
 
         {/* Galáxia: muito distante, mínima velocidade de parallax */}
-        <SpiralGalaxy />
+        <SpiralGalaxy playIntro={playIntro} />
 
         {/* Campo estelar + constelações */}
-        <StarFieldWithConstellations dpr={dpr} />
+        <StarFieldWithConstellations dpr={dpr} playIntro={playIntro} />
 
         {/* Efeitos Ativos da Explosão (Intro) */}
-        <BigBangCore />
+        {playIntro && <BigBangCore />}
 
         {/* Pós-processamento: responsável pelo Bloom espetacular */}
         <EffectComposer>

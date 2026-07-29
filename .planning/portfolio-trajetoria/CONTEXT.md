@@ -15,3 +15,5 @@ Evidenciar formação, pesquisa aplicada, estágio e experiência complementar n
 - Competências sem evidência pública suficiente não são exibidas como experiência aplicada.
 - O portfólio é um projeto autoral e aparece uma única vez, como primeiro case da vitrine de projetos, sem vídeo ou imagem adicional.
 - O README documenta o produto e sua evolução; o card não duplica a experiência profissional formal.
+- A animação de Big Bang ocorre somente na primeira abertura da página inicial em cada aba; cases e retornos usam a galáxia estável.
+- A abertura de um case usa transição curta de opacidade e transformação, desativada quando o usuário prefere reduzir movimento.

@@ -6,6 +6,7 @@ import { ResumeButton } from './ResumeButton'
 import { getBasePath, getCurrentProjectId, getProjectPath } from '../routing'
 
 const SpaceBackground = lazy(() => import('./SpaceBackground').then((module) => ({ default: module.SpaceBackground })))
+const INTRO_STORAGE_KEY = 'wsp-portfolio-intro-played'
 
 function LanguageToggle() {
   const { lang, setLanguage } = useLanguage()
@@ -44,27 +45,37 @@ function LanguageToggle() {
 
 export function Layout({ children }: { children: ReactNode }) {
   const { t } = useLanguage()
-  const [showBackground, setShowBackground] = useState(false)
+  const [backgroundMode, setBackgroundMode] = useState<'none' | 'static' | 'intro'>('none')
+  const isProjectPage = Boolean(getCurrentProjectId())
 
   useEffect(() => {
-    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return
+    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+      setBackgroundMode('none')
+      return
+    }
+
+    const hasPlayedIntro = window.sessionStorage.getItem(INTRO_STORAGE_KEY) === 'true'
     const schedule = window.requestIdleCallback ?? ((callback: IdleRequestCallback) => window.setTimeout(callback, 600))
     const cancel = window.cancelIdleCallback ?? window.clearTimeout
-    const id = schedule(() => setShowBackground(true))
+    const id = schedule(() => {
+      const shouldPlayIntro = !isProjectPage && !hasPlayedIntro
+      setBackgroundMode(shouldPlayIntro ? 'intro' : 'static')
+      if (shouldPlayIntro) window.sessionStorage.setItem(INTRO_STORAGE_KEY, 'true')
+    })
     return () => cancel(id)
-  }, [])
+  }, [isProjectPage])
 
   const homePath = getBasePath(t.meta.lang === 'en' ? 'en' : 'pt-br')
 
   return (
     <div className="relative min-h-screen">
-      {/* Motor Gráfico Deep Space injetado no fundo da página */}
-      {showBackground && <Suspense fallback={null}><SpaceBackground /></Suspense>}
+      {/* A intro Big Bang acontece uma única vez por aba; os cases mantêm apenas o espaço estático. */}
+      {backgroundMode !== 'none' && <Suspense fallback={null}><SpaceBackground playIntro={backgroundMode === 'intro'} /></Suspense>}
 
       <motion.header 
-         initial={{ opacity: 0, y: -20 }}
+         initial={{ opacity: 0, y: -12 }}
          animate={{ opacity: 1, y: 0 }}
-         transition={{ duration: 1, ease: "easeOut", delay: 4.5 }}
+         transition={{ duration: 0.3, ease: "easeOut" }}
          className="fixed top-0 left-0 right-0 z-50 bg-black/40 backdrop-blur-md border-b border-glass-border">
          <nav className="container mx-auto px-6 py-4 flex justify-between items-center">
             <span className="font-bold text-xl tracking-tighter text-white hover:scale-105 transition-transform cursor-pointer">
