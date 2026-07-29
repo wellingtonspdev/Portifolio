@@ -5,7 +5,6 @@ import { ResumeButton } from './ResumeButton'
 
 export function Hero() {
   const { t } = useLanguage()
-  const shouldSynchronizeWithIntro = typeof window !== 'undefined' && window.sessionStorage.getItem('wsp-portfolio-intro-played') !== 'true'
   const [text, setText] = useState('')
   const phrases = t.hero.phrases
   const [phraseIndex, setPhraseIndex] = useState(0)
@@ -44,7 +43,7 @@ export function Hero() {
           className="max-w-4xl mx-auto"
           initial={{ opacity: 0, y: 30 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 1.2, ease: "easeOut", delay: shouldSynchronizeWithIntro ? 4.5 : 0 }}
+          transition={{ duration: 1.2, ease: "easeOut", delay: 4.5 }}
         >
           <span className="inline-flex items-center gap-2 bg-green-500/10 text-green-400 text-xs font-bold mb-6 px-4 py-1.5 rounded-full border border-green-500/20 uppercase tracking-wider backdrop-blur-md">
             <span className="w-2 h-2 rounded-full bg-green-500 animate-pulse"></span>

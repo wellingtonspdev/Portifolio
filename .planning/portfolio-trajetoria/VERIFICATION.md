@@ -29,7 +29,7 @@ O build emite apenas o aviso de chunk 3D acima de 500 kB, já existente e fora d
 - Links internos agora atualizam o histórico com `pushState`; páginas externas, downloads e links em nova aba preservam o comportamento nativo.
 - `AnimatePresence` do Framer Motion realiza a saída e a entrada do conteúdo com opacidade e deslocamento de 220 ms, sem tela de carregamento e com suporte a movimento reduzido.
 
-## Abertura inicial
+## Reversão seletiva de animações
 
-- A tela intermediária de carregamento foi removida; a primeira imagem é a própria explosão do Big Bang no canvas.
-- Título e navegação são sincronizados com a expansão, enquanto o marcador de sessão só é persistido após `Canvas.onCreated` e um quadro de animação.
+- Carregadores e regras de sessão da intro foram removidos.
+- A navegação interna animada entre home e detalhes do case foi preservada.

@@ -18,5 +18,5 @@ Evidenciar formação, pesquisa aplicada, estágio e experiência complementar n
 - A animação de Big Bang ocorre somente na primeira abertura da página inicial em cada aba; cases e retornos usam a galáxia estável.
 - A abertura de um case usa transição curta de opacidade e transformação, desativada quando o usuário prefere reduzir movimento.
 - Navegação interna entre a vitrine e os cases é SPA: mantém as URLs estáticas compartilháveis, mas evita recarregamento e a tela intermediária de carregamento.
-- A primeira visita à página inicial inicia diretamente no Big Bang do canvas; título e navegação entram após a expansão, junto da formação das estrelas e da galáxia.
-- A intro ocorre apenas uma vez por aba, após a primeira renderização confirmada do canvas; cases e retornos usam o fundo espacial estável.
+- O motor espacial e a abertura voltaram ao comportamento anterior às mudanças de UX recentes.
+- A única animação de navegação mantida é a transição interna entre a vitrine e a página de detalhes do case.
