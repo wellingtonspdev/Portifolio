@@ -12,6 +12,7 @@ export type Locale = {
   }
   nav: {
     about: string
+    trajectory: string
     experience: string
     cases: string
     skills: string
@@ -31,6 +32,27 @@ export type Locale = {
     paragraphs: string[]
     cards: { title: string; description: string }[]
   }
+  career: {
+    heading: string
+    subtitle: string
+    education: {
+      label: string
+      title: string
+      institution: string
+      period: string
+      status: string
+      areas: string[]
+    }
+    research: {
+      label: string
+      title: string
+      summary: string
+      contributions: string[]
+      eventsLabel: string
+      events: string[]
+    }
+    timeline: { period: string; title: string; description: string }[]
+  }
   projects: {
     heading: string
     subtitle: string
@@ -45,6 +67,10 @@ export type Locale = {
       backToPortfolio: string
       detailsLabel: string
       viewCase: string
+      role: string
+      process: string
+      outcome: string
+      requestEvidence: string
     }
   }
   projectData: Record<string, {
@@ -52,6 +78,14 @@ export type Locale = {
     description: string
     problem: string
     solution: string
+    caseStudy?: {
+      roleLabel: string
+      role: string
+      processLabel: string
+      process: string[]
+      outcomeLabel: string
+      outcome: string
+    }
   }>
   skills: {
     heading: string
@@ -71,6 +105,14 @@ export type Locale = {
     highlights: string[]
     technologiesLabel: string
     technologies: string[]
+  }
+  supplementaryExperience: {
+    heading: string
+    role: string
+    organization: string
+    period: string
+    summary: string
+    skills: string[]
   }
   keywords: {
     heading: string

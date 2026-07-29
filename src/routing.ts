@@ -1,4 +1,5 @@
 export const projectSlugs = [
+  'portfolio-profissional',
   'reserva-laboratorios-fatec',
   'wsp-finance',
   'define-pilates',

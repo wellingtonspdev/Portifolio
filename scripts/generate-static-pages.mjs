@@ -4,8 +4,9 @@ import { dirname, join } from 'node:path'
 const siteUrl = 'https://wellingtonspdev.github.io/Portifolio/'
 const dist = 'dist'
 const projects = [
+  ['portfolio-profissional', 'Portfólio Profissional', 'Projeto autoral em React e TypeScript que apresenta cases técnicos, experiência, formação e pesquisa com interface responsiva, SEO e publicação automatizada.', 'Authorial React and TypeScript project presenting technical cases, experience, education, and research with a responsive interface, SEO, and automated publishing.'],
   ['reserva-laboratorios-fatec', 'Reserva de Laboratórios FATEC', 'PHP, CodeIgniter 3, MySQL/MariaDB e UX mobile para evoluir um sistema legado de reservas.', 'FATEC laboratory booking modernization with PHP, CodeIgniter 3, MySQL/MariaDB, and mobile UX.'],
-  ['wsp-finance', 'WSP Finance', 'Backend SaaS com Node.js, TypeScript, Express, Prisma e PostgreSQL para gestão financeira.', 'SaaS backend with Node.js, TypeScript, Express, Prisma, and PostgreSQL for financial management.'],
+  ['wsp-finance', 'WSP Finance', 'Projeto autoral em evolução com Node.js, TypeScript, Express, Prisma e PostgreSQL para gestão financeira e automação.', 'Authorial project in progress with Node.js, TypeScript, Express, Prisma, and PostgreSQL for financial management and automation.'],
   ['define-pilates', 'Define Pilates SaaS', 'Projeto Full Stack com Django, React, TDD e liderança técnica acadêmica.', 'Full Stack project with Django, React, TDD, and academic technical leadership.'],
   ['ibdn-plataforma', 'Plataforma Ambiental IBDN', 'Plataforma Full Stack para digitalização de processos ambientais e governança ESG.', 'Full Stack platform for environmental process digitization and ESG governance.'],
   ['cnpq-research', 'Pesquisa CNPq', 'Pesquisa aplicada em dados científicos, Speckle e algoritmo Greedy Best-First Search.', 'Applied research in scientific data, Speckle, and Greedy Best-First Search.'],
