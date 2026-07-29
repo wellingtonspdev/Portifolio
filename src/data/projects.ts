@@ -44,6 +44,23 @@ import fatecDetalhe from '../assets/Reserva_Laboratorios_FATEC/04-detalhe-reserv
 
 export const projectsData: Project[] = [
   {
+    id: "portfolio-profissional",
+    title: "Portfólio Profissional",
+    subtitle: "Projeto autoral de apresentação técnica e carreira",
+    description: "Aplicação pública criada para transformar projetos, experiência, formação e pesquisa em cases técnicos navegáveis, bilíngues e prontos para avaliação por recrutadores.",
+    problem: "Uma lista de tecnologias não demonstra, por si só, como decisões de produto, interface, acessibilidade, descoberta e entrega se conectam em uma aplicação real.",
+    solution: "Construí um portfólio em React e TypeScript com cases detalhados, interface responsiva, elementos 3D, internacionalização, SEO técnico, currículo para download e deploy automatizado no GitHub Pages.",
+    icon: "Cpu",
+    badges: [
+      { text: "React / TypeScript", colorClass: "border-cyan-800 text-cyan-300" },
+      { text: "Three.js / Framer Motion", colorClass: "border-indigo-800 text-indigo-300" },
+      { text: "SEO / i18n / CI-CD", colorClass: "border-emerald-800 text-emerald-300" }
+    ],
+    links: {
+      github: "https://github.com/wellingtonspdev/Portifolio"
+    }
+  },
+  {
     id: "reserva-laboratorios-fatec",
     title: "Reserva de Laboratórios FATEC",
     subtitle: "Modernização de sistema legado em PHP",
@@ -64,15 +81,15 @@ export const projectsData: Project[] = [
   {
     id: "define-pilates",
     title: "Define Pilates SaaS",
-    subtitle: "Gestão estratégica multi-tenant e compliance",
-    description: "Liderei a arquitetura de um ecossistema B2B para estúdios de saúde, com foco em reduzir falhas operacionais, organizar agenda, gestão financeira e controle de alunos em uma experiência integrada.",
+    subtitle: "Projeto acadêmico de gestão para estúdios de Pilates",
+    description: "Projeto interdisciplinar acadêmico para organizar agenda, alunos, informações financeiras, relatórios e fluxos administrativos de estúdios de Pilates.",
     problem: "A fragmentação administrativa e a dependência de controles manuais geravam gargalos comerciais, risco de overbooking e dificuldade para acompanhar a operação do estúdio.",
-    solution: "Como Tech Lead, conduzi uma solução API-first com Django e React, aplicando isolamento por permissões, organização de fluxos administrativos e práticas de TDD/CI para sustentar uma entrega acadêmica completa.",
+    solution: "Como Tech Lead acadêmico, organizei tarefas e prioridades, participei da integração frontend/backend, documentação de APIs, testes e revisão das entregas.",
     imageUrl: "https://storage.googleapis.com/portfolio-assets-prod-wsp/assets/Define_Pilates/dash_admin.png",
     images: [dpLogo, dpDash, dpAgenda, dpHome, dpMetricas, dpRelatorio2, dpRelatorios],
     icon: "LayoutDashboard",
     badges: [
-      { text: "Tech Lead", colorClass: "border-blue-800 text-blue-400" },
+      { text: "Tech Lead Acadêmico", colorClass: "border-blue-800 text-blue-400" },
       { text: "Django / React", colorClass: "border-indigo-800 text-indigo-400" }
     ],
     links: {
@@ -83,25 +100,26 @@ export const projectsData: Project[] = [
   {
     id: "wsp-finance",
     title: "WSP Finance",
-    subtitle: "Plataforma SaaS de gestão financeira com IA",
-    description: "Projeto de backend para apoiar automação de rotinas, organização financeira e fluxos multiusuário, com regras de negócio, auditoria e isolamento de dados.",
+    subtitle: "Projeto autoral de gestão financeira",
+    description: "Projeto autoral em desenvolvimento para apoiar organização financeira, automação de rotinas e comunicação com a contabilidade de pequenos negócios.",
     problem: "Rotinas financeiras e operacionais dependem de informações organizadas, regras consistentes e controle de acesso para que a tomada de decisão seja segura e rastreável.",
-    solution: "Desenvolvi componentes de backend com Node.js, TypeScript, Express, Prisma e PostgreSQL, aplicando APIs REST, testes automatizados e práticas de segurança para apoiar uma plataforma financeira SaaS.",
+    solution: "Desenvolvo componentes com Node.js, TypeScript, Express, Prisma, PostgreSQL e React, aplicando APIs REST, testes e integração com Telegram de forma incremental.",
     icon: "Database",
     badges: [
       { text: "Node.js / TypeScript", colorClass: "border-emerald-800 text-emerald-300" },
       { text: "Express / Prisma / PostgreSQL", colorClass: "border-blue-800 text-blue-300" },
-      { text: "SaaS / Segurança", colorClass: "border-indigo-800 text-indigo-300" }
+      { text: "Em evolução", colorClass: "border-indigo-800 text-indigo-300" }
     ],
     links: {},
+    inDevelopment: true,
   },
   {
     id: "ibdn-plataforma",
     title: "Plataforma Ambiental IBDN",
-    subtitle: "Gestão de governança ESG",
-    description: "Projeto full stack para apoiar a digitalização de processos ambientais, reduzindo dependência de fluxos manuais e melhorando a organização de certificações e informações institucionais.",
+    subtitle: "Projeto acadêmico de digitalização ambiental",
+    description: "Projeto acadêmico em equipe para apoiar a digitalização de processos ambientais, com autenticação, controle de acesso e organização de fluxos institucionais.",
     problem: "Processos manuais e em papel atrasavam a emissão de selos ecológicos e limitavam a transparência das certificações ambientais do Instituto.",
-    solution: "A solução estruturou uma plataforma web com autenticação, controle de acesso e organização dos fluxos principais, aproximando a operação de um modelo mais rastreável e escalável.",
+    solution: "A equipe estruturou uma plataforma web com autenticação, controle de acesso e organização dos fluxos principais. Minha contribuição individual documentada inclui um carrossel com cerca de 30 parceiros e patrocinadores.",
     icon: "Leaf",
     images: [
       ibdnLogin,
