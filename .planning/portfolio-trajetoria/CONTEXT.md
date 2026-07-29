@@ -20,3 +20,4 @@ Evidenciar formação, pesquisa aplicada, estágio e experiência complementar n
 - Navegação interna entre a vitrine e os cases é SPA: mantém as URLs estáticas compartilháveis, mas evita recarregamento e a tela intermediária de carregamento.
 - O carregamento inicial usa núcleo, órbitas e estrelas em CSS e desaparece em fade após a primeira montagem do React.
 - Na primeira abertura da página inicial por aba, o carregamento mostra apenas o núcleo e permanece até o Big Bang estar pronto; em atualizações posteriores, usa a composição de órbitas e estrelas.
+- O marcador da primeira visita só é gravado após o canvas confirmar a primeira renderização; um fallback não bloqueia novas tentativas de exibir o Big Bang.

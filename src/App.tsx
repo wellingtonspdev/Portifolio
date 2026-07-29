@@ -32,7 +32,8 @@ function App() {
     const isFirstHomeVisit = window.sessionStorage.getItem('wsp-portfolio-intro-played') !== 'true'
       && !getCurrentProjectId()
       && !window.matchMedia('(prefers-reduced-motion: reduce)').matches
-    const dismiss = () => {
+    const dismiss = (completedIntro = false) => {
+      if (completedIntro) window.sessionStorage.setItem('wsp-portfolio-intro-played', 'true')
       loader.classList.add('is-ready')
       window.setTimeout(() => loader.remove(), 220)
     }
@@ -42,10 +43,11 @@ function App() {
       return
     }
 
-    window.addEventListener('portfolio-intro-ready', dismiss, { once: true })
-    const fallbackId = window.setTimeout(dismiss, 5000)
+    const completeIntro = () => dismiss(true)
+    window.addEventListener('portfolio-intro-ready', completeIntro, { once: true })
+    const fallbackId = window.setTimeout(() => dismiss(false), 5000)
     return () => {
-      window.removeEventListener('portfolio-intro-ready', dismiss)
+      window.removeEventListener('portfolio-intro-ready', completeIntro)
       window.clearTimeout(fallbackId)
     }
   }, [])

@@ -637,9 +637,10 @@ export function SpaceBackground({ playIntro }: { playIntro: boolean }) {
     return () => window.removeEventListener('scroll', onScroll)
   }, [])
 
-  useEffect(() => {
-    if (playIntro) window.dispatchEvent(new Event('portfolio-intro-ready'))
-  }, [playIntro])
+  const notifyIntroReady = () => {
+    if (!playIntro) return
+    window.requestAnimationFrame(() => window.dispatchEvent(new Event('portfolio-intro-ready')))
+  }
 
   return (
     <div
@@ -654,6 +655,7 @@ export function SpaceBackground({ playIntro }: { playIntro: boolean }) {
       }}
     >
       <Canvas
+        onCreated={notifyIntroReady}
         camera={{ position: [0, 0, 1] }}
         dpr={dpr}
         gl={{
