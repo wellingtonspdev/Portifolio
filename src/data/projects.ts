@@ -44,6 +44,23 @@ import fatecDetalhe from '../assets/Reserva_Laboratorios_FATEC/04-detalhe-reserv
 
 export const projectsData: Project[] = [
   {
+    id: "portfolio-profissional",
+    title: "Portfólio Profissional",
+    subtitle: "Projeto autoral de apresentação técnica e carreira",
+    description: "Aplicação pública criada para transformar projetos, experiência, formação e pesquisa em cases técnicos navegáveis, bilíngues e prontos para avaliação por recrutadores.",
+    problem: "Uma lista de tecnologias não demonstra, por si só, como decisões de produto, interface, acessibilidade, descoberta e entrega se conectam em uma aplicação real.",
+    solution: "Construí um portfólio em React e TypeScript com cases detalhados, interface responsiva, elementos 3D, internacionalização, SEO técnico, currículo para download e deploy automatizado no GitHub Pages.",
+    icon: "Cpu",
+    badges: [
+      { text: "React / TypeScript", colorClass: "border-cyan-800 text-cyan-300" },
+      { text: "Three.js / Framer Motion", colorClass: "border-indigo-800 text-indigo-300" },
+      { text: "SEO / i18n / CI-CD", colorClass: "border-emerald-800 text-emerald-300" }
+    ],
+    links: {
+      github: "https://github.com/wellingtonspdev/Portifolio"
+    }
+  },
+  {
     id: "reserva-laboratorios-fatec",
     title: "Reserva de Laboratórios FATEC",
     subtitle: "Modernização de sistema legado em PHP",

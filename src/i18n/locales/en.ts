@@ -100,6 +100,20 @@ export const en: Locale = {
   },
 
   projectData: {
+    'portfolio-profissional': {
+      subtitle: 'Authorial project for technical and career presentation',
+      description: 'A public application created to turn projects, experience, education, and research into bilingual, navigable technical cases ready for recruiter evaluation.',
+      problem: 'A technology list alone does not show how product, interface, accessibility, discovery, and delivery decisions connect in a real application.',
+      solution: 'I built a React and TypeScript portfolio with detailed cases, a responsive interface, 3D elements, internationalization, technical SEO, downloadable résumé, and automated GitHub Pages deployment.',
+      caseStudy: {
+        roleLabel: 'My role',
+        role: 'I conceived, designed, and developed the application, structuring its component architecture, professional content, visual identity, navigation experience, discoverability, and publication.',
+        processLabel: 'Process applied',
+        process: ['Modeled projects and cases as reusable data to keep content consistent.', 'Created responsive components, animations, and 3D elements with deferred loading to balance visual impact and experience.', 'Implemented Portuguese and English support, metadata, JSON-LD, Open Graph, sitemap, and pre-rendered pages.', 'Automated GitHub Pages publishing with GitHub Actions and evolved the product through versioned increments.'],
+        outcomeLabel: 'Outcome and learning',
+        outcome: 'The portfolio became public evidence of my work in frontend development, product presentation, documentation, and delivery. Its evolution reinforced the importance of aligning visuals, content, accessibility, SEO, and continuous maintenance.',
+      },
+    },
     'reserva-laboratorios-fatec': {
       subtitle: 'Legacy PHP system modernization',
       description: 'I adapted and modernized a legacy laboratory reservation system for FATEC Itaquera, improving usability, responsiveness, institutional visual identity, and execution documentation without rewriting the application from scratch.',

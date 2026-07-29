@@ -100,6 +100,20 @@ export const ptBR: Locale = {
   },
 
   projectData: {
+    'portfolio-profissional': {
+      subtitle: 'Projeto autoral de apresentação técnica e carreira',
+      description: 'Aplicação pública criada para transformar projetos, experiência, formação e pesquisa em cases técnicos navegáveis, bilíngues e prontos para avaliação por recrutadores.',
+      problem: 'Uma lista de tecnologias não demonstra, por si só, como decisões de produto, interface, acessibilidade, descoberta e entrega se conectam em uma aplicação real.',
+      solution: 'Construí um portfólio em React e TypeScript com cases detalhados, interface responsiva, elementos 3D, internacionalização, SEO técnico, currículo para download e deploy automatizado no GitHub Pages.',
+      caseStudy: {
+        roleLabel: 'Meu papel',
+        role: 'Idealizei, projetei e desenvolvi a aplicação, estruturando sua arquitetura de componentes, conteúdo profissional, identidade visual, experiência de navegação, descoberta e publicação.',
+        processLabel: 'Processo aplicado',
+        process: ['Modelei projetos e cases em dados reutilizáveis para manter o conteúdo consistente.', 'Criei componentes responsivos, animações e elementos 3D com carregamento adiado para equilibrar impacto visual e experiência.', 'Implementei suporte a português e inglês, metadados, JSON-LD, Open Graph, sitemap e páginas pré-renderizadas.', 'Automatizei a publicação no GitHub Pages por GitHub Actions e evoluí o produto por incrementos versionados.'],
+        outcomeLabel: 'Resultado e aprendizado',
+        outcome: 'O portfólio se tornou uma evidência pública do meu trabalho em frontend, apresentação de produto, documentação e entrega. A evolução reforçou a importância de alinhar visual, conteúdo, acessibilidade, SEO e manutenção contínua.',
+      },
+    },
     'reserva-laboratorios-fatec': {
       subtitle: 'Modernização de sistema legado em PHP',
       description: 'Adaptei e modernizei um sistema legado de reserva de laboratórios para o contexto da FATEC Itaquera, melhorando usabilidade, responsividade, identidade visual institucional e documentação de execução sem reescrever a aplicação do zero.',
