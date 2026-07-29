@@ -222,13 +222,17 @@ function SpiralGalaxy() {
     if (materialRef.current) {
       materialRef.current.uniforms.uTime.value = t;
       
+      // Cálculo do progresso do Big Bang
+      // Explosão de 1.0s a 2.5s (rápido)
       let expl = Math.max(0, (t - EXPLOSION_START) / 1.5);
       expl = Math.min(expl, 1.0);
       const easeOutExpo = expl === 1 ? 1 : 1 - Math.pow(2, -10 * expl);
       materialRef.current.uniforms.uExplosion.value = easeOutExpo;
 
+      // Formação a partir de 2.0s a 4.5s
       let form = Math.max(0, (t - 2.0) / 2.5);
       form = Math.min(form, 1.0);
+      // Ease in-out para acomodar as estrelas suavemente
       const easeInOutCubic = form < 0.5 ? 4 * form * form * form : 1 - Math.pow(-2 * form + 2, 3) / 2;
       materialRef.current.uniforms.uFormation.value = easeInOutCubic;
     }

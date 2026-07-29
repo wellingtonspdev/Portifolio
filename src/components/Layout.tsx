@@ -58,7 +58,7 @@ export function Layout({ children }: { children: ReactNode }) {
 
   return (
     <div className="relative min-h-screen">
-      {/* A intro Big Bang acontece uma única vez por aba; os cases mantêm apenas o espaço estático. */}
+      {/* Motor Gráfico Deep Space injetado no fundo da página */}
       {showBackground && <Suspense fallback={null}><SpaceBackground /></Suspense>}
 
       <motion.header 

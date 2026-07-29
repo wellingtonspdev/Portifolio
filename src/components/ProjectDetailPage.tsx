@@ -18,9 +18,7 @@ export function ProjectDetailPage({ projectId }: { projectId: string }) {
   }
 
   return (
-    <main
-      className="relative z-10 py-32"
-    >
+    <main className="relative z-10 py-32">
       <article className="container mx-auto max-w-4xl px-6">
         <a href={getBasePath(lang)} className="inline-flex items-center gap-2 text-sm font-bold text-accent-end hover:text-accent-start transition-colors">
           <ArrowLeft className="h-4 w-4" aria-hidden="true" /> {t.projects.labels.backToPortfolio}
