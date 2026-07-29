@@ -29,8 +29,7 @@ O build emite apenas o aviso de chunk 3D acima de 500 kB, já existente e fora d
 - Links internos agora atualizam o histórico com `pushState`; páginas externas, downloads e links em nova aba preservam o comportamento nativo.
 - `AnimatePresence` do Framer Motion realiza a saída e a entrada do conteúdo com opacidade e deslocamento de 220 ms, sem tela de carregamento e com suporte a movimento reduzido.
 
-## Carregamento inicial
+## Abertura inicial
 
-- O spinner SVG genérico foi substituído por núcleo luminoso, órbitas e estrelas em CSS, alinhados ao universo visual do portfólio.
-- O indicador fica fora de `#root`, faz fade de 220 ms após a montagem do React e respeita `prefers-reduced-motion`.
-- A confirmação da intro ocorre após `Canvas.onCreated` e um quadro de animação; o estado de sessão é persistido apenas nessa confirmação.
+- A tela intermediária de carregamento foi removida; a primeira imagem é a própria explosão do Big Bang no canvas.
+- Título e navegação são sincronizados com a expansão, enquanto o marcador de sessão só é persistido após `Canvas.onCreated` e um quadro de animação.

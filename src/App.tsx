@@ -1,4 +1,4 @@
-import { useEffect, useLayoutEffect, useState } from 'react'
+import { useEffect, useState } from 'react'
 import Lenis from 'lenis'
 import { AnimatePresence, motion, useReducedMotion } from 'framer-motion'
 import { SeoComponent } from './components/SEO'
@@ -24,33 +24,6 @@ function App() {
   const [locationKey, setLocationKey] = useState(getLocationKey)
   const shouldReduceMotion = useReducedMotion()
   const projectId = getCurrentProjectId()
-
-  useLayoutEffect(() => {
-    const loader = document.getElementById('initial-loader')
-    if (!loader) return
-
-    const isFirstHomeVisit = window.sessionStorage.getItem('wsp-portfolio-intro-played') !== 'true'
-      && !getCurrentProjectId()
-      && !window.matchMedia('(prefers-reduced-motion: reduce)').matches
-    const dismiss = (completedIntro = false) => {
-      if (completedIntro) window.sessionStorage.setItem('wsp-portfolio-intro-played', 'true')
-      loader.classList.add('is-ready')
-      window.setTimeout(() => loader.remove(), 220)
-    }
-
-    if (!isFirstHomeVisit) {
-      dismiss()
-      return
-    }
-
-    const completeIntro = () => dismiss(true)
-    window.addEventListener('portfolio-intro-ready', completeIntro, { once: true })
-    const fallbackId = window.setTimeout(() => dismiss(false), 5000)
-    return () => {
-      window.removeEventListener('portfolio-intro-ready', completeIntro)
-      window.clearTimeout(fallbackId)
-    }
-  }, [])
 
   useEffect(() => {
     const syncLocation = () => setLocationKey(getLocationKey())

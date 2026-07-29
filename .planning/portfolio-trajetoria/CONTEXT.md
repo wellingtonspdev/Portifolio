@@ -18,6 +18,5 @@ Evidenciar formação, pesquisa aplicada, estágio e experiência complementar n
 - A animação de Big Bang ocorre somente na primeira abertura da página inicial em cada aba; cases e retornos usam a galáxia estável.
 - A abertura de um case usa transição curta de opacidade e transformação, desativada quando o usuário prefere reduzir movimento.
 - Navegação interna entre a vitrine e os cases é SPA: mantém as URLs estáticas compartilháveis, mas evita recarregamento e a tela intermediária de carregamento.
-- O carregamento inicial usa núcleo, órbitas e estrelas em CSS e desaparece em fade após a primeira montagem do React.
-- Na primeira abertura da página inicial por aba, o carregamento mostra apenas o núcleo e permanece até o Big Bang estar pronto; em atualizações posteriores, usa a composição de órbitas e estrelas.
-- O marcador da primeira visita só é gravado após o canvas confirmar a primeira renderização; um fallback não bloqueia novas tentativas de exibir o Big Bang.
+- A primeira visita à página inicial inicia diretamente no Big Bang do canvas; título e navegação entram após a expansão, junto da formação das estrelas e da galáxia.
+- A intro ocorre apenas uma vez por aba, após a primeira renderização confirmada do canvas; cases e retornos usam o fundo espacial estável.
