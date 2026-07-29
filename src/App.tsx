@@ -26,6 +26,15 @@ function App() {
   const projectId = getCurrentProjectId()
 
   useEffect(() => {
+    const loader = document.getElementById('initial-loader')
+    if (!loader) return
+
+    loader.classList.add('is-ready')
+    const id = window.setTimeout(() => loader.remove(), 220)
+    return () => window.clearTimeout(id)
+  }, [])
+
+  useEffect(() => {
     const syncLocation = () => setLocationKey(getLocationKey())
     window.addEventListener('popstate', syncLocation)
     return () => window.removeEventListener('popstate', syncLocation)

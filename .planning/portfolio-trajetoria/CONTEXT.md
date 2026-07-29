@@ -18,3 +18,4 @@ Evidenciar formação, pesquisa aplicada, estágio e experiência complementar n
 - A animação de Big Bang ocorre somente na primeira abertura da página inicial em cada aba; cases e retornos usam a galáxia estável.
 - A abertura de um case usa transição curta de opacidade e transformação, desativada quando o usuário prefere reduzir movimento.
 - Navegação interna entre a vitrine e os cases é SPA: mantém as URLs estáticas compartilháveis, mas evita recarregamento e a tela intermediária de carregamento.
+- O carregamento inicial usa núcleo, órbitas e estrelas em CSS e desaparece em fade após a primeira montagem do React.
