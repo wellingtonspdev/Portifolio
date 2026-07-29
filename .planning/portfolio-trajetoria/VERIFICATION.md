@@ -23,3 +23,8 @@ O build emite apenas o aviso de chunk 3D acima de 500 kB, já existente e fora d
 - O Big Bang deixou de reiniciar ao abrir cases ou voltar para a página inicial: o estado da introdução é mantido por aba com `sessionStorage`.
 - Cases receberam entrada de 240 ms por opacidade, deslocamento e escala sutis; a preferência de movimento reduzido elimina a transição e o fundo animado.
 - `git diff --check`, `npm run build` e `npm run lint` passaram em 28 de julho de 2026.
+
+## Navegação entre páginas
+
+- Links internos agora atualizam o histórico com `pushState`; páginas externas, downloads e links em nova aba preservam o comportamento nativo.
+- `AnimatePresence` do Framer Motion realiza a saída e a entrada do conteúdo com opacidade e deslocamento de 220 ms, sem tela de carregamento e com suporte a movimento reduzido.

@@ -1,12 +1,10 @@
 import { ArrowLeft, ExternalLink, Github } from 'lucide-react'
-import { motion, useReducedMotion } from 'framer-motion'
 import { useLanguage } from '../i18n'
 import { projectsData } from '../data/projects'
 import { getBasePath } from '../routing'
 
 export function ProjectDetailPage({ projectId }: { projectId: string }) {
   const { t, lang } = useLanguage()
-  const shouldReduceMotion = useReducedMotion()
   const project = projectsData.find((item) => item.id === projectId)
   const content = project ? t.projectData[project.id] : undefined
   const needsEvidenceRequest = projectId === 'wsp-finance' || projectId === 'cnpq-research'
@@ -20,11 +18,8 @@ export function ProjectDetailPage({ projectId }: { projectId: string }) {
   }
 
   return (
-    <motion.main
+    <main
       className="relative z-10 py-32"
-      initial={shouldReduceMotion ? false : { opacity: 0, y: 12, scale: 0.992 }}
-      animate={{ opacity: 1, y: 0, scale: 1 }}
-      transition={shouldReduceMotion ? { duration: 0 } : { duration: 0.24, ease: [0.22, 1, 0.36, 1] }}
     >
       <article className="container mx-auto max-w-4xl px-6">
         <a href={getBasePath(lang)} className="inline-flex items-center gap-2 text-sm font-bold text-accent-end hover:text-accent-start transition-colors">
@@ -56,6 +51,6 @@ export function ProjectDetailPage({ projectId }: { projectId: string }) {
         </div>}
         {needsEvidenceRequest && <a href={evidenceHref} target="_blank" rel="noreferrer" className="mt-8 inline-flex items-center gap-2 rounded-lg border border-emerald-500/40 bg-emerald-500/10 px-5 py-3 text-sm font-bold text-emerald-200 hover:bg-emerald-500/20">{t.projects.labels.requestEvidence}</a>}
       </article>
-    </motion.main>
+    </main>
   )
 }
