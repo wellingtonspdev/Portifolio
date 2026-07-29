@@ -637,6 +637,10 @@ export function SpaceBackground({ playIntro }: { playIntro: boolean }) {
     return () => window.removeEventListener('scroll', onScroll)
   }, [])
 
+  useEffect(() => {
+    if (playIntro) window.dispatchEvent(new Event('portfolio-intro-ready'))
+  }, [playIntro])
+
   return (
     <div
       style={{

@@ -55,14 +55,9 @@ export function Layout({ children }: { children: ReactNode }) {
     }
 
     const hasPlayedIntro = window.sessionStorage.getItem(INTRO_STORAGE_KEY) === 'true'
-    const schedule = window.requestIdleCallback ?? ((callback: IdleRequestCallback) => window.setTimeout(callback, 600))
-    const cancel = window.cancelIdleCallback ?? window.clearTimeout
-    const id = schedule(() => {
-      const shouldPlayIntro = !isProjectPage && !hasPlayedIntro
-      setBackgroundMode(shouldPlayIntro ? 'intro' : 'static')
-      if (shouldPlayIntro) window.sessionStorage.setItem(INTRO_STORAGE_KEY, 'true')
-    })
-    return () => cancel(id)
+    const shouldPlayIntro = !isProjectPage && !hasPlayedIntro
+    setBackgroundMode(shouldPlayIntro ? 'intro' : 'static')
+    if (shouldPlayIntro) window.sessionStorage.setItem(INTRO_STORAGE_KEY, 'true')
   }, [isProjectPage])
 
   const homePath = getBasePath(t.meta.lang === 'en' ? 'en' : 'pt-br')

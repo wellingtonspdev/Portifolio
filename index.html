@@ -31,10 +31,17 @@
       </div>
       <span class="loader-label">Preparando constelações</span><span class="sr-only">Carregando portfólio</span>
     </div>
+    <script>
+      if (sessionStorage.getItem('wsp-portfolio-intro-played') !== 'true' && !/\/projetos\//.test(location.pathname)) {
+        document.getElementById('initial-loader').classList.add('is-first-visit')
+      }
+    </script>
     <div id="root"></div>
     <style>
       #initial-loader { position:fixed; inset:0; z-index:9999; display:flex; flex-direction:column; align-items:center; justify-content:center; overflow:hidden; background:radial-gradient(circle at 50% 44%,#18114c 0%,#07051d 37%,#030014 72%); color:#d8c7ff; font-family:Inter,system-ui,sans-serif; transition:opacity 220ms ease-out,visibility 220ms ease-out; }
       #initial-loader.is-ready { opacity:0; visibility:hidden; pointer-events:none; }
+      #initial-loader.is-first-visit .cosmic-orbit, #initial-loader.is-first-visit .loader-stars, #initial-loader.is-first-visit .loader-label { display:none; }
+      #initial-loader.is-first-visit .cosmic-core { width:26px; height:26px; }
       .cosmic-loader { position:relative; width:92px; height:92px; }
       .cosmic-core { position:absolute; top:50%; left:50%; width:18px; height:18px; border-radius:999px; transform:translate(-50%,-50%); background:#f4f0ff; box-shadow:0 0 14px #fff,0 0 34px #8b5cf6,0 0 64px #3b82f6; animation:cosmic-pulse 1.5s ease-in-out infinite; }
       .cosmic-orbit { position:absolute; top:50%; left:50%; border:1px solid rgba(167,139,250,.55); border-radius:999px; transform:translate(-50%,-50%) rotate(-22deg); }
