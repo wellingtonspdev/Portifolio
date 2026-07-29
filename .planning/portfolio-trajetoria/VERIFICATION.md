@@ -17,3 +17,8 @@ O build emite apenas o aviso de chunk 3D acima de 500 kB, já existente e fora d
 - Conteúdo PT-BR/EN, slug tipado e páginas estáticas do novo case foram adicionados.
 - O gerador estático foi alinhado ao posicionamento atual do WSP Finance.
 - `npm run build` e `npm run lint` passaram em 28 de julho de 2026.
+
+## Transição de cases
+
+- Apenas os links para abrir um case e voltar à vitrine usam navegação interna animada.
+- A troca usa `AnimatePresence` com 220 ms de opacidade e deslocamento, sem recarregar a aplicação nem reiniciar o canvas.

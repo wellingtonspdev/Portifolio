@@ -15,3 +15,4 @@ Evidenciar formação, pesquisa aplicada, estágio e experiência complementar n
 - Competências sem evidência pública suficiente não são exibidas como experiência aplicada.
 - O portfólio é um projeto autoral e aparece uma única vez, como primeiro case da vitrine de projetos, sem vídeo ou imagem adicional.
 - O README documenta o produto e sua evolução; o card não duplica a experiência profissional formal.
+- A navegação entre a vitrine e o detalhe do case é interna e animada, sem interceptar os demais links.
