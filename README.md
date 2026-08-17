@@ -61,11 +61,11 @@ O fundo gráfico é carregado de forma adiada e não é ativado quando o navegad
 | Case | Evidência principal |
 |---|---|
 | Portfólio Profissional | React, TypeScript, Three.js, i18n, SEO e CI/CD em um produto público |
-| Reserva de Laboratórios FATEC | Modernização incremental de sistema legado PHP/CodeIgniter para usuários institucionais |
-| WSP Finance | Projeto autoral em evolução com Node.js, TypeScript, Express, Prisma e PostgreSQL |
-| Define Pilates | Projeto acadêmico full stack e organização técnica de squad |
-| Plataforma Ambiental IBDN | Projeto acadêmico de digitalização de processos ambientais |
-| Pesquisa CNPq | Modelagem relacional, dados científicos e Greedy Best-First Search |
+| Reserva de Laboratórios FATEC | Atuação end-to-end em análise, planejamento, frontend, backend, Docker, documentação e validação |
+| WSP Finance | Projeto 100% autoral — único desenvolvedor, com Node.js, TypeScript, Express, Prisma, PostgreSQL e React |
+| Define Pilates | Tech Lead Acadêmico + Desenvolvedor Full Stack + QA em projeto interdisciplinar |
+| Plataforma Ambiental IBDN | Contribuição transversal full stack em projeto acadêmico de digitalização ambiental |
+| Pesquisa CNPq | Experimentos em laboratório, dados experimentais, Greedy Best-First Search e apresentação em 2 simpósios |
 
 Cada case tem uma rota própria em `/projetos/<slug>/` e equivalente em inglês em `/en/projetos/<slug>/`.
 
