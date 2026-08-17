@@ -64,9 +64,9 @@ export const projectsData: Project[] = [
     id: "reserva-laboratorios-fatec",
     title: "Reserva de Laboratórios FATEC",
     subtitle: "Modernização de sistema legado em PHP",
-    description: "Adaptei e modernizei um sistema legado de reserva de laboratórios para o contexto da FATEC Itaquera, melhorando usabilidade, responsividade, identidade visual institucional e documentação de execução sem reescrever a aplicação do zero.",
+    description: "Atuei de forma end-to-end na análise, planejamento e evolução de um sistema legado de reserva de laboratórios para a FATEC Itaquera, com melhorias em usabilidade, responsividade, identidade visual institucional, documentação de execução e validação da entrega.",
     problem: "O sistema original funcionava, mas a interface era pouco intuitiva, presa ao desktop e difícil para consultas frequentes de professores, estudantes e administradores. A visualização de disponibilidade, salas, horários e configurações exigia mais esforço do que a rotina da instituição permitia.",
-    solution: "A solução foi uma modernização incremental sobre ClassroomBookings em PHP/CodeIgniter, preservando regras de negócio e reorganizando telas de login, grade de reservas, cards de laboratórios, detalhes de períodos e configurações administrativas. O projeto também recebeu ajustes de idioma, Docker e documentação pública para execução segura.",
+    solution: "Minha contribuição abrangeu análise técnica de legado, mapeamento de telas e fluxos, planejamento de melhorias, decisões de tecnologia, desenvolvimento frontend, ajustes em PHP/CodeIgniter, banco MySQL, UX/UI, responsividade, Docker, documentação, organização de issues, testes, correções e validação final da entrega. A modernização incremental preservou regras de negócio existentes enquanto reorganizava login, grade de reservas, cards de laboratórios, detalhes de períodos e configurações administrativas.",
     icon: "LayoutDashboard",
     images: [fatecLogin, fatecGrade, fatecConfiguracoes, fatecDetalhe],
     badges: [
@@ -84,12 +84,12 @@ export const projectsData: Project[] = [
     subtitle: "Projeto acadêmico de gestão para estúdios de Pilates",
     description: "Projeto interdisciplinar acadêmico para organizar agenda, alunos, informações financeiras, relatórios e fluxos administrativos de estúdios de Pilates.",
     problem: "A fragmentação administrativa e a dependência de controles manuais geravam gargalos comerciais, risco de overbooking e dificuldade para acompanhar a operação do estúdio.",
-    solution: "Como Tech Lead acadêmico, organizei tarefas e prioridades, participei da integração frontend/backend, documentação de APIs, testes e revisão das entregas.",
+    solution: "Atuei como Tech Lead Acadêmico, Desenvolvedor Full Stack e QA, liderando a equipe no planejamento, divisão de tarefas e decisões técnicas, enquanto desenvolvi ativamente frontend, backend, banco de dados, APIs e integrações. Responsável por testes, documentação, revisão e validação das entregas.",
     imageUrl: "https://storage.googleapis.com/portfolio-assets-prod-wsp/assets/Define_Pilates/dash_admin.png",
     images: [dpLogo, dpDash, dpAgenda, dpHome, dpMetricas, dpRelatorio2, dpRelatorios],
     icon: "LayoutDashboard",
     badges: [
-      { text: "Tech Lead Acadêmico", colorClass: "border-blue-800 text-blue-400" },
+      { text: "Tech Lead Acadêmico · Full Stack · QA", colorClass: "border-blue-800 text-blue-400" },
       { text: "Django / React", colorClass: "border-indigo-800 text-indigo-400" }
     ],
     links: {
@@ -101,9 +101,9 @@ export const projectsData: Project[] = [
     id: "wsp-finance",
     title: "WSP Finance",
     subtitle: "Projeto autoral de gestão financeira",
-    description: "Projeto autoral em desenvolvimento para apoiar organização financeira, automação de rotinas e comunicação com a contabilidade de pequenos negócios.",
+    description: "Projeto 100% autoral em desenvolvimento, do qual sou o único desenvolvedor, para apoiar organização financeira, automação de rotinas e comunicação com a contabilidade de pequenos negócios.",
     problem: "Rotinas financeiras e operacionais dependem de informações organizadas, regras consistentes e controle de acesso para que a tomada de decisão seja segura e rastreável.",
-    solution: "Desenvolvo componentes com Node.js, TypeScript, Express, Prisma, PostgreSQL e React, aplicando APIs REST, testes e integração com Telegram de forma incremental.",
+    solution: "Desenvolvo backend e frontend com Node.js, TypeScript, Express, Prisma, PostgreSQL e React, aplicando APIs REST, testes e integração com Telegram de forma incremental. Todo o sistema — modelagem, APIs, dashboard e automações — é construído e mantido por mim.",
     icon: "Database",
     badges: [
       { text: "Node.js / TypeScript", colorClass: "border-emerald-800 text-emerald-300" },
@@ -117,9 +117,9 @@ export const projectsData: Project[] = [
     id: "ibdn-plataforma",
     title: "Plataforma Ambiental IBDN",
     subtitle: "Projeto acadêmico de digitalização ambiental",
-    description: "Projeto acadêmico em equipe para apoiar a digitalização de processos ambientais, com autenticação, controle de acesso e organização de fluxos institucionais.",
+    description: "Projeto acadêmico em equipe para apoiar a digitalização de processos ambientais, com autenticação, controle de acesso e organização de fluxos institucionais. Minha atuação foi transversal e full stack ao longo de todo o projeto.",
     problem: "Processos manuais e em papel atrasavam a emissão de selos ecológicos e limitavam a transparência das certificações ambientais do Instituto.",
-    solution: "A equipe estruturou uma plataforma web com autenticação, controle de acesso e organização dos fluxos principais. Minha contribuição individual documentada inclui um carrossel com cerca de 30 parceiros e patrocinadores.",
+    solution: "Atuei de forma transversal na plataforma, contribuindo com frontend, backend, banco de dados, integrações, QA, documentação, finalização e preparação da demo — incluindo entregas específicas de interface, como o carrossel com aproximadamente 30 parceiros e patrocinadores. Participou da definição da arquitetura, modelagem de dados, rotas, endpoints, testes funcionais e apresentação institucional.",
     icon: "Leaf",
     images: [
       ibdnLogin,
@@ -142,10 +142,10 @@ export const projectsData: Project[] = [
   {
     id: "cnpq-research",
     title: "Pesquisa CNPq / Iniciação Científica",
-    subtitle: "IA e processamento óptico",
-    description: "Participei de uma pesquisa aplicada à caracterização de amostras de solo com metodologia Speckle e busca inteligente, apresentada em simpósios científicos e voltada ao uso de algoritmos para apoiar análise de dados experimentais.",
+    subtitle: "Pesquisa aplicada · dados experimentais · Speckle · algoritmos de busca",
+    description: "Participei de uma pesquisa aplicada à caracterização de amostras de solo com metodologia Speckle e busca inteligente, abrangendo experimentos em laboratório, coleta de dados, modelagem computacional e algoritmos de classificação.",
     problem: "Métodos laboratoriais tradicionais podem tornar a análise de solo lenta e custosa. O desafio da pesquisa foi explorar uma abordagem computacional para organizar assinaturas ópticas e apoiar a distinção qualitativa de perfis de solo.",
-    solution: "Minha contribuição envolveu modelagem de banco de dados relacional para os dados científicos e implementação de algoritmo Greedy Best-First Search para classificação, conectando fundamentos de dados, busca heurística e pesquisa aplicada.",
+    solution: "Minha contribuição envolveu participação em experimentos em laboratório, coleta e organização de dados experimentais, modelagem de banco de dados relacional para os dados científicos, implementação de Greedy Best-First Search para classificação, e apresentação dos resultados em 2 simpósios científicos.",
     icon: "Microscope",
     badges: [
       { text: "CNPq / FATEC", colorClass: "border-amber-800 text-amber-400" },
