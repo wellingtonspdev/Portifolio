@@ -1,3 +1,22 @@
+export type FatecBadgeItem = {
+  id: string
+  title: string
+  type: string
+  issuer: string
+  description: string
+  badgeUrl?: string
+  authenticatorUrl: string
+  image?: string
+  competencies: string[]
+}
+
+export type CiscoCertItem = {
+  id: number
+  name: string
+  issuer: string
+  url?: string
+}
+
 export type Locale = {
   meta: {
     lang: string
@@ -123,8 +142,14 @@ export type Locale = {
   certs: {
     heading: string
     subtitle: string
-    dates: Record<number, string>
-    items: string[]
+    fatecHeading: string
+    fatecSubtitle: string
+    ciscoHeading: string
+    viewBadgeLabel: string
+    authenticateLabel: string
+    competenciesLabel: string
+    fatecBadges: FatecBadgeItem[]
+    ciscoCerts: CiscoCertItem[]
     languagesHeading: string
     languages: string
   }
