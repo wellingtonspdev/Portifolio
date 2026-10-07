@@ -2,7 +2,7 @@
 
 > Aplicação autoral para transformar projetos, experiência, formação e pesquisa em evidências técnicas navegáveis para recrutadores.
 
-[Ver portfólio online](https://wellingtonspdev.github.io/Portifolio/) · [LinkedIn](https://www.linkedin.com/in/wellingtonsp-dev) · [GitHub](https://github.com/wellingtonspdev) · [Baixar currículo](https://wellingtonspdev.github.io/Portifolio/docs/curriculo-wellington-siqueira-porto.pdf)
+[Ver portfólio online](https://wellingtonsp.uk/) · [LinkedIn](https://www.linkedin.com/in/wellingtonsp-dev) · [GitHub](https://github.com/wellingtonspdev) · [Baixar currículo](https://wellingtonsp.uk/docs/curriculo-wellington-siqueira-porto.pdf)
 
 ## Visão do produto
 
@@ -17,9 +17,9 @@ O objetivo é substituir uma apresentação baseada apenas em listas de skills p
 - Trajetória acadêmica, iniciação científica CNPq e experiência prática na Fatec.
 - Projetos autorais, acadêmicos e institucionais com links de código e demonstrações quando disponíveis.
 - Currículo em PDF, LinkedIn, GitHub e contato direto por WhatsApp.
-- Navegação visual com animações, fundo 3D interativo, carrosséis de screenshots e lightbox.
+- Navegação com conteúdo imediato, fundo 3D opcional, carrosséis com carregamento sob demanda e lightbox.
 - SEO técnico com metadados por idioma, Open Graph, Twitter Cards, JSON-LD, robots, sitemap e páginas pré-renderizadas.
-- Publicação automatizada no GitHub Pages.
+- Publicação automatizada na Vercel e previews para validar alterações.
 
 ## Arquitetura
 
@@ -44,17 +44,17 @@ Os projetos são modelados em dados reutilizáveis. Isso permite que o card, a p
 |---|---|---|
 | Interface | React 18, TypeScript, Vite | Componentização, tipagem e build rápido |
 | Estilo | Tailwind CSS, clsx | Layout responsivo e variações visuais reutilizáveis |
-| Experiência visual | Three.js, React Three Fiber, Drei, Framer Motion, Lenis | Fundo Deep Space, animações, transições e rolagem suave |
+| Experiência visual | Three.js, React Three Fiber, Drei, Framer Motion | Fundo Deep Space sob demanda e animações responsivas |
 | Conteúdo | Dados TypeScript e i18n próprio | Cases e interface em PT-BR/EN |
 | SEO | React Helmet Async | Metadados, canonical, Open Graph, Twitter Cards e JSON-LD |
 | Interação | Embla Carousel, Lucide React | Carrosséis, lightbox e ícones acessíveis |
-| Entrega | GitHub Actions, GitHub Pages | Build e deploy automatizados em `main` |
+| Entrega | Vercel, GitHub Actions | Produção pela integração com o GitHub; CI para validar alterações |
 
 ## Experiência visual e performance
 
-O visual usa uma identidade Deep Space para diferenciar o produto sem esconder o conteúdo profissional. Elementos visuais incluem fundo 3D, partículas, animações de entrada, cards translúcidos, carrosséis de screenshots e lightbox para inspeção de telas.
+O visual usa uma identidade Deep Space para diferenciar o produto sem esconder o conteúdo profissional. O fundo 3D é opcional e fica desligado ao entrar; a navegação funciona sem inicializar WebGL.
 
-O fundo gráfico é carregado de forma adiada e não é ativado quando o navegador informa preferência por redução de movimento. Imagens de carrosséis usam carregamento preguiçoso após o primeiro slide, e os assets locais são processados pelo Vite com nomes versionados no build.
+Screenshots usam carregamento preguiçoso e efeitos decorativos em CSS. Assets versionados têm cache de longa duração; o HTML inicial mantém o portfólio visível enquanto o JavaScript carrega.
 
 ## Cases apresentados
 
@@ -102,7 +102,7 @@ npm install
 npm run dev
 ```
 
-O Vite serve a aplicação localmente. Como o projeto usa a base `/Portifolio/`, acesse a URL exibida pelo terminal, normalmente `http://localhost:5173/Portifolio/`.
+O Vite serve a aplicação na raiz `/`. Acesse `http://localhost:5173/`.
 
 ### Scripts
 
@@ -115,7 +115,7 @@ O Vite serve a aplicação localmente. Como o projeto usa a base `/Portifolio/`,
 
 ## Deploy
 
-O workflow [deploy-pages.yml](.github/workflows/deploy-pages.yml) é acionado por pushes na branch `main`. Ele instala dependências, executa `npm run build`, publica o diretório `dist/` e disponibiliza o site no GitHub Pages.
+O projeto é preparado para publicar por meio da integração Git da Vercel, com build `npm run build` e saída `dist/`. O workflow [deploy-pages.yml](.github/workflows/deploy-pages.yml) permanece ativo até o domínio e a publicação da Vercel serem verificados.
 
 ## Contato
 

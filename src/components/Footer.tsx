@@ -7,7 +7,7 @@ export function Footer() {
   const { t } = useLanguage()
 
   return (
-    <footer id="contato" className="py-20 border-t border-white/10 text-center relative z-10 bg-black/60 backdrop-blur-xl">
+    <footer id="contato" className="py-20 border-t border-white/10 text-center relative z-10 bg-black/80">
       <div className="container mx-auto px-6">
         <motion.h2
           className="text-3xl font-bold text-white mb-4"

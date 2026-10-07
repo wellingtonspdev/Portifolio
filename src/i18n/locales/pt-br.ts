@@ -22,6 +22,8 @@ export const ptBR: Locale = {
     keywords: 'Competências',
     certs: 'Certificações',
     resume: 'Baixar currículo',
+    enableAnimatedBackground: 'Ativar fundo animado',
+    disableAnimatedBackground: 'Desativar fundo animado',
   },
 
   hero: {
@@ -104,12 +106,12 @@ export const ptBR: Locale = {
       subtitle: 'Projeto autoral de apresentação técnica e carreira',
       description: 'Aplicação pública criada para transformar projetos, experiência, formação e pesquisa em cases técnicos navegáveis, bilíngues e prontos para avaliação por recrutadores.',
       problem: 'Uma lista de tecnologias não demonstra, por si só, como decisões de produto, interface, acessibilidade, descoberta e entrega se conectam em uma aplicação real.',
-      solution: 'Construí um portfólio em React e TypeScript com cases detalhados, interface responsiva, elementos 3D, internacionalização, SEO técnico, currículo para download e deploy automatizado no GitHub Pages.',
+      solution: 'Construí um portfólio em React e TypeScript com cases detalhados, interface responsiva e SEO. Separei os efeitos 3D opcionais do conteúdo e preparei um único deploy de produção na Vercel com domínio próprio.',
       caseStudy: {
         roleLabel: 'Meu papel',
         role: 'Idealizei, projetei e desenvolvi a aplicação, estruturando sua arquitetura de componentes, conteúdo profissional, identidade visual, experiência de navegação, descoberta e publicação.',
         processLabel: 'Processo aplicado',
-        process: ['Modelei projetos e cases em dados reutilizáveis para manter o conteúdo consistente.', 'Criei componentes responsivos, animações e elementos 3D com carregamento adiado para equilibrar impacto visual e experiência.', 'Implementei suporte a português e inglês, metadados, JSON-LD, Open Graph, sitemap e páginas pré-renderizadas.', 'Automatizei a publicação no GitHub Pages por GitHub Actions e evoluí o produto por incrementos versionados.'],
+        process: ['Modelei projetos e cases em dados reutilizáveis para manter o conteúdo consistente.', 'Criei componentes responsivos e deixei o fundo 3D sob demanda, reduzindo animações, imagens e trabalho gráfico automático.', 'Implementei suporte a português e inglês, metadados, JSON-LD, Open Graph, sitemap e páginas pré-renderizadas.', 'Preparei o deploy de produção na Vercel e mantive previews para validar as mudanças.'],
         outcomeLabel: 'Resultado e aprendizado',
         outcome: 'O portfólio se tornou uma evidência pública do meu trabalho em frontend, apresentação de produto, documentação e entrega. A evolução reforçou a importância de alinhar visual, conteúdo, acessibilidade, SEO e manutenção contínua.',
       },

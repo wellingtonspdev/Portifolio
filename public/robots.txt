@@ -1,4 +1,4 @@
 User-agent: *
 Allow: /
 
-Sitemap: https://wellingtonspdev.github.io/Portifolio/sitemap.xml
+Sitemap: https://wellingtonsp.uk/sitemap.xml

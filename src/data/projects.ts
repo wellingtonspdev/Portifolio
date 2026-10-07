@@ -49,7 +49,7 @@ export const projectsData: Project[] = [
     subtitle: "Projeto autoral de apresentação técnica e carreira",
     description: "Aplicação pública criada para transformar projetos, experiência, formação e pesquisa em cases técnicos navegáveis, bilíngues e prontos para avaliação por recrutadores.",
     problem: "Uma lista de tecnologias não demonstra, por si só, como decisões de produto, interface, acessibilidade, descoberta e entrega se conectam em uma aplicação real.",
-    solution: "Construí um portfólio em React e TypeScript com cases detalhados, interface responsiva, elementos 3D, internacionalização, SEO técnico, currículo para download e deploy automatizado no GitHub Pages.",
+    solution: "Construí um portfólio em React e TypeScript com cases detalhados, experiência responsiva, SEO e conteúdo acessível sem depender de efeitos 3D. Automatizei a publicação na Vercel, com o domínio próprio e deploy único de produção.",
     icon: "Cpu",
     badges: [
       { text: "React / TypeScript", colorClass: "border-cyan-800 text-cyan-300" },

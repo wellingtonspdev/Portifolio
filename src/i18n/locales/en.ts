@@ -22,6 +22,8 @@ export const en: Locale = {
     keywords: 'Skills index',
     certs: 'Certifications',
     resume: 'Download résumé',
+    enableAnimatedBackground: 'Enable animated background',
+    disableAnimatedBackground: 'Disable animated background',
   },
 
   hero: {
@@ -104,12 +106,12 @@ export const en: Locale = {
       subtitle: 'Authorial project for technical and career presentation',
       description: 'A public application created to turn projects, experience, education, and research into bilingual, navigable technical cases ready for recruiter evaluation.',
       problem: 'A technology list alone does not show how product, interface, accessibility, discovery, and delivery decisions connect in a real application.',
-      solution: 'I built a React and TypeScript portfolio with detailed cases, a responsive interface, 3D elements, internationalization, technical SEO, downloadable résumé, and automated GitHub Pages deployment.',
+      solution: 'I built a React and TypeScript portfolio with detailed case studies, a responsive interface, and technical SEO. I separated optional 3D effects from the core content and prepared a single Vercel production deployment with a custom domain.',
       caseStudy: {
         roleLabel: 'My role',
         role: 'I conceived, designed, and developed the application, structuring its component architecture, professional content, visual identity, navigation experience, discoverability, and publication.',
         processLabel: 'Process applied',
-        process: ['Modeled projects and cases as reusable data to keep content consistent.', 'Created responsive components, animations, and 3D elements with deferred loading to balance visual impact and experience.', 'Implemented Portuguese and English support, metadata, JSON-LD, Open Graph, sitemap, and pre-rendered pages.', 'Automated GitHub Pages publishing with GitHub Actions and evolved the product through versioned increments.'],
+        process: ['Modeled projects and cases as reusable data to keep content consistent.', 'Built responsive components and made the 3D background opt-in while reducing automatic animation, image, and graphics work.', 'Implemented Portuguese and English support, metadata, JSON-LD, Open Graph, sitemap, and pre-rendered pages.', 'Prepared Vercel production deployment and retained previews for validating changes.'],
         outcomeLabel: 'Outcome and learning',
         outcome: 'The portfolio became public evidence of my work in frontend development, product presentation, documentation, and delivery. Its evolution reinforced the importance of aligning visuals, content, accessibility, SEO, and continuous maintenance.',
       },

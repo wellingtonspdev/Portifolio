@@ -18,7 +18,7 @@ module.exports = {
   },
   overrides: [
     {
-      files: ['src/i18n/LanguageContext.tsx'],
+      files: ['src/i18n/LanguageContext.tsx', 'src/context/IntroContext.tsx'],
       rules: {
         'react-refresh/only-export-components': 'off',
       },

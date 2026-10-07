@@ -1,6 +1,17 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
-  <url>
-    <loc>https://wellingtonspdev.github.io/Portifolio/</loc>
-  </url>
+  <url><loc>https://wellingtonsp.uk/</loc></url>
+  <url><loc>https://wellingtonsp.uk/en/</loc></url>
+  <url><loc>https://wellingtonsp.uk/projetos/portfolio-profissional/</loc></url>
+  <url><loc>https://wellingtonsp.uk/en/projetos/portfolio-profissional/</loc></url>
+  <url><loc>https://wellingtonsp.uk/projetos/reserva-laboratorios-fatec/</loc></url>
+  <url><loc>https://wellingtonsp.uk/en/projetos/reserva-laboratorios-fatec/</loc></url>
+  <url><loc>https://wellingtonsp.uk/projetos/wsp-finance/</loc></url>
+  <url><loc>https://wellingtonsp.uk/en/projetos/wsp-finance/</loc></url>
+  <url><loc>https://wellingtonsp.uk/projetos/define-pilates/</loc></url>
+  <url><loc>https://wellingtonsp.uk/en/projetos/define-pilates/</loc></url>
+  <url><loc>https://wellingtonsp.uk/projetos/ibdn-plataforma/</loc></url>
+  <url><loc>https://wellingtonsp.uk/en/projetos/ibdn-plataforma/</loc></url>
+  <url><loc>https://wellingtonsp.uk/projetos/cnpq-research/</loc></url>
+  <url><loc>https://wellingtonsp.uk/en/projetos/cnpq-research/</loc></url>
 </urlset>
