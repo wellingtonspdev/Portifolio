@@ -1,5 +1,6 @@
-import { lazy, ReactNode, Suspense, useEffect, useState } from 'react'
+import { lazy, ReactNode, Suspense, useState } from 'react'
 import { motion } from 'framer-motion'
+import { Sparkles } from 'lucide-react'
 import { WhatsAppButton } from './WhatsAppButton'
 import { useLanguage } from '../i18n'
 import { ResumeButton } from './ResumeButton'
@@ -8,7 +9,7 @@ import { getBasePath, getCurrentProjectId, getProjectPath } from '../routing'
 const SpaceBackground = lazy(() => import('./SpaceBackground').then((module) => ({ default: module.SpaceBackground })))
 
 function LanguageToggle() {
-  const { lang, setLanguage } = useLanguage()
+  const { lang, setLanguage, t } = useLanguage()
 
   const changeLanguage = (language: 'pt-br' | 'en') => {
     setLanguage(language)
@@ -17,14 +18,14 @@ function LanguageToggle() {
   }
 
   return (
-    <div className="flex items-center bg-white/5 border border-white/10 rounded-full p-0.5 backdrop-blur-md" role="radiogroup" aria-label="Language">
+    <div className="flex items-center rounded-full border border-white/10 bg-white/5 p-0.5" role="radiogroup" aria-label={t.meta.lang === 'en' ? 'Language' : 'Idioma'}>
       {(['pt-br', 'en'] as const).map((l) => (
         <button
           key={l}
           role="radio"
           aria-checked={lang === l}
           onClick={() => changeLanguage(l)}
-          className="relative px-3 py-1 text-xs font-bold uppercase tracking-wider transition-colors duration-200 rounded-full z-10"
+          className="relative min-h-10 min-w-10 rounded-full px-3 py-2 text-xs font-bold uppercase tracking-wider transition-colors duration-200 z-10"
           style={{ color: lang === l ? '#ffffff' : '#9ca3af' }}
         >
           {lang === l && (
@@ -44,33 +45,28 @@ function LanguageToggle() {
 
 export function Layout({ children }: { children: ReactNode }) {
   const { t } = useLanguage()
-  const [showBackground, setShowBackground] = useState(false)
-
-  useEffect(() => {
-    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return
-    const schedule = window.requestIdleCallback ?? ((callback: IdleRequestCallback) => window.setTimeout(callback, 600))
-    const cancel = window.cancelIdleCallback ?? window.clearTimeout
-    const id = schedule(() => setShowBackground(true))
-    return () => cancel(id)
-  }, [])
+  const [isBackgroundEnabled, setIsBackgroundEnabled] = useState(false)
 
   const homePath = getBasePath(t.meta.lang === 'en' ? 'en' : 'pt-br')
 
   return (
     <div className="relative min-h-screen">
       {/* Motor Gráfico Deep Space injetado no fundo da página */}
-      {showBackground && <Suspense fallback={null}><SpaceBackground /></Suspense>}
+      {isBackgroundEnabled && (
+        <Suspense fallback={null}>
+          <SpaceBackground skipIntro />
+        </Suspense>
+      )}
 
       <motion.header 
-         initial={{ opacity: 0, y: -20 }}
+         initial={false}
          animate={{ opacity: 1, y: 0 }}
-         transition={{ duration: 1, ease: "easeOut", delay: 4.5 }}
-         className="fixed top-0 left-0 right-0 z-50 bg-black/40 backdrop-blur-md border-b border-glass-border">
-         <nav className="container mx-auto px-6 py-4 flex justify-between items-center">
-            <span className="font-bold text-xl tracking-tighter text-white hover:scale-105 transition-transform cursor-pointer">
+         className="fixed top-0 left-0 right-0 z-50 border-b border-glass-border bg-[#070a10]/90 backdrop-blur-sm">
+         <nav className="container mx-auto flex items-center justify-between px-4 py-3 sm:px-6 sm:py-4">
+            <span className="font-bold text-lg tracking-tighter text-white transition-transform hover:scale-105 cursor-pointer sm:text-xl">
               wellingtonsp<span className="text-accent-end">.dev</span>
             </span>
-            <div className="flex items-center gap-6">
+            <div className="flex items-center gap-2 sm:gap-4 md:gap-6">
               <div className="hidden md:flex gap-6">
                 <a href={`${homePath}#sobre`} className="text-sm font-semibold text-gray-300 hover:text-white transition-colors">{t.nav.about}</a>
                 <a href={`${homePath}#trajetoria`} className="text-sm font-semibold text-gray-300 hover:text-white transition-colors">{t.nav.trajectory}</a>
@@ -81,6 +77,17 @@ export function Layout({ children }: { children: ReactNode }) {
                 <a href={`${homePath}#certificacoes`} className="text-sm font-semibold text-gray-300 hover:text-white transition-colors">{t.nav.certs}</a>
               </div>
               <ResumeButton label={t.nav.resume} variant="secondary" className="hidden lg:inline-flex px-3 py-2 text-xs" />
+              <button
+                type="button"
+                onClick={() => setIsBackgroundEnabled((enabled) => !enabled)}
+                className="inline-flex min-h-9 min-w-9 items-center justify-center gap-2 rounded-full border border-white/10 bg-white/5 px-2.5 py-1 text-xs font-semibold text-gray-200 transition-colors hover:bg-white/10 sm:px-3"
+                aria-label={isBackgroundEnabled ? t.nav.disableAnimatedBackground : t.nav.enableAnimatedBackground}
+                aria-pressed={isBackgroundEnabled}
+                title={isBackgroundEnabled ? t.nav.disableAnimatedBackground : t.nav.enableAnimatedBackground}
+              >
+                <Sparkles className="h-4 w-4" aria-hidden="true" />
+                <span className="hidden sm:inline">{isBackgroundEnabled ? t.nav.disableAnimatedBackground : t.nav.enableAnimatedBackground}</span>
+              </button>
               <LanguageToggle />
             </div>
          </nav>

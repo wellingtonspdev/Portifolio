@@ -1,7 +1,7 @@
 import { mkdir, readFile, writeFile } from 'node:fs/promises'
 import { dirname, join } from 'node:path'
 
-const siteUrl = 'https://wellingtonspdev.github.io/Portifolio/'
+const siteUrl = 'https://wellingtonsp.uk/'
 const dist = 'dist'
 const projects = [
   ['portfolio-profissional', 'Portfólio Profissional', 'Projeto autoral em React e TypeScript que apresenta cases técnicos, experiência, formação e pesquisa com interface responsiva, SEO e publicação automatizada.', 'Authorial React and TypeScript project presenting technical cases, experience, education, and research with a responsive interface, SEO, and automated publishing.'],

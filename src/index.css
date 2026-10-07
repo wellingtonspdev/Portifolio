@@ -7,11 +7,38 @@
     @apply m-0 p-0 overflow-x-hidden;
     font-family: 'Inter', sans-serif;
   }
+
+  body {
+    background-image:
+      radial-gradient(ellipse at 18% 12%, rgba(37, 99, 235, 0.14), transparent 38%),
+      radial-gradient(ellipse at 84% 20%, rgba(124, 58, 237, 0.12), transparent 42%),
+      linear-gradient(180deg, #030014 0%, #050811 55%, #030014 100%);
+    background-repeat: no-repeat;
+  }
+
+  html {
+    scroll-behavior: smooth;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    html {
+      scroll-behavior: auto;
+    }
+
+    *,
+    *::before,
+    *::after {
+      animation-duration: 0.01ms !important;
+      animation-iteration-count: 1 !important;
+      scroll-behavior: auto !important;
+      transition-duration: 0.01ms !important;
+    }
+  }
 }
 
 @layer components {
   .glass-card {
-    @apply bg-glass backdrop-blur-[16px] border border-glass-border shadow-glass transition-all duration-300;
+    @apply bg-glass backdrop-blur-[8px] border border-glass-border shadow-glass transition-all duration-300;
   }
 
   .glass-card:hover {

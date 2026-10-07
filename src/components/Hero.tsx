@@ -1,10 +1,40 @@
 import { useEffect, useState } from 'react'
-import { motion } from 'framer-motion'
+import { motion, useReducedMotion } from 'framer-motion'
 import { useLanguage } from '../i18n'
 import { ResumeButton } from './ResumeButton'
 
-export function Hero({ entranceDelay = 4.5 }: { entranceDelay?: number }) {
+const containerVariants = {
+  hidden: { opacity: 0 },
+  visible: {
+    opacity: 1,
+    transition: {
+      staggerChildren: 0.12,
+      delayChildren: 0.08,
+    },
+  },
+}
+
+const itemVariants = {
+  hidden: { opacity: 0, y: 20 },
+  visible: {
+    opacity: 1,
+    y: 0,
+    transition: {
+      duration: 0.8,
+      ease: [0.16, 1, 0.3, 1],
+    },
+  },
+}
+
+export function Hero() {
   const { t } = useLanguage()
+  const shouldReduceMotion = useReducedMotion()
+  const accessibleContainerVariants = shouldReduceMotion
+    ? { hidden: { opacity: 1 }, visible: { opacity: 1 } }
+    : containerVariants
+  const accessibleItemVariants = shouldReduceMotion
+    ? { hidden: { opacity: 1, y: 0 }, visible: { opacity: 1, y: 0 } }
+    : itemVariants
   const [text, setText] = useState('')
   const phrases = t.hero.phrases
   const [phraseIndex, setPhraseIndex] = useState(0)
@@ -18,6 +48,11 @@ export function Hero({ entranceDelay = 4.5 }: { entranceDelay?: number }) {
   }, [t])
 
   useEffect(() => {
+    if (shouldReduceMotion) {
+      setText(phrases[0] ?? '')
+      return
+    }
+
     const currentPhrase = phrases[phraseIndex]
     const typeSpeed = isDeleting ? 30 : 50
     const delay = isDeleting && text === '' ? 500 : (!isDeleting && text === currentPhrase ? 2000 : typeSpeed)
@@ -34,41 +69,46 @@ export function Hero({ entranceDelay = 4.5 }: { entranceDelay?: number }) {
     }, delay)
 
     return () => clearTimeout(timeout)
-  }, [text, isDeleting, phraseIndex, phrases])
+  }, [text, isDeleting, phraseIndex, phrases, shouldReduceMotion])
 
   return (
-    <section id="home" className="pt-40 pb-20 md:pt-56 md:pb-32 relative z-10 min-h-screen flex items-center">
+    <section id="home" className="pt-28 pb-16 md:pt-36 md:pb-24 relative z-10 min-h-screen flex items-center justify-center">
       <div className="container mx-auto px-6 text-center">
         <motion.div
           className="max-w-4xl mx-auto"
-          initial={{ opacity: 0, y: 30 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 1.2, ease: "easeOut", delay: entranceDelay }}
+          variants={accessibleContainerVariants}
+          initial={shouldReduceMotion ? false : 'hidden'}
+          animate="visible"
         >
-          <span className="inline-flex items-center gap-2 bg-green-500/10 text-green-400 text-xs font-bold mb-6 px-4 py-1.5 rounded-full border border-green-500/20 uppercase tracking-wider backdrop-blur-md">
-            <span className="w-2 h-2 rounded-full bg-green-500 animate-pulse"></span>
-            {t.hero.badge}
-          </span>
+          <motion.div variants={accessibleItemVariants}>
+            <span className="inline-flex items-center gap-2 bg-green-500/10 text-green-400 text-xs font-bold mb-6 px-4 py-1.5 rounded-full border border-green-500/20 uppercase tracking-wider backdrop-blur-md">
+              <span className="w-2 h-2 rounded-full bg-green-500 animate-pulse"></span>
+              {t.hero.badge}
+            </span>
+          </motion.div>
 
-          <h1 className="text-4xl md:text-7xl font-extrabold tracking-tighter text-white mb-6">
+          <motion.h1 variants={accessibleItemVariants} className="text-4xl md:text-7xl font-extrabold tracking-tighter text-white mb-6">
             Wellington Siqueira Porto
-          </h1>
+          </motion.h1>
 
-          <p className="text-sm md:text-base font-bold uppercase tracking-[0.16em] text-gray-300 mb-4">
+          <motion.p variants={accessibleItemVariants} className="text-sm md:text-base font-bold uppercase tracking-[0.16em] text-gray-300 mb-4">
             {t.hero.role}
-          </p>
+          </motion.p>
 
-          <h2 className="text-xl md:text-3xl font-bold text-accent-end mb-8 h-8 md:h-10 flex justify-center">
-            <span>{text}</span>
-            <span className="animate-pulse ml-1">|</span>
-          </h2>
+          <motion.div variants={accessibleItemVariants}>
+            <h2 className="text-xl md:text-3xl font-bold text-accent-end mb-8 h-8 md:h-10 flex justify-center">
+              <span>{text}</span>
+              <span className="animate-pulse ml-1">|</span>
+            </h2>
+          </motion.div>
 
-          <p
+          <motion.p
+            variants={accessibleItemVariants}
             className="text-lg md:text-xl text-gray-400 mb-12 max-w-3xl mx-auto leading-relaxed italic"
             dangerouslySetInnerHTML={{ __html: t.hero.tagline }}
           />
 
-          <div className="flex flex-wrap justify-center gap-4">
+          <motion.div variants={accessibleItemVariants} className="flex flex-wrap justify-center gap-4">
             <a href="#projetos" className="bg-gradient-to-r from-accent-start to-accent-end text-white font-bold py-3 px-8 rounded-xl shadow-neon hover:shadow-lg hover:opacity-90 transition-all duration-300">
               {t.hero.cta}
             </a>
@@ -76,7 +116,7 @@ export function Hero({ entranceDelay = 4.5 }: { entranceDelay?: number }) {
               GitHub
             </a>
             <ResumeButton label={t.nav.resume} />
-          </div>
+          </motion.div>
         </motion.div>
       </div>
     </section>

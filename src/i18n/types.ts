@@ -38,6 +38,8 @@ export type Locale = {
     keywords: string
     certs: string
     resume: string
+    enableAnimatedBackground: string
+    disableAnimatedBackground: string
   }
   hero: {
     badge: string

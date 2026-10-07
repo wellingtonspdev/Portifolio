@@ -1,17 +1,25 @@
+import { useEffect, useState } from 'react'
 import { Helmet } from 'react-helmet-async'
 import { useLanguage } from '../i18n'
 import { keywords } from '../data/keywords'
 
 export function SeoComponent() {
   const { t } = useLanguage()
+  const [pathname, setPathname] = useState(() => window.location.pathname)
   const indexedSkills = Array.from(new Set([...t.meta.knowsAbout, ...keywords])).slice(0, 60)
-  const siteUrl = 'https://wellingtonspdev.github.io/Portifolio/'
-  const relativePath = typeof window === 'undefined' ? '' : window.location.pathname.replace(import.meta.env.BASE_URL, '')
+  const siteUrl = 'https://wellingtonsp.uk/'
+  const relativePath = pathname.replace(import.meta.env.BASE_URL, '')
   const canonicalUrl = `${siteUrl}${relativePath}`
   const localizedPath = relativePath.replace(/^en\//, '')
   const portugueseUrl = `${siteUrl}${localizedPath}`
   const englishUrl = `${siteUrl}en/${localizedPath}`
   const ogImageUrl = `${siteUrl}og-image.png`
+
+  useEffect(() => {
+    const syncPathname = () => setPathname(window.location.pathname)
+    window.addEventListener('popstate', syncPathname)
+    return () => window.removeEventListener('popstate', syncPathname)
+  }, [])
 
   const schemaData = {
     "@context": "https://schema.org",

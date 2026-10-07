@@ -1,6 +1,6 @@
-import { useState, useCallback, useEffect } from 'react'
+import { useState, useCallback, useEffect, useRef } from 'react'
 import { createPortal } from 'react-dom'
-import { motion, AnimatePresence } from 'framer-motion'
+import { motion, AnimatePresence, useReducedMotion } from 'framer-motion'
 import { ChevronDown, Cpu, Database, Activity, LayoutDashboard, Leaf, Microscope, ExternalLink, Github, ChevronLeft, ChevronRight, X } from 'lucide-react'
 import { Project } from '../data/projects'
 import { clsx } from 'clsx'
@@ -34,6 +34,7 @@ function formatDescription(text: string) {
 const SingleAssetView = ({ src, alt }: { src: string, alt: string }) => {
   const isIBDN = src.includes('IBDN');
   const isVIVA = src.includes('VIVA'); // Se for viva, o logo tem fundo
+  const shouldReduceMotion = useReducedMotion()
 
   if (isVIVA) {
     return (
@@ -47,16 +48,12 @@ const SingleAssetView = ({ src, alt }: { src: string, alt: string }) => {
 
   return (
     <motion.div
-      animate={{ 
+      animate={shouldReduceMotion ? undefined : {
         y: [0, -12, 0],
         scale: [1, 1.05, 1],
         filter: ["drop-shadow(0 0 0px #00f2ff)", "drop-shadow(0 0 15px #00f2ff)", "drop-shadow(0 0 0px #00f2ff)"]
       }}
-      transition={{ 
-        duration: 5, 
-        repeat: Infinity, 
-        ease: "easeInOut" 
-      }}
+      transition={shouldReduceMotion ? undefined : { duration: 5, repeat: Infinity, ease: "easeInOut" }}
       className="flex items-center justify-center w-full h-full max-w-[65%] max-h-[65%] z-20 relative"
     >
       <img
@@ -72,8 +69,55 @@ const SingleAssetView = ({ src, alt }: { src: string, alt: string }) => {
 };
 
 const MultiAssetCarousel = ({ assets, altTitle, onOpen }: { assets: string[], altTitle: string, onOpen?: (index: number) => void }) => {
-  const [emblaRef, emblaApi] = useEmblaCarousel({ loop: true }, [Autoplay({ delay: 3500, stopOnInteraction: false })])
+  const [emblaRef, emblaApi] = useEmblaCarousel({ loop: true }, [Autoplay({
+    delay: 4500,
+    playOnInit: false,
+    stopOnInteraction: true,
+    stopOnFocusIn: true,
+    stopOnMouseEnter: true,
+  })])
   const [selectedIndex, setSelectedIndex] = useState(0)
+  const [isInView, setIsInView] = useState(false)
+  const [isDocumentVisible, setIsDocumentVisible] = useState(true)
+  const shouldReduceMotion = useReducedMotion()
+  const carouselContainerRef = useRef<HTMLDivElement>(null)
+
+  useEffect(() => {
+    const carouselContainer = carouselContainerRef.current
+    if (!carouselContainer) return
+
+    if (!('IntersectionObserver' in window)) {
+      setIsInView(true)
+      return
+    }
+
+    const observer = new IntersectionObserver(([entry]) => {
+      setIsInView(entry.isIntersecting)
+    }, { rootMargin: '100px 0px' })
+
+    observer.observe(carouselContainer)
+    return () => observer.disconnect()
+  }, [])
+
+  useEffect(() => {
+    const syncVisibility = () => setIsDocumentVisible(document.visibilityState === 'visible')
+    syncVisibility()
+    document.addEventListener('visibilitychange', syncVisibility)
+    return () => document.removeEventListener('visibilitychange', syncVisibility)
+  }, [])
+
+  useEffect(() => {
+    const autoplay = emblaApi?.plugins().autoplay
+    if (!autoplay) return
+
+    if (shouldReduceMotion || !isInView || !isDocumentVisible) {
+      autoplay.stop()
+    } else {
+      autoplay.play()
+    }
+
+    return () => autoplay.stop()
+  }, [emblaApi, isDocumentVisible, isInView, shouldReduceMotion])
 
   const onSelect = useCallback(() => {
     if (!emblaApi) return
@@ -90,22 +134,23 @@ const MultiAssetCarousel = ({ assets, altTitle, onOpen }: { assets: string[], al
   }, [emblaApi, onSelect])
 
   return (
-    <div className="relative w-full h-full group" style={{ maskImage: 'linear-gradient(to right, transparent 0%, black 5%, black 95%, transparent 100%)', WebkitMaskImage: 'linear-gradient(to right, transparent 0%, black 5%, black 95%, transparent 100%)' }}>
+    <div ref={carouselContainerRef} className="relative w-full h-full group" style={{ maskImage: 'linear-gradient(to right, transparent 0%, black 5%, black 95%, transparent 100%)', WebkitMaskImage: 'linear-gradient(to right, transparent 0%, black 5%, black 95%, transparent 100%)' }}>
       <div className="overflow-hidden h-full embla cursor-grab active:cursor-grabbing" ref={emblaRef}>
-        <div className="flex h-full embla__container touch-pan-y" style={{ willChange: 'transform' }}>
+        <div className="flex h-full embla__container touch-pan-y">
           {assets.map((src, index) => {
             const isLogo = src.includes('Logo_Define_Pilates');
             
             return (
               <div className={clsx("relative flex-[0_0_100%] min-w-0 h-full embla__slide overflow-hidden flex items-center justify-center", !isLogo && "px-4 pb-10 pt-4")} key={index}>
                 {isLogo && <div className="absolute inset-0 w-full h-full bg-gradient-to-br from-[#0ac2ac] to-[#0d9488] z-0" />}
-                {!isLogo && <img src={src} aria-hidden="true" className="absolute inset-0 w-full h-full object-cover opacity-20 blur-2xl scale-[1.3] pointer-events-none" />}
+                {!isLogo && <div aria-hidden="true" className="pointer-events-none absolute inset-0 scale-[1.3] bg-gradient-to-br from-sky-900/35 via-indigo-950/50 to-slate-950 opacity-80" />}
                 
                 {isLogo ? (
                   <img
                     src={src}
                     alt={`${altTitle} - slide ${index + 1}`}
-                    loading={index === 0 ? "eager" : "lazy"}
+                    loading="lazy"
+                    decoding="async"
                     className="max-w-full relative z-10 absolute inset-0 w-full h-full object-contain p-8 pointer-events-none block"
                   />
                 ) : (
@@ -118,7 +163,8 @@ const MultiAssetCarousel = ({ assets, altTitle, onOpen }: { assets: string[], al
                     <img
                       src={src}
                       alt={`${altTitle} - slide ${index + 1}`}
-                      loading={index === 0 ? "eager" : "lazy"}
+                      loading="lazy"
+                      decoding="async"
                       className="max-h-full max-w-full h-auto w-auto object-contain rounded-lg shadow-[0_10px_35px_rgba(0,0,0,0.8)] border border-white/10"
                     />
                   </button>
@@ -156,6 +202,7 @@ export function ProjectCard({ project }: { project: Project }) {
   const [isExpanded, setIsExpanded] = useState(false)
   const [lightboxIndex, setLightboxIndex] = useState<number | null>(null)
   const { t } = useLanguage()
+  const shouldReduceMotion = useReducedMotion()
   const pd = t.projectData[project.id]
   const lightboxAssets = project.images && project.images.length > 1 ? project.images : []
   const isLightboxOpen = lightboxIndex !== null && lightboxAssets.length > 0
@@ -277,10 +324,10 @@ export function ProjectCard({ project }: { project: Project }) {
   return (
     <motion.article
       className="glass-card rounded-2xl overflow-hidden flex flex-col group relative"
-      initial={{ opacity: 0, y: 40 }}
-      whileInView={{ opacity: 1, y: 0 }}
+      initial={shouldReduceMotion ? false : { opacity: 0, y: 40 }}
+      whileInView={shouldReduceMotion ? undefined : { opacity: 1, y: 0 }}
       viewport={{ once: true, margin: "-50px" }}
-      transition={{ duration: 0.7, ease: [0.2, 0.8, 0.2, 1] }}
+      transition={shouldReduceMotion ? { duration: 0 } : { duration: 0.7, ease: [0.2, 0.8, 0.2, 1] }}
     >
       {/* Visual Header (Ícone ou Imagem) */}
       <div className="relative h-[320px] md:h-[360px] w-full overflow-hidden flex flex-col items-center justify-center p-6 text-center border-b border-white/5 bg-white/5 group-hover:bg-white/10 transition-colors">
@@ -317,7 +364,7 @@ export function ProjectCard({ project }: { project: Project }) {
         </AnimatePresence>
       </div>
 
-      <div className="p-8 flex flex-col flex-grow bg-black/40 backdrop-blur-md">
+      <div className="p-8 flex flex-col flex-grow bg-black/75">
         <h3 className="text-2xl font-bold text-white mb-2">{project.title}</h3>
         <p className="text-sm text-gray-300 mb-4 leading-relaxed font-medium">
           {formatDescription(pd?.description ?? project.description)}

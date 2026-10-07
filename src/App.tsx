@@ -1,6 +1,5 @@
 import { useEffect, useState } from 'react'
-import Lenis from 'lenis'
-import { AnimatePresence, motion, useReducedMotion } from 'framer-motion'
+import { AnimatePresence, motion, MotionConfig, useReducedMotion } from 'framer-motion'
 import { SeoComponent } from './components/SEO'
 import { Layout } from './components/Layout'
 import { Hero } from './components/Hero'
@@ -18,7 +17,6 @@ import { getCurrentProjectId } from './routing'
 
 function App() {
   const [locationKey, setLocationKey] = useState(() => `${window.location.pathname}${window.location.search}${window.location.hash}`)
-  const [hasClientNavigation, setHasClientNavigation] = useState(false)
   const shouldReduceMotion = useReducedMotion()
   const projectId = getCurrentProjectId()
 
@@ -47,40 +45,18 @@ function App() {
       const nextLocationKey = `${destination.pathname}${destination.search}${destination.hash}`
       if (nextLocationKey === locationKey) return
       window.history.pushState({}, '', nextLocationKey)
+      window.dispatchEvent(new PopStateEvent('popstate'))
       window.scrollTo({ top: 0, left: 0, behavior: 'auto' })
-      setHasClientNavigation(true)
       setLocationKey(nextLocationKey)
     }
 
     document.addEventListener('click', onProjectNavigation)
     return () => document.removeEventListener('click', onProjectNavigation)
   }, [locationKey, projectId])
-  useEffect(() => {
-    // Inicialização do Lenis para o Smooth Scroll
-    const lenis = new Lenis({
-      duration: 1.2,
-      easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
-      orientation: 'vertical',
-      gestureOrientation: 'vertical',
-      smoothWheel: true,
-      wheelMultiplier: 1,
-      touchMultiplier: 2,
-    })
-
-    function raf(time: number) {
-      lenis.raf(time)
-      requestAnimationFrame(raf)
-    }
-
-    requestAnimationFrame(raf)
-
-    return () => {
-      lenis.destroy()
-    }
-  }, [])
 
   return (
-    <>
+    <MotionConfig reducedMotion="user">
+      <>
       <SeoComponent />
       <Layout>
         <AnimatePresence mode="wait" initial={false}>
@@ -92,7 +68,7 @@ function App() {
             transition={shouldReduceMotion ? { duration: 0 } : { duration: 0.22, ease: [0.22, 1, 0.36, 1] }}
           >
         {projectId ? <ProjectDetailPage projectId={projectId} /> : <>
-          <Hero entranceDelay={hasClientNavigation ? 0 : 4.5} />
+          <Hero />
           <AboutSection />
           <CareerSection />
           <ExperienceSection />
@@ -106,7 +82,8 @@ function App() {
         </AnimatePresence>
       </Layout>
       <Footer />
-    </>
+      </>
+    </MotionConfig>
   )
 }
 

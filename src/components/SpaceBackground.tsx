@@ -1,9 +1,7 @@
-import { useRef, useMemo, useEffect } from 'react'
+import { useRef, useMemo, useEffect, useState } from 'react'
 import { Canvas, useFrame, useThree } from '@react-three/fiber'
 import * as THREE from 'three'
-import { EffectComposer, Bloom, Noise } from '@react-three/postprocessing'
-
-const isMobile = typeof window !== 'undefined' && window.innerWidth < 768
+import { EffectComposer, Bloom } from '@react-three/postprocessing'
 
 const EXPLOSION_START = 1.0; 
 
@@ -138,19 +136,28 @@ const galaxyFragmentShader = `
   }
 `;
 
-function SpiralGalaxy() {
+function SpiralGalaxy({ skipIntro = false, isMobile }: { skipIntro?: boolean; isMobile: boolean }) {
   const pointsRef = useRef<THREE.Points>(null)
   const materialRef = useRef<THREE.ShaderMaterial>(null)
-  const uniforms = useMemo(() => ({ uTime: { value: 0 }, uExplosion: { value: 0 }, uFormation: { value: 0 } }), [])
+  const uniforms = useMemo(() => ({
+    uTime: { value: 0 },
+    uExplosion: { value: skipIntro ? 1 : 0 },
+    uFormation: { value: skipIntro ? 1 : 0 }
+  }), [skipIntro])
 
   // Espiral logarítmica: Braços longos e núcleo denso (Inspiração Via Láctea)
   const [positions, colors, sizes, phases, randomDirs] = useMemo(() => {
-    const count = isMobile ? 8000 : 25000 // Partículas extras para compensar falta da nebulosa
+    const count = isMobile ? 4500 : 11000
     const positions = new Float32Array(count * 3)
     const colors = new Float32Array(count * 3)
     const sizes = new Float32Array(count)
     const phases = new Float32Array(count)
     const randomDirs = new Float32Array(count * 3)
+    const coreCenter = new THREE.Color('#ffffff')
+    const coreHalo = new THREE.Color('#ffddaa')
+    const armColor = new THREE.Color('#3b82f6')
+    const edgeColor = new THREE.Color('#081c3c')
+    const finalColor = new THREE.Color()
 
     const NUM_ARMS = 2
     const ARM_LENGTH = Math.PI * 5  // Braços imensos enrolando bem longe
@@ -180,13 +187,6 @@ function SpiralGalaxy() {
 
       // Via Láctea Colors
       const radialFraction = r / RADIUS_MAX
-      const coreCenter = new THREE.Color('#ffffff') // Nucléo puro
-      const coreHalo   = new THREE.Color('#ffddaa') // Amarelado/Dourado em volta do núcleo
-      const armColor   = new THREE.Color('#3b82f6') // Azul dos braços com estrelas jovens
-      const edgeColor  = new THREE.Color('#081c3c') // Obscuro profundo nas bordas
-
-      const finalColor = new THREE.Color()
-
       if (radialFraction < 0.1) {
         finalColor.lerpColors(coreCenter, coreHalo, radialFraction / 0.1)
       } else if (radialFraction < 0.4) {
@@ -215,26 +215,30 @@ function SpiralGalaxy() {
     }
 
     return [positions, colors, sizes, phases, randomDirs]
-  }, [])
+  }, [isMobile])
 
   useFrame((state) => {
     const t = state.clock.getElapsedTime();
     if (materialRef.current) {
       materialRef.current.uniforms.uTime.value = t;
       
-      // Cálculo do progresso do Big Bang
-      // Explosão de 1.0s a 2.5s (rápido)
-      let expl = Math.max(0, (t - EXPLOSION_START) / 1.5);
-      expl = Math.min(expl, 1.0);
-      const easeOutExpo = expl === 1 ? 1 : 1 - Math.pow(2, -10 * expl);
-      materialRef.current.uniforms.uExplosion.value = easeOutExpo;
+      if (skipIntro) {
+        materialRef.current.uniforms.uExplosion.value = 1.0;
+        materialRef.current.uniforms.uFormation.value = 1.0;
+      } else {
+        // Cálculo do progresso do Big Bang
+        // Explosão de 1.0s a 2.3s
+        let expl = Math.max(0, (t - EXPLOSION_START) / 1.3);
+        expl = Math.min(expl, 1.0);
+        const easeOutExpo = expl === 1 ? 1 : 1 - Math.pow(2, -10 * expl);
+        materialRef.current.uniforms.uExplosion.value = easeOutExpo;
 
-      // Formação a partir de 2.0s a 4.5s
-      let form = Math.max(0, (t - 2.0) / 2.5);
-      form = Math.min(form, 1.0);
-      // Ease in-out para acomodar as estrelas suavemente
-      const easeInOutCubic = form < 0.5 ? 4 * form * form * form : 1 - Math.pow(-2 * form + 2, 3) / 2;
-      materialRef.current.uniforms.uFormation.value = easeInOutCubic;
+        // Formação a partir de 1.8s até 3.7s
+        let form = Math.max(0, (t - 1.8) / 1.9);
+        form = Math.min(form, 1.0);
+        const easeInOutCubic = form < 0.5 ? 4 * form * form * form : 1 - Math.pow(-2 * form + 2, 3) / 2;
+        materialRef.current.uniforms.uFormation.value = easeInOutCubic;
+      }
     }
     
     // Rotação lenta — dá para perceber mas não cansa
@@ -293,8 +297,8 @@ function CameraRig({ scrollRef }: { scrollRef: React.RefObject<number> }) {
 }
 
 // --- WRAPPER: StarField + Constellations compartilhando posições ---
-function StarFieldWithConstellations({ dpr }: { dpr: number }) {
-  const starCount = dpr > 1 ? 10000 : 4000 // MUITO mais estrelas de fundo
+function StarFieldWithConstellations({ isMobile, skipIntro = false }: { isMobile: boolean; skipIntro?: boolean }) {
+  const starCount = isMobile ? 1500 : 4000
 
   const [positions, colors, sizes, phases, randomDirs] = useMemo(() => {
     const positions = new Float32Array(starCount * 3)
@@ -338,22 +342,31 @@ function StarFieldWithConstellations({ dpr }: { dpr: number }) {
 
   const pointsRef = useRef<THREE.Points>(null)
   const materialRef = useRef<THREE.ShaderMaterial>(null)
-  const uniforms = useMemo(() => ({ uTime: { value: 0 }, uExplosion: { value: 0 }, uFormation: { value: 0 } }), [])
+  const uniforms = useMemo(() => ({
+    uTime: { value: 0 },
+    uExplosion: { value: skipIntro ? 1 : 0 },
+    uFormation: { value: skipIntro ? 1 : 0 }
+  }), [skipIntro])
 
   useFrame((state) => {
     const t = state.clock.getElapsedTime();
     if (materialRef.current) {
       materialRef.current.uniforms.uTime.value = t;
       
-      let expl = Math.max(0, (t - EXPLOSION_START) / 1.5);
-      expl = Math.min(expl, 1.0);
-      const easeOutExpo = expl === 1 ? 1 : 1 - Math.pow(2, -10 * expl);
-      materialRef.current.uniforms.uExplosion.value = easeOutExpo;
+      if (skipIntro) {
+        materialRef.current.uniforms.uExplosion.value = 1.0;
+        materialRef.current.uniforms.uFormation.value = 1.0;
+      } else {
+        let expl = Math.max(0, (t - EXPLOSION_START) / 1.3);
+        expl = Math.min(expl, 1.0);
+        const easeOutExpo = expl === 1 ? 1 : 1 - Math.pow(2, -10 * expl);
+        materialRef.current.uniforms.uExplosion.value = easeOutExpo;
 
-      let form = Math.max(0, (t - 2.0) / 2.5);
-      form = Math.min(form, 1.0);
-      const easeInOutCubic = form < 0.5 ? 4 * form * form * form : 1 - Math.pow(-2 * form + 2, 3) / 2;
-      materialRef.current.uniforms.uFormation.value = easeInOutCubic;
+        let form = Math.max(0, (t - 1.8) / 1.9);
+        form = Math.min(form, 1.0);
+        const easeInOutCubic = form < 0.5 ? 4 * form * form * form : 1 - Math.pow(-2 * form + 2, 3) / 2;
+        materialRef.current.uniforms.uFormation.value = easeInOutCubic;
+      }
     }
     if (pointsRef.current) {
       pointsRef.current.rotation.y = t * 0.02
@@ -391,21 +404,19 @@ function StarFieldWithConstellations({ dpr }: { dpr: number }) {
           depthWrite={false}
         />
       </points>
-      <Constellations starPositions={positions} />
+      <Constellations starPositions={positions} isMobile={isMobile} />
     </>
   )
 }
 
 // --- CONSTELLATIONS (Mouse-Reactive Line System) ---
-function Constellations({ starPositions }: { starPositions: Float32Array }) {
+function Constellations({ starPositions, isMobile }: { starPositions: Float32Array; isMobile: boolean }) {
   const linesRef = useRef<THREE.LineSegments>(null)
   const { camera, size } = useThree()
 
-  // Pré-seleciona um subconjunto de estrelas para serem candidatas à constelação
-  // (usar todas as 5000 seria O(n²) - selecionamos as 200 mais próximas do centro)
   const candidatePositions = useMemo(() => {
     const candidates: THREE.Vector3[] = []
-    const count = Math.min(200, starPositions.length / 3)
+    const count = Math.min(isMobile ? 40 : 100, starPositions.length / 3)
     for (let i = 0; i < count; i++) {
       candidates.push(new THREE.Vector3(
         starPositions[i * 3],
@@ -414,11 +425,13 @@ function Constellations({ starPositions }: { starPositions: Float32Array }) {
       ))
     }
     return candidates
-  }, [starPositions])
+  }, [isMobile, starPositions])
 
   // Mouse em coordenadas normalizadas (NDC)
   const mouse = useRef(new THREE.Vector2(9999, 9999))
   const raycaster = useMemo(() => new THREE.Raycaster(), [])
+  const mouseWorld = useMemo(() => new THREE.Vector3(), [])
+  const nearStars = useMemo(() => [] as THREE.Vector3[], [])
   raycaster.params.Points = { threshold: 2 }
 
   useEffect(() => {
@@ -456,23 +469,35 @@ function Constellations({ starPositions }: { starPositions: Float32Array }) {
   useFrame(() => {
     if (!linesRef.current) return
 
+    if (Math.abs(mouse.current.x) > 1 || Math.abs(mouse.current.y) > 1) {
+      geometry.setDrawRange(0, 0)
+      return
+    }
+
     // Projeta o mouse no plano Z = -50 (onde as estrelas candidatas vivem)
     raycaster.setFromCamera(mouse.current, camera)
     const targetZ = -50
-    const t = (targetZ - raycaster.ray.origin.z) / raycaster.ray.direction.z
-    const mouseWorld = new THREE.Vector3(
-      raycaster.ray.origin.x + t * raycaster.ray.direction.x,
-      raycaster.ray.origin.y + t * raycaster.ray.direction.y,
-      targetZ
+    const directionZ = raycaster.ray.direction.z
+    if (Math.abs(directionZ) < Number.EPSILON) {
+      geometry.setDrawRange(0, 0)
+      return
+    }
+    const distanceToPlane = (targetZ - raycaster.ray.origin.z) / directionZ
+    mouseWorld.set(
+      raycaster.ray.origin.x + distanceToPlane * raycaster.ray.direction.x,
+      raycaster.ray.origin.y + distanceToPlane * raycaster.ray.direction.y,
+      targetZ,
     )
 
     const CONNECT_RADIUS = 30 // raio de ativação em unidades de cena
     const CONNECTION_DISTANCE = 20 // distância máxima entre estrelas vizinhas
 
     // Encontra estrelas dentro do raio de ativação do mouse
-    const nearStars = candidatePositions.filter(
-      (p) => p.distanceTo(mouseWorld) < CONNECT_RADIUS
-    )
+    nearStars.length = 0
+    const connectRadiusSquared = CONNECT_RADIUS * CONNECT_RADIUS
+    for (const candidate of candidatePositions) {
+      if (candidate.distanceToSquared(mouseWorld) < connectRadiusSquared) nearStars.push(candidate)
+    }
 
     let lineCount = 0
     const posAttr = geometry.attributes.position as THREE.BufferAttribute
@@ -481,9 +506,9 @@ function Constellations({ starPositions }: { starPositions: Float32Array }) {
     // Conecta pares de estrelas próximas entre si dentro da zona do mouse
     for (let i = 0; i < nearStars.length && lineCount < MAX_CONNECTIONS; i++) {
       for (let j = i + 1; j < nearStars.length && lineCount < MAX_CONNECTIONS; j++) {
-        const dist = nearStars[i].distanceTo(nearStars[j])
-        if (dist < CONNECTION_DISTANCE) {
-          const alpha = 1.0 - dist / CONNECTION_DISTANCE // opacidade cai com distância
+        const distanceSquared = nearStars[i].distanceToSquared(nearStars[j])
+        if (distanceSquared < CONNECTION_DISTANCE * CONNECTION_DISTANCE) {
+          const alpha = 1.0 - Math.sqrt(distanceSquared) / CONNECTION_DISTANCE // opacidade cai com distância
 
           const base = lineCount * 6 // 2 pontos * 3 coords
           // Ponto A
@@ -525,9 +550,10 @@ function Constellations({ starPositions }: { starPositions: Float32Array }) {
 }
 
 // --- SINGULARITY & SHOCKWAVE UNIFICADAS (Big Bang Core) ---
-function BigBangCore() {
+function BigBangCore({ onExplosionComplete }: { onExplosionComplete?: () => void }) {
   const meshRef = useRef<THREE.Mesh>(null);
   const matRef = useRef<THREE.ShaderMaterial>(null);
+  const hasTriggeredComplete = useRef(false);
   
   const purpleColor = useMemo(() => new THREE.Color("#8b5cf6").multiplyScalar(15), []); 
   const whiteColor = useMemo(() => new THREE.Color("#ffffff").multiplyScalar(20), []); 
@@ -553,13 +579,13 @@ function BigBangCore() {
       // Totalmente Roxo
       matRef.current.uniforms.uCoreColor.value.copy(purpleColor);
       matRef.current.uniforms.uHaloColor.value.setHex(0x000000); 
-    } else if (t < EXPLOSION_START + 3.0) {
-      // Fase 2: Explosão (Ininterrupta)
+    } else if (t < EXPLOSION_START + 2.7) {
+      // Fase 2: Explosão e onda de choque expandindo (1.0s a 3.7s)
       meshRef.current.visible = true;
-      const p = (t - EXPLOSION_START) / 3.0; // Progresso (0.0 até 1.0)
+      const p = (t - EXPLOSION_START) / 2.7; // Progresso (0.0 até 1.0)
       const easeOut = 1 - Math.pow(1 - p, 4); // Rápido no início, macio no fim
       
-      // Continua a escalada do valor base (ex: 2.1) até 400 homogeneamente
+      // Continua a escalada do valor base até 400 homogeneamente
       meshRef.current.scale.setScalar(2.1 + easeOut * 400.0);
       
       matRef.current.uniforms.uOpacity.value = 1.0 - p;
@@ -567,11 +593,16 @@ function BigBangCore() {
       
       // Efeito de Flash: O núcleo fica branco incandescente no frame do gatilho 
       // e esfria para o roxo natural rapidamente, como todo flash fotográfico.
-      const flashProgress = Math.min(p * 5.0, 1.0); // Transição em décimos de seg
+      const flashProgress = Math.min(p * 5.0, 1.0);
       matRef.current.uniforms.uCoreColor.value.copy(purpleColor).lerp(whiteColor, 1.0 - flashProgress);
       matRef.current.uniforms.uHaloColor.value.copy(haloColor);
     } else {
+      // Fase 3: Dissipação concluída. Notifica o React para entrada limpa e suave do conteúdo
       meshRef.current.visible = false;
+      if (!hasTriggeredComplete.current) {
+        hasTriggeredComplete.current = true;
+        onExplosionComplete?.();
+      }
     }
   });
 
@@ -626,15 +657,32 @@ function BigBangCore() {
   );
 }
 
-export function SpaceBackground() {
-  const dpr = isMobile ? 1 : 1.5
+export interface SpaceBackgroundProps {
+  onIntroComplete?: () => void
+  skipIntro?: boolean
+}
+
+export function SpaceBackground({ onIntroComplete, skipIntro = false }: SpaceBackgroundProps) {
+  const [isMobile, setIsMobile] = useState(() => window.matchMedia('(max-width: 767px)').matches)
+  const [isPageVisible, setIsPageVisible] = useState(() => document.visibilityState === 'visible')
   const scrollRef = useRef<number>(0)
 
-  // Bridge: Lenis já suaviza o scroll antes de chegar ao window.scrollY
   useEffect(() => {
+    const media = window.matchMedia('(max-width: 767px)')
+    const onViewportChange = (event: MediaQueryListEvent) => setIsMobile(event.matches)
+    media.addEventListener('change', onViewportChange)
+    return () => media.removeEventListener('change', onViewportChange)
+  }, [])
+
+  useEffect(() => {
+    const onVisibilityChange = () => setIsPageVisible(document.visibilityState === 'visible')
     const onScroll = () => { scrollRef.current = window.scrollY }
     window.addEventListener('scroll', onScroll, { passive: true })
-    return () => window.removeEventListener('scroll', onScroll)
+    document.addEventListener('visibilitychange', onVisibilityChange)
+    return () => {
+      window.removeEventListener('scroll', onScroll)
+      document.removeEventListener('visibilitychange', onVisibilityChange)
+    }
   }, [])
 
   return (
@@ -651,7 +699,8 @@ export function SpaceBackground() {
     >
       <Canvas
         camera={{ position: [0, 0, 1] }}
-        dpr={dpr}
+        dpr={1}
+        frameloop={isPageVisible ? 'always' : 'never'}
         gl={{
           antialias: false,
           alpha: false,
@@ -664,19 +713,16 @@ export function SpaceBackground() {
         <CameraRig scrollRef={scrollRef} />
 
         {/* Galáxia: muito distante, mínima velocidade de parallax */}
-        <SpiralGalaxy />
+        <SpiralGalaxy skipIntro={skipIntro} isMobile={isMobile} />
 
         {/* Campo estelar + constelações */}
-        <StarFieldWithConstellations dpr={dpr} />
+        <StarFieldWithConstellations isMobile={isMobile} skipIntro={skipIntro} />
 
         {/* Efeitos Ativos da Explosão (Intro) */}
-        <BigBangCore />
+        {!skipIntro && <BigBangCore onExplosionComplete={onIntroComplete} />}
 
         {/* Pós-processamento: responsável pelo Bloom espetacular */}
-        <EffectComposer>
-          <Bloom luminanceThreshold={1} mipmapBlur intensity={1.5} />
-          <Noise opacity={0.03} />
-        </EffectComposer>
+        {!isMobile && <EffectComposer><Bloom luminanceThreshold={1} mipmapBlur intensity={1} /></EffectComposer>}
       </Canvas>
     </div>
   )
