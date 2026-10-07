@@ -22,8 +22,6 @@ export const en: Locale = {
     keywords: 'Skills index',
     certs: 'Certifications',
     resume: 'Download résumé',
-    enableAnimatedBackground: 'Enable animated background',
-    disableAnimatedBackground: 'Disable animated background',
   },
 
   hero: {

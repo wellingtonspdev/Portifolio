@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react'
-import { AnimatePresence, motion, MotionConfig, useReducedMotion } from 'framer-motion'
+import { motion, MotionConfig, useReducedMotion } from 'framer-motion'
 import { SeoComponent } from './components/SEO'
 import { Layout } from './components/Layout'
 import { Hero } from './components/Hero'
@@ -15,16 +15,35 @@ import { Footer } from './components/Footer'
 import { ProjectDetailPage } from './components/ProjectDetailPage'
 import { getCurrentProjectId } from './routing'
 
+function scrollToAnchor(hash: string) {
+  if (!hash) return
+  // Resolve deferred section heights before positioning the anchor.
+  document.documentElement.classList.add('anchor-navigation')
+  requestAnimationFrame(() => requestAnimationFrame(() => {
+    document.getElementById(decodeURIComponent(hash.slice(1)))?.scrollIntoView({ behavior: 'instant' })
+    requestAnimationFrame(() => document.documentElement.classList.remove('anchor-navigation'))
+  }))
+}
+
 function App() {
-  const [locationKey, setLocationKey] = useState(() => `${window.location.pathname}${window.location.search}${window.location.hash}`)
+  const [locationKey, setLocationKey] = useState(() => `${window.location.pathname}${window.location.search}`)
   const shouldReduceMotion = useReducedMotion()
   const projectId = getCurrentProjectId()
 
   useEffect(() => {
-    const syncLocation = () => setLocationKey(`${window.location.pathname}${window.location.search}${window.location.hash}`)
+    const syncLocation = () => {
+      setLocationKey(`${window.location.pathname}${window.location.search}`)
+      if (!getCurrentProjectId()) scrollToAnchor(window.location.hash)
+    }
     window.addEventListener('popstate', syncLocation)
     return () => window.removeEventListener('popstate', syncLocation)
   }, [])
+
+  useEffect(() => {
+    if (!projectId && window.location.hash) {
+      scrollToAnchor(window.location.hash)
+    }
+  }, [locationKey, projectId])
 
   useEffect(() => {
     const onProjectNavigation = (event: MouseEvent) => {
@@ -38,15 +57,16 @@ function App() {
 
       const relativePath = destination.pathname.slice(basePath.length).replace(/^en\//, '')
       const opensProject = /^projetos\/[^/]+\/$/.test(relativePath)
-      const returnsHome = Boolean(projectId) && relativePath === '' && destination.hash === ''
-      if (!opensProject && !returnsHome) return
+      const returnsHome = Boolean(projectId) && relativePath === ''
+      const homeAnchor = relativePath === '' && Boolean(destination.hash)
+      if (!opensProject && !returnsHome && !homeAnchor) return
 
       event.preventDefault()
-      const nextLocationKey = `${destination.pathname}${destination.search}${destination.hash}`
-      if (nextLocationKey === locationKey) return
-      window.history.pushState({}, '', nextLocationKey)
+      const nextLocationKey = `${destination.pathname}${destination.search}`
+      if (nextLocationKey === locationKey && !homeAnchor) return
+      window.history.pushState({}, '', `${nextLocationKey}${destination.hash}`)
       window.dispatchEvent(new PopStateEvent('popstate'))
-      window.scrollTo({ top: 0, left: 0, behavior: 'auto' })
+      if (!destination.hash) window.scrollTo({ top: 0, left: 0, behavior: 'instant' })
       setLocationKey(nextLocationKey)
     }
 
@@ -59,27 +79,24 @@ function App() {
       <>
       <SeoComponent />
       <Layout>
-        <AnimatePresence mode="wait" initial={false}>
           <motion.div
             key={locationKey}
-            initial={shouldReduceMotion ? false : { opacity: 0, y: 12 }}
+            initial={false}
             animate={{ opacity: 1, y: 0 }}
-            exit={shouldReduceMotion ? undefined : { opacity: 0, y: -8 }}
             transition={shouldReduceMotion ? { duration: 0 } : { duration: 0.22, ease: [0.22, 1, 0.36, 1] }}
           >
         {projectId ? <ProjectDetailPage projectId={projectId} /> : <>
           <Hero />
-          <AboutSection />
-          <CareerSection />
-          <ExperienceSection />
-          <SupplementaryExperienceSection />
-          <ProjectSection />
-          <SkillsSection />
-          <KeywordsSection />
-          <CertificationsSection />
+          <div className="deferred-section"><AboutSection /></div>
+          <div className="deferred-section"><CareerSection /></div>
+          <div className="deferred-section"><ExperienceSection /></div>
+          <div className="deferred-section"><SupplementaryExperienceSection /></div>
+          <div className="deferred-section deferred-projects"><ProjectSection /></div>
+          <div className="deferred-section"><SkillsSection /></div>
+          <div className="deferred-section"><KeywordsSection /></div>
+          <div className="deferred-section"><CertificationsSection /></div>
         </>}
           </motion.div>
-        </AnimatePresence>
       </Layout>
       <Footer />
       </>

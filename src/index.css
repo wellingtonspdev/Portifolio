@@ -38,10 +38,61 @@
 
 @layer components {
   .glass-card {
-    @apply bg-glass backdrop-blur-[8px] border border-glass-border shadow-glass transition-all duration-300;
+    @apply bg-glass border border-glass-border shadow-glass duration-300;
+    transition-property: background-color, border-color, opacity, transform;
   }
 
   .glass-card:hover {
     @apply border-[rgba(139,92,246,0.3)] shadow-glass-hover;
+  }
+}
+
+.animated-background {
+  position: fixed;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+  background: #050811;
+}
+.deferred-section {
+  content-visibility: auto;
+  contain-intrinsic-size: auto 900px;
+}
+.deferred-projects { contain-intrinsic-size: auto 2200px; }
+.anchor-navigation .deferred-section { content-visibility: visible; }
+main section[id] { scroll-margin-top: 96px; }
+@media (max-width: 767px) {
+  .deferred-section { contain-intrinsic-size: auto 1200px; }
+  .deferred-projects { contain-intrinsic-size: auto 4000px; }
+}
+.space-fallback {
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+}
+.space-fallback::before, .space-fallback::after {
+  content: '';
+  position: absolute;
+  inset: -5%;
+  background: radial-gradient(ellipse at 25% 55%, rgba(59,130,246,.25), transparent 50%),
+    radial-gradient(ellipse at 80% 25%, rgba(139,92,246,.2), transparent 50%),
+    radial-gradient(circle, #b5caff 1px, transparent 1.5px);
+  background-size: auto, auto, 97px 113px;
+  animation: space-drift 40s ease-in-out infinite alternate;
+}
+.space-fallback::after {
+  opacity: .4;
+  background-size: auto, auto, 157px 179px;
+  animation-direction: alternate-reverse;
+  animation-duration: 55s;
+}
+@keyframes space-drift {
+  from { transform: translate3d(-1%, 0, 0) scale(1); opacity: .65; }
+  to { transform: translate3d(1%, 1%, 0) scale(1.04); opacity: 1; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .space-fallback::before, .space-fallback::after {
+    animation-duration: 160s !important;
+    animation-iteration-count: infinite !important;
   }
 }

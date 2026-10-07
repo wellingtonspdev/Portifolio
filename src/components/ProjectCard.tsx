@@ -51,7 +51,6 @@ const SingleAssetView = ({ src, alt }: { src: string, alt: string }) => {
       animate={shouldReduceMotion ? undefined : {
         y: [0, -12, 0],
         scale: [1, 1.05, 1],
-        filter: ["drop-shadow(0 0 0px #00f2ff)", "drop-shadow(0 0 15px #00f2ff)", "drop-shadow(0 0 0px #00f2ff)"]
       }}
       transition={shouldReduceMotion ? undefined : { duration: 5, repeat: Infinity, ease: "easeInOut" }}
       className="flex items-center justify-center w-full h-full max-w-[65%] max-h-[65%] z-20 relative"
@@ -68,7 +67,7 @@ const SingleAssetView = ({ src, alt }: { src: string, alt: string }) => {
   );
 };
 
-const MultiAssetCarousel = ({ assets, altTitle, onOpen }: { assets: string[], altTitle: string, onOpen?: (index: number) => void }) => {
+const MultiAssetCarousel = ({ assets, previews, altTitle, onOpen }: { assets: string[], previews?: Project['imagePreviews'], altTitle: string, onOpen?: (index: number) => void }) => {
   const [emblaRef, emblaApi] = useEmblaCarousel({ loop: true }, [Autoplay({
     delay: 4500,
     playOnInit: false,
@@ -161,7 +160,9 @@ const MultiAssetCarousel = ({ assets, altTitle, onOpen }: { assets: string[], al
                     aria-label={`Ampliar ${altTitle} - slide ${index + 1}`}
                   >
                     <img
-                      src={src}
+                      src={previews?.[index]?.src ?? src}
+                      srcSet={previews?.[index]?.srcSet || undefined}
+                      sizes="(min-width: 1024px) 45vw, 90vw"
                       alt={`${altTitle} - slide ${index + 1}`}
                       loading="lazy"
                       decoding="async"
@@ -177,10 +178,10 @@ const MultiAssetCarousel = ({ assets, altTitle, onOpen }: { assets: string[], al
         </div>
       </div>
 
-      <button onClick={() => emblaApi?.scrollPrev()} className="absolute top-1/2 left-2 -translate-y-1/2 w-8 h-8 flex items-center justify-center rounded-full bg-white/5 backdrop-blur-sm border border-white/10 opacity-0 group-hover:opacity-100 hover:bg-white/10 hover:border-cyan-500/50 hover:text-cyan-400 hover:shadow-[0_0_12px_rgba(0,242,255,0.4)] transition-all z-30">
+      <button onClick={() => emblaApi?.scrollPrev()} className="absolute top-1/2 left-2 -translate-y-1/2 w-8 h-8 flex items-center justify-center rounded-full bg-white/5  border border-white/10 opacity-0 group-hover:opacity-100 hover:bg-white/10 hover:border-cyan-500/50 hover:text-cyan-400 hover:shadow-[0_0_12px_rgba(0,242,255,0.4)] transition-[opacity,transform,background-color,border-color,width] z-30">
         <ChevronLeft className="w-4 h-4" />
       </button>
-      <button onClick={() => emblaApi?.scrollNext()} className="absolute top-1/2 right-2 -translate-y-1/2 w-8 h-8 flex items-center justify-center rounded-full bg-white/5 backdrop-blur-sm border border-white/10 opacity-0 group-hover:opacity-100 hover:bg-white/10 hover:border-cyan-500/50 hover:text-cyan-400 hover:shadow-[0_0_12px_rgba(0,242,255,0.4)] transition-all z-30">
+      <button onClick={() => emblaApi?.scrollNext()} className="absolute top-1/2 right-2 -translate-y-1/2 w-8 h-8 flex items-center justify-center rounded-full bg-white/5  border border-white/10 opacity-0 group-hover:opacity-100 hover:bg-white/10 hover:border-cyan-500/50 hover:text-cyan-400 hover:shadow-[0_0_12px_rgba(0,242,255,0.4)] transition-[opacity,transform,background-color,border-color,width] z-30">
         <ChevronRight className="w-4 h-4" />
       </button>
 
@@ -189,7 +190,7 @@ const MultiAssetCarousel = ({ assets, altTitle, onOpen }: { assets: string[], al
           <button 
             key={index}
             onClick={() => emblaApi?.scrollTo(index)}
-            className={`h-1.5 rounded-full transition-all duration-300 ${index === selectedIndex ? 'w-5 bg-cyan-400 shadow-[0_0_8px_#00f2ff]' : 'w-1.5 bg-white/30 hover:bg-white/50'}`}
+            className={`h-1.5 rounded-full transition-[opacity,transform,background-color,border-color,width] duration-300 ${index === selectedIndex ? 'w-5 bg-cyan-400 shadow-[0_0_8px_#00f2ff]' : 'w-1.5 bg-white/30 hover:bg-white/50'}`}
             aria-label={`Go to slide ${index + 1}`}
           />
         ))}
@@ -249,7 +250,7 @@ export function ProjectCard({ project }: { project: Project }) {
     <AnimatePresence>
       {isLightboxOpen && (
         <motion.div
-          className="fixed inset-0 z-[9999] flex items-center justify-center bg-black/90 backdrop-blur-md px-4 py-6"
+          className="fixed inset-0 z-[9999] flex items-center justify-center bg-black/90  px-4 py-6"
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           exit={{ opacity: 0 }}
@@ -310,7 +311,7 @@ export function ProjectCard({ project }: { project: Project }) {
                   key={index}
                   type="button"
                   onClick={() => setLightboxIndex(index)}
-                  className={`h-2 rounded-full transition-all duration-300 ${index === activeLightboxIndex ? 'w-8 bg-cyan-400 shadow-[0_0_8px_#00f2ff]' : 'w-2 bg-white/35 hover:bg-white/60'}`}
+                  className={`h-2 rounded-full transition-[opacity,transform,background-color,border-color,width] duration-300 ${index === activeLightboxIndex ? 'w-8 bg-cyan-400 shadow-[0_0_8px_#00f2ff]' : 'w-2 bg-white/35 hover:bg-white/60'}`}
                   aria-label={`Ir para imagem ${index + 1}`}
                 />
               ))}
@@ -336,7 +337,7 @@ export function ProjectCard({ project }: { project: Project }) {
         <div className="absolute inset-0 z-0 bg-gradient-to-b from-transparent to-black/40 pointer-events-none" />
 
         {project.inDevelopment && (
-          <span className="absolute top-4 right-4 bg-yellow-500/20 text-yellow-400 text-[10px] font-bold px-2 py-1 rounded border border-yellow-500/50 uppercase flex items-center gap-1 z-40 backdrop-blur-md shadow-lg">
+          <span className="absolute top-4 right-4 bg-yellow-500/20 text-yellow-400 text-[10px] font-bold px-2 py-1 rounded border border-yellow-500/50 uppercase flex items-center gap-1 z-40  shadow-lg">
             <span className="w-1.5 h-1.5 rounded-full bg-yellow-500 animate-pulse"></span>
             {t.projects.labels.inDev}
           </span>
@@ -345,7 +346,7 @@ export function ProjectCard({ project }: { project: Project }) {
         <AnimatePresence mode="wait">
           {project.images && project.images.length > 1 ? (
              <motion.div key="multi" initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} className="absolute inset-0 w-full h-full z-10">
-               <MultiAssetCarousel assets={project.images} altTitle={project.title} onOpen={setLightboxIndex} />
+               <MultiAssetCarousel assets={project.images} previews={project.imagePreviews} altTitle={project.title} onOpen={setLightboxIndex} />
              </motion.div>
           ) : project.images && project.images.length === 1 ? (
              <motion.div key="single" initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} className="absolute inset-0 flex items-center justify-center z-20">
@@ -400,7 +401,7 @@ export function ProjectCard({ project }: { project: Project }) {
               transition={{ duration: 0.4, ease: "easeInOut" }}
               className="overflow-hidden"
             >
-              <div className="text-sm text-gray-300 space-y-3 p-4 bg-white/5 rounded-xl border border-white/10 mb-6 backdrop-blur-lg">
+              <div className="text-sm text-gray-300 space-y-3 p-4 bg-white/5 rounded-xl border border-white/10 mb-6 ">
                 <p><strong className="text-white">{t.projects.labels.problem}</strong> {pd?.problem ?? project.problem}</p>
                 <p><strong className="text-white">{t.projects.labels.solution}</strong> {formatDescription(pd?.solution ?? project.solution)}</p>
               </div>

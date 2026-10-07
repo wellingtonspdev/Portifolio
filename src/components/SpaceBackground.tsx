@@ -1,47 +1,30 @@
-import { useRef, useMemo, useEffect, useState } from 'react'
+import { useRef, useMemo, useEffect, useState, useCallback } from 'react'
 import { Canvas, useFrame, useThree } from '@react-three/fiber'
 import * as THREE from 'three'
-import { EffectComposer, Bloom } from '@react-three/postprocessing'
 
-const EXPLOSION_START = 1.0; 
 
 const starVertexShader = `
   attribute float size;
   attribute vec3 color;
   attribute float phase;
-  attribute vec3 aRandomDir;
   
   varying vec3 vColor;
-  varying float vPhase;
   
   uniform float uTime;
-  uniform float uExplosion;
-  uniform float uFormation;
 
   void main() {
     vColor = color;
-    vPhase = phase;
     
     // Movimento orbital muito sutil para o universo todo girar
-    vec3 targetPos = position;
-    
-    vec3 origin = vec3(0.0, 0.0, -100.0);
-    vec3 explodePos = origin + aRandomDir * (uExplosion * 800.0);
-    
-    vec3 mixedPos = mix(explodePos, targetPos, uFormation);
-    
-    vec4 mvPosition = modelViewMatrix * vec4(mixedPos, 1.0);
+    vec4 mvPosition = modelViewMatrix * vec4(position, 1.0);
     
     // Tamanho com base na distância
     gl_PointSize = size * (300.0 / -mvPosition.z);
     
     // Cintilação adicionada visualmente ao Vertex
     float twinkle = sin(uTime * 2.0 + phase) * 0.5 + 0.5;
-    
-    // Brilham muito durante a explosão
-    float introGlow = (1.0 - uFormation) * 3.0; 
-    
-    gl_PointSize *= (0.5 + 0.5 * twinkle) + introGlow;
+
+    gl_PointSize *= (0.5 + 0.5 * twinkle);
 
     gl_Position = projectionMatrix * mvPosition;
   }
@@ -49,9 +32,6 @@ const starVertexShader = `
 
 const starFragmentShader = `
   varying vec3 vColor;
-  varying float vPhase;
-  uniform float uTime;
-  uniform float uFormation;
 
   void main() {
     // Calcula a distância do centro do ponto (gl_PointCoord vai de 0.0 a 1.0)
@@ -63,17 +43,13 @@ const starFragmentShader = `
     }
     
     // Brilho difuso (glow radial)
-    float strength = 0.05 / distanceToCenter - 0.1;
+    float strength = 0.05 / max(distanceToCenter, 0.001) - 0.1;
     strength = clamp(strength, 0.0, 1.0);
-    
-    // Intensifica o brilho durante a explosão
-    float boost = (1.0 - uFormation) * 2.0;
 
     // Alpha final
-    gl_FragColor = vec4(vColor * (1.0 + boost), strength);
+    gl_FragColor = vec4(vColor, strength);
   }
 `;
-
 
 
 // --- SPIRAL GALAXY ---
@@ -81,36 +57,19 @@ const galaxyVertexShader = `
   attribute float aSize;
   attribute vec3 aColor;
   attribute float aPhase;
-  attribute vec3 aRandomDir;
   
   varying vec3 vColor;
   varying float vAlpha;
   
   uniform float uTime;
-  uniform float uExplosion;
-  uniform float uFormation;
 
   void main() {
     vColor = aColor;
     
-    vec3 targetPos = position;
-    
-    // Origem da explosão (em coordenadas locais da galáxia que estão transladadas)
-    // O array positions guarda as coordenadas originais.
-    // Vamos usar (0,0,0) local
-    vec3 origin = vec3(0.0, 0.0, 0.0);
-    vec3 explodePos = origin + aRandomDir * (uExplosion * 300.0); // voam até 300 unidades
-    
-    // Interpolação suave do caos do BigBang para a ordem da Galáxia Espiral
-    vec3 mixedPos = mix(explodePos, targetPos, uFormation);
-    
-    vec4 mvPosition = modelViewMatrix * vec4(mixedPos, 1.0);
+    vec4 mvPosition = modelViewMatrix * vec4(position, 1.0);
     float twinkle = sin(uTime * 1.5 + aPhase) * 0.3 + 0.7;
-    
-    // Partículas explodindo no começo são maiores
-    float explosionBoost = (1.0 - uFormation) * 4.0;
-    
-    gl_PointSize = (aSize + explosionBoost) * twinkle * (200.0 / -mvPosition.z);
+
+    gl_PointSize = aSize * twinkle * (200.0 / -mvPosition.z);
     
     // Fade out partículas muito próximas à câmera (evita artefatos)
     vAlpha = smoothstep(0.0, 30.0, -mvPosition.z);
@@ -122,37 +81,33 @@ const galaxyVertexShader = `
 const galaxyFragmentShader = `
   varying vec3 vColor;
   varying float vAlpha;
-  uniform float uFormation;
 
   void main() {
     float d = distance(gl_PointCoord, vec2(0.5));
     if (d > 0.5) discard;
-    float strength = 0.04 / d - 0.08;
+    float strength = 0.04 / max(d, 0.001) - 0.08;
     strength = clamp(strength, 0.0, 1.0);
-    
-    float boost = (1.0 - uFormation) * 2.0;
 
-    gl_FragColor = vec4(vColor * (1.0 + boost), strength * vAlpha);
+
+    gl_FragColor = vec4(vColor, strength * vAlpha);
   }
 `;
 
-function SpiralGalaxy({ skipIntro = false, isMobile }: { skipIntro?: boolean; isMobile: boolean }) {
+function SpiralGalaxy({ isMobile }: { isMobile: boolean }) {
   const pointsRef = useRef<THREE.Points>(null)
   const materialRef = useRef<THREE.ShaderMaterial>(null)
   const uniforms = useMemo(() => ({
-    uTime: { value: 0 },
-    uExplosion: { value: skipIntro ? 1 : 0 },
-    uFormation: { value: skipIntro ? 1 : 0 }
-  }), [skipIntro])
+    uTime: { value: 0 }
+  }), [])
 
   // Espiral logarítmica: Braços longos e núcleo denso (Inspiração Via Láctea)
-  const [positions, colors, sizes, phases, randomDirs] = useMemo(() => {
-    const count = isMobile ? 4500 : 11000
+  const [positions, colors, sizes, phases] = useMemo(() => {
+    // Together with the stars: 3,000 mobile / 9,000 desktop.
+    const count = isMobile ? 2000 : 6000
     const positions = new Float32Array(count * 3)
     const colors = new Float32Array(count * 3)
     const sizes = new Float32Array(count)
     const phases = new Float32Array(count)
-    const randomDirs = new Float32Array(count * 3)
     const coreCenter = new THREE.Color('#ffffff')
     const coreHalo = new THREE.Color('#ffddaa')
     const armColor = new THREE.Color('#3b82f6')
@@ -203,18 +158,9 @@ function SpiralGalaxy({ skipIntro = false, isMobile }: { skipIntro?: boolean; is
       sizes[i] = THREE.MathUtils.lerp(1.8, 0.4, radialFraction) + Math.random() * 0.5
       phases[i] = Math.random() * Math.PI * 2
       
-      // Random direction for explosion
-      const u = Math.random();
-      const v = Math.random();
-      const thetaRandom = u * 2.0 * Math.PI;
-      const phiRandom = Math.acos(2.0 * v - 1.0);
-      const rDir = Math.cbrt(Math.random());
-      randomDirs[i * 3]     = rDir * Math.sin(phiRandom) * Math.cos(thetaRandom);
-      randomDirs[i * 3 + 1] = rDir * Math.sin(phiRandom) * Math.sin(thetaRandom);
-      randomDirs[i * 3 + 2] = rDir * Math.cos(phiRandom);
     }
 
-    return [positions, colors, sizes, phases, randomDirs]
+    return [positions, colors, sizes, phases]
   }, [isMobile])
 
   useFrame((state) => {
@@ -222,38 +168,11 @@ function SpiralGalaxy({ skipIntro = false, isMobile }: { skipIntro?: boolean; is
     if (materialRef.current) {
       materialRef.current.uniforms.uTime.value = t;
       
-      if (skipIntro) {
-        materialRef.current.uniforms.uExplosion.value = 1.0;
-        materialRef.current.uniforms.uFormation.value = 1.0;
-      } else {
-        // Cálculo do progresso do Big Bang
-        // Explosão de 1.0s a 2.3s
-        let expl = Math.max(0, (t - EXPLOSION_START) / 1.3);
-        expl = Math.min(expl, 1.0);
-        const easeOutExpo = expl === 1 ? 1 : 1 - Math.pow(2, -10 * expl);
-        materialRef.current.uniforms.uExplosion.value = easeOutExpo;
-
-        // Formação a partir de 1.8s até 3.7s
-        let form = Math.max(0, (t - 1.8) / 1.9);
-        form = Math.min(form, 1.0);
-        const easeInOutCubic = form < 0.5 ? 4 * form * form * form : 1 - Math.pow(-2 * form + 2, 3) / 2;
-        materialRef.current.uniforms.uFormation.value = easeInOutCubic;
-      }
     }
     
     // Rotação lenta — dá para perceber mas não cansa
     if (pointsRef.current) pointsRef.current.rotation.y = t * 0.025
   })
-
-  useEffect(() => {
-    const points = pointsRef.current
-    const material = materialRef.current
-
-    return () => {
-      points?.geometry.dispose()
-      material?.dispose()
-    }
-  }, [])
 
   return (
     // Posição: Trazendo a galáxia violentamente mais para a frente para que os braços longos quase batam na tela (câmera)
@@ -263,7 +182,6 @@ function SpiralGalaxy({ skipIntro = false, isMobile }: { skipIntro?: boolean; is
         <bufferAttribute attach="attributes-aColor"   count={colors.length / 3}    array={colors}    itemSize={3} />
         <bufferAttribute attach="attributes-aSize"    count={sizes.length}          array={sizes}     itemSize={1} />
         <bufferAttribute attach="attributes-aPhase"   count={phases.length}         array={phases}    itemSize={1} />
-        <bufferAttribute attach="attributes-aRandomDir" count={randomDirs.length/3} array={randomDirs} itemSize={3} />
       </bufferGeometry>
       <shaderMaterial
         ref={materialRef}
@@ -273,39 +191,31 @@ function SpiralGalaxy({ skipIntro = false, isMobile }: { skipIntro?: boolean; is
         transparent={true}
         blending={THREE.AdditiveBlending}
         depthWrite={false}
+        depthTest={false}
       />
     </points>
   )
 }
 
-// --- CAMERA RIG: Scroll Fly-Through ---
+// Scroll progress is cached outside the render loop.
 function CameraRig({ scrollRef }: { scrollRef: React.RefObject<number> }) {
-  useFrame(({ camera }) => {
-    const scrollY = scrollRef.current ?? 0
-    const maxScroll = document.documentElement.scrollHeight - window.innerHeight
-    const progress = maxScroll > 0 ? scrollY / maxScroll : 0
-
-    // Câmera voa de z=1 até z=-70 conforme o scroll progride
-    const targetZ = 1 - progress * 70
-    // Deriva leve para baixo para guiar o olhar em direção à galáxia
-    const targetY = -progress * 6
-
-    camera.position.z = THREE.MathUtils.lerp(camera.position.z, targetZ, 0.04)
-    camera.position.y = THREE.MathUtils.lerp(camera.position.y, targetY, 0.04)
+  useFrame(({ camera }, delta) => {
+    const progress = scrollRef.current ?? 0
+    camera.position.z = THREE.MathUtils.damp(camera.position.z, 1 - progress * 70, 2.5, Math.min(delta, 0.1))
+    camera.position.y = THREE.MathUtils.damp(camera.position.y, -progress * 6, 2.5, Math.min(delta, 0.1))
   })
   return null
 }
 
 // --- WRAPPER: StarField + Constellations compartilhando posições ---
-function StarFieldWithConstellations({ isMobile, skipIntro = false }: { isMobile: boolean; skipIntro?: boolean }) {
-  const starCount = isMobile ? 1500 : 4000
+function StarFieldWithConstellations({ isMobile }: { isMobile: boolean }) {
+  const starCount = isMobile ? 1000 : 3000
 
-  const [positions, colors, sizes, phases, randomDirs] = useMemo(() => {
+  const [positions, colors, sizes, phases] = useMemo(() => {
     const positions = new Float32Array(starCount * 3)
     const colors = new Float32Array(starCount * 3)
     const sizes = new Float32Array(starCount)
     const phases = new Float32Array(starCount)
-    const randomDirs = new Float32Array(starCount * 3)
 
     const colorPalette = [
       new THREE.Color('#ffffff'),
@@ -328,61 +238,27 @@ function StarFieldWithConstellations({ isMobile, skipIntro = false }: { isMobile
       sizes[i] = Math.random() * 2.0 + 0.5
       phases[i] = Math.random() * Math.PI * 2
       
-      const distExpl = Math.random();
-      const vx = Math.random() * 2.0 - 1.0;
-      const vy = Math.random() * 2.0 - 1.0;
-      const vz = Math.random() * 2.0 - 1.0;
-      
-      randomDirs[i*3] = vx * (0.5 + distExpl);
-      randomDirs[i*3+1] = vy * (0.5 + distExpl);
-      randomDirs[i*3+2] = vz * (0.5 + distExpl);
     }
-    return [positions, colors, sizes, phases, randomDirs]
+    return [positions, colors, sizes, phases]
   }, [starCount])
 
   const pointsRef = useRef<THREE.Points>(null)
   const materialRef = useRef<THREE.ShaderMaterial>(null)
   const uniforms = useMemo(() => ({
-    uTime: { value: 0 },
-    uExplosion: { value: skipIntro ? 1 : 0 },
-    uFormation: { value: skipIntro ? 1 : 0 }
-  }), [skipIntro])
+    uTime: { value: 0 }
+  }), [])
 
   useFrame((state) => {
     const t = state.clock.getElapsedTime();
     if (materialRef.current) {
       materialRef.current.uniforms.uTime.value = t;
       
-      if (skipIntro) {
-        materialRef.current.uniforms.uExplosion.value = 1.0;
-        materialRef.current.uniforms.uFormation.value = 1.0;
-      } else {
-        let expl = Math.max(0, (t - EXPLOSION_START) / 1.3);
-        expl = Math.min(expl, 1.0);
-        const easeOutExpo = expl === 1 ? 1 : 1 - Math.pow(2, -10 * expl);
-        materialRef.current.uniforms.uExplosion.value = easeOutExpo;
-
-        let form = Math.max(0, (t - 1.8) / 1.9);
-        form = Math.min(form, 1.0);
-        const easeInOutCubic = form < 0.5 ? 4 * form * form * form : 1 - Math.pow(-2 * form + 2, 3) / 2;
-        materialRef.current.uniforms.uFormation.value = easeInOutCubic;
-      }
     }
     if (pointsRef.current) {
       pointsRef.current.rotation.y = t * 0.02
       pointsRef.current.rotation.x = t * 0.01
     }
   })
-
-  useEffect(() => {
-    const points = pointsRef.current
-    const material = materialRef.current
-
-    return () => {
-      points?.geometry.dispose()
-      material?.dispose()
-    }
-  }, [])
 
   return (
     <>
@@ -392,7 +268,6 @@ function StarFieldWithConstellations({ isMobile, skipIntro = false }: { isMobile
           <bufferAttribute attach="attributes-color" count={starCount} array={colors} itemSize={3} />
           <bufferAttribute attach="attributes-size" count={starCount} array={sizes} itemSize={1} />
           <bufferAttribute attach="attributes-phase" count={starCount} array={phases} itemSize={1} />
-          <bufferAttribute attach="attributes-aRandomDir" count={randomDirs.length/3} array={randomDirs} itemSize={3} />
         </bufferGeometry>
         <shaderMaterial
           ref={materialRef}
@@ -402,6 +277,7 @@ function StarFieldWithConstellations({ isMobile, skipIntro = false }: { isMobile
           transparent={true}
           blending={THREE.AdditiveBlending}
           depthWrite={false}
+        depthTest={false}
         />
       </points>
       <Constellations starPositions={positions} isMobile={isMobile} />
@@ -432,10 +308,13 @@ function Constellations({ starPositions, isMobile }: { starPositions: Float32Arr
   const raycaster = useMemo(() => new THREE.Raycaster(), [])
   const mouseWorld = useMemo(() => new THREE.Vector3(), [])
   const nearStars = useMemo(() => [] as THREE.Vector3[], [])
-  raycaster.params.Points = { threshold: 2 }
+  const elapsed = useRef(0)
+  const pointerChanged = useRef(false)
+  const lastCamera = useRef(new THREE.Vector3(Infinity, Infinity, Infinity))
 
   useEffect(() => {
     const onMouseMove = (e: MouseEvent) => {
+      pointerChanged.current = true
       mouse.current.x = (e.clientX / size.width) * 2 - 1
       mouse.current.y = -(e.clientY / size.height) * 2 + 1
     }
@@ -466,11 +345,16 @@ function Constellations({ starPositions, isMobile }: { starPositions: Float32Arr
     return () => geometry.dispose()
   }, [geometry])
 
-  useFrame(() => {
-    if (!linesRef.current) return
+  useFrame((_, delta) => {
+    elapsed.current += delta
+    if (!linesRef.current || elapsed.current < 1 / 15) return
+    elapsed.current = 0
+    if (!pointerChanged.current && lastCamera.current.distanceToSquared(camera.position) < 0.00001) return
+    pointerChanged.current = false
+    lastCamera.current.copy(camera.position)
 
     if (Math.abs(mouse.current.x) > 1 || Math.abs(mouse.current.y) > 1) {
-      geometry.setDrawRange(0, 0)
+      linesRef.current.visible = false
       return
     }
 
@@ -479,7 +363,7 @@ function Constellations({ starPositions, isMobile }: { starPositions: Float32Arr
     const targetZ = -50
     const directionZ = raycaster.ray.direction.z
     if (Math.abs(directionZ) < Number.EPSILON) {
-      geometry.setDrawRange(0, 0)
+      linesRef.current.visible = false
       return
     }
     const distanceToPlane = (targetZ - raycaster.ray.origin.z) / directionZ
@@ -531,199 +415,109 @@ function Constellations({ starPositions, isMobile }: { starPositions: Float32Arr
       }
     }
 
-    posAttr.needsUpdate = true
-    colAttr.needsUpdate = true
+    linesRef.current.visible = lineCount > 0
+    if (lineCount > 0) {
+      posAttr.needsUpdate = true
+      colAttr.needsUpdate = true
+    }
     geometry.setDrawRange(0, lineCount * 2)
   })
 
   return (
-    <lineSegments ref={linesRef} geometry={geometry}>
+    <lineSegments ref={linesRef} geometry={geometry} visible={false} frustumCulled={false}>
       <lineBasicMaterial
         vertexColors={true}
         transparent={true}
         opacity={0.6}
         blending={THREE.AdditiveBlending}
         depthWrite={false}
+        depthTest={false}
       />
     </lineSegments>
   )
 }
 
-// --- SINGULARITY & SHOCKWAVE UNIFICADAS (Big Bang Core) ---
-function BigBangCore({ onExplosionComplete }: { onExplosionComplete?: () => void }) {
-  const meshRef = useRef<THREE.Mesh>(null);
-  const matRef = useRef<THREE.ShaderMaterial>(null);
-  const hasTriggeredComplete = useRef(false);
-  
-  const purpleColor = useMemo(() => new THREE.Color("#8b5cf6").multiplyScalar(15), []); 
-  const whiteColor = useMemo(() => new THREE.Color("#ffffff").multiplyScalar(20), []); 
-  const haloColor = useMemo(() => new THREE.Color("#c4b5fd").multiplyScalar(8), []); 
-
-  useFrame((state) => {
-    const t = state.clock.getElapsedTime();
-    if (!meshRef.current || !matRef.current) return;
-
-    meshRef.current.quaternion.copy(state.camera.quaternion);
-
-    if (t < EXPLOSION_START) {
-      // Fase 1: Pulsando antes de explodir
-      meshRef.current.visible = true;
-      const freq = 5.0 + t * 5.0; 
-      const pulse = 0.5 + Math.sin(t * freq) * 0.15 + (t / EXPLOSION_START) * 0.2;
-      
-      // Ajuste para não ficar um ponto irrelevante e não ter pop:
-      meshRef.current.scale.setScalar(pulse * 3.0); 
-      
-      matRef.current.uniforms.uOpacity.value = 1.0;
-      matRef.current.uniforms.uExpand.value = 0.0; // mantém retido
-      // Totalmente Roxo
-      matRef.current.uniforms.uCoreColor.value.copy(purpleColor);
-      matRef.current.uniforms.uHaloColor.value.setHex(0x000000); 
-    } else if (t < EXPLOSION_START + 2.7) {
-      // Fase 2: Explosão e onda de choque expandindo (1.0s a 3.7s)
-      meshRef.current.visible = true;
-      const p = (t - EXPLOSION_START) / 2.7; // Progresso (0.0 até 1.0)
-      const easeOut = 1 - Math.pow(1 - p, 4); // Rápido no início, macio no fim
-      
-      // Continua a escalada do valor base até 400 homogeneamente
-      meshRef.current.scale.setScalar(2.1 + easeOut * 400.0);
-      
-      matRef.current.uniforms.uOpacity.value = 1.0 - p;
-      matRef.current.uniforms.uExpand.value = easeOut;
-      
-      // Efeito de Flash: O núcleo fica branco incandescente no frame do gatilho 
-      // e esfria para o roxo natural rapidamente, como todo flash fotográfico.
-      const flashProgress = Math.min(p * 5.0, 1.0);
-      matRef.current.uniforms.uCoreColor.value.copy(purpleColor).lerp(whiteColor, 1.0 - flashProgress);
-      matRef.current.uniforms.uHaloColor.value.copy(haloColor);
-    } else {
-      // Fase 3: Dissipação concluída. Notifica o React para entrada limpa e suave do conteúdo
-      meshRef.current.visible = false;
-      if (!hasTriggeredComplete.current) {
-        hasTriggeredComplete.current = true;
-        onExplosionComplete?.();
-      }
+function PrepareScene({ onReady, onFailure }: { onReady: () => void; onFailure: () => void }) {
+  const { gl, scene, camera, setDpr } = useThree()
+  const quality = useRef({ seconds: 0, frames: 0, dpr: 1, slowWindows: 0 })
+  useEffect(() => {
+    let active = true
+    gl.compileAsync(scene, camera).then(() => { if (active) onReady() }).catch(() => { if (active) onFailure() })
+    return () => { active = false }
+  }, [gl, scene, camera, onReady, onFailure])
+  useFrame((_, delta) => {
+    if (delta > 0.25) return
+    const q = quality.current
+    q.seconds += delta
+    q.frames++
+    if (q.seconds < 3) return
+    q.slowWindows = q.frames / q.seconds < 45 ? q.slowWindows + 1 : 0
+    if (q.slowWindows >= 2 && q.dpr > 0.65) {
+      q.dpr = q.dpr > 0.8 ? 0.8 : 0.65
+      setDpr(q.dpr)
+      q.slowWindows = 0
     }
-  });
-
-  return (
-    <mesh ref={meshRef} position={[-20, -35, -135]}>
-      <planeGeometry args={[2, 2]} />
-      <shaderMaterial
-        ref={matRef}
-        transparent
-        depthWrite={false}
-        blending={THREE.AdditiveBlending}
-        uniforms={{
-          uOpacity: { value: 1.0 },
-          uExpand: { value: 0.0 },
-          uCoreColor: { value: purpleColor },
-          uHaloColor: { value: new THREE.Color(0x000000) }
-        }}
-        vertexShader={`
-          varying vec2 vUv;
-          void main() {
-            vUv = uv;
-            gl_Position = projectionMatrix * modelViewMatrix * vec4(position, 1.0);
-          }
-        `}
-        fragmentShader={`
-          uniform float uOpacity;
-          uniform float uExpand;
-          uniform vec3 uCoreColor;
-          uniform vec3 uHaloColor;
-          varying vec2 vUv;
-          
-          void main() {
-             float dist = distance(vUv, vec2(0.5)) * 2.0; 
-             
-             // Core blinding flash (Esmaece o centro expandindo)
-             float core = smoothstep(1.0 - uExpand * 0.9, 0.0, dist);
-             
-             // Halo (Onda de choque atrelada ao core, preenchida mas invisível onde o expand é 0)
-             float ringDist = abs(dist - uExpand * 0.8);
-             float halo = smoothstep(0.6, 0.0, ringDist) * (1.0 - uExpand * 0.3) * uExpand;
-             
-             vec3 finalColor = uCoreColor * core + uHaloColor * halo;
-             float alpha = (core + halo) * uOpacity;
-             
-             alpha *= smoothstep(1.0, 0.8, dist);
-
-             gl_FragColor = vec4(finalColor, alpha);
-          }
-        `}
-      />
-    </mesh>
-  );
+    q.seconds = 0
+    q.frames = 0
+  })
+  return null
 }
 
-export interface SpaceBackgroundProps {
-  onIntroComplete?: () => void
-  skipIntro?: boolean
-}
-
-export function SpaceBackground({ onIntroComplete, skipIntro = false }: SpaceBackgroundProps) {
+export function SpaceBackground({ onReady, onFailure }: { onReady: () => void; onFailure: () => void }) {
   const [isMobile, setIsMobile] = useState(() => window.matchMedia('(max-width: 767px)').matches)
-  const [isPageVisible, setIsPageVisible] = useState(() => document.visibilityState === 'visible')
-  const scrollRef = useRef<number>(0)
+  const [isPageVisible, setIsPageVisible] = useState(() => !document.hidden)
+  const [compiled, setCompiled] = useState(false)
+  const scrollRef = useRef(0)
+  const ready = useCallback(() => { setCompiled(true); onReady() }, [onReady])
 
   useEffect(() => {
     const media = window.matchMedia('(max-width: 767px)')
-    const onViewportChange = (event: MediaQueryListEvent) => setIsMobile(event.matches)
-    media.addEventListener('change', onViewportChange)
-    return () => media.removeEventListener('change', onViewportChange)
+    const resize = () => setIsMobile(media.matches)
+    media.addEventListener('change', resize)
+    return () => media.removeEventListener('change', resize)
   }, [])
 
   useEffect(() => {
-    const onVisibilityChange = () => setIsPageVisible(document.visibilityState === 'visible')
-    const onScroll = () => { scrollRef.current = window.scrollY }
+    let maxScroll = 0
+    let resizeFrame = 0
+    const onScroll = () => { scrollRef.current = maxScroll > 0 ? THREE.MathUtils.clamp(window.scrollY / maxScroll, 0, 1) : 0 }
+    const measure = () => {
+      maxScroll = Math.max(0, document.documentElement.scrollHeight - window.innerHeight)
+      onScroll()
+    }
+    const schedule = () => {
+      cancelAnimationFrame(resizeFrame)
+      resizeFrame = requestAnimationFrame(measure)
+    }
+    const observer = new ResizeObserver(schedule)
+    observer.observe(document.body)
+    observer.observe(document.documentElement)
+    measure()
+    const visibility = () => setIsPageVisible(!document.hidden)
     window.addEventListener('scroll', onScroll, { passive: true })
-    document.addEventListener('visibilitychange', onVisibilityChange)
+    window.addEventListener('resize', schedule, { passive: true })
+    document.addEventListener('visibilitychange', visibility)
     return () => {
+      observer.disconnect()
+      cancelAnimationFrame(resizeFrame)
       window.removeEventListener('scroll', onScroll)
-      document.removeEventListener('visibilitychange', onVisibilityChange)
+      window.removeEventListener('resize', schedule)
+      document.removeEventListener('visibilitychange', visibility)
     }
   }, [])
 
   return (
-    <div
-      style={{
-        position: 'fixed',
-        top: 0,
-        left: 0,
-        width: '100vw',
-        height: '100vh',
-        zIndex: -1,
-        backgroundColor: '#050811'
-      }}
-    >
-      <Canvas
-        camera={{ position: [0, 0, 1] }}
-        dpr={1}
-        frameloop={isPageVisible ? 'always' : 'never'}
-        gl={{
-          antialias: false,
-          alpha: false,
-          powerPreference: 'high-performance'
-        }}
-      >
-        <color attach="background" args={['#050811']} />
-
-        {/* Camera Rig: voa pelo espaço conforme o scroll */}
-        <CameraRig scrollRef={scrollRef} />
-
-        {/* Galáxia: muito distante, mínima velocidade de parallax */}
-        <SpiralGalaxy skipIntro={skipIntro} isMobile={isMobile} />
-
-        {/* Campo estelar + constelações */}
-        <StarFieldWithConstellations isMobile={isMobile} skipIntro={skipIntro} />
-
-        {/* Efeitos Ativos da Explosão (Intro) */}
-        {!skipIntro && <BigBangCore onExplosionComplete={onIntroComplete} />}
-
-        {/* Pós-processamento: responsável pelo Bloom espetacular */}
-        {!isMobile && <EffectComposer><Bloom luminanceThreshold={1} mipmapBlur intensity={1} /></EffectComposer>}
-      </Canvas>
-    </div>
+    <Canvas camera={{ position: [0, 0, 1] }} dpr={1}
+      frameloop={compiled && isPageVisible ? 'always' : 'never'}
+      gl={{ antialias: false, alpha: true, depth: false, stencil: false, powerPreference: 'high-performance' }}
+      onCreated={({ gl }) => {
+        const lost = (event: Event) => { event.preventDefault(); onFailure() }
+        gl.domElement.addEventListener('webglcontextlost', lost, { once: true })
+      }}>
+      <CameraRig scrollRef={scrollRef} />
+      <SpiralGalaxy key={isMobile ? 'galaxy-mobile' : 'galaxy-desktop'} isMobile={isMobile} />
+      <StarFieldWithConstellations key={isMobile ? 'stars-mobile' : 'stars-desktop'} isMobile={isMobile} />
+      <PrepareScene onReady={ready} onFailure={onFailure} />
+    </Canvas>
   )
 }

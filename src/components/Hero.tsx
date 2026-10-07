@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import { motion, useReducedMotion } from 'framer-motion'
 import { useLanguage } from '../i18n'
 import { ResumeButton } from './ResumeButton'
@@ -39,6 +39,17 @@ export function Hero() {
   const phrases = t.hero.phrases
   const [phraseIndex, setPhraseIndex] = useState(0)
   const [isDeleting, setIsDeleting] = useState(false)
+  const section = useRef<HTMLElement>(null)
+  const [active, setActive] = useState(true)
+
+  useEffect(() => {
+    let inView = true
+    const visibility = () => setActive(inView && !document.hidden)
+    const observer = new IntersectionObserver(([entry]) => { inView = entry.isIntersecting; visibility() })
+    if (section.current) observer.observe(section.current)
+    document.addEventListener('visibilitychange', visibility)
+    return () => { observer.disconnect(); document.removeEventListener('visibilitychange', visibility) }
+  }, [])
 
   // Reset typewriter when language changes
   useEffect(() => {
@@ -52,6 +63,7 @@ export function Hero() {
       setText(phrases[0] ?? '')
       return
     }
+    if (!active) return
 
     const currentPhrase = phrases[phraseIndex]
     const typeSpeed = isDeleting ? 30 : 50
@@ -69,19 +81,19 @@ export function Hero() {
     }, delay)
 
     return () => clearTimeout(timeout)
-  }, [text, isDeleting, phraseIndex, phrases, shouldReduceMotion])
+  }, [text, isDeleting, phraseIndex, phrases, shouldReduceMotion, active])
 
   return (
-    <section id="home" className="pt-28 pb-16 md:pt-36 md:pb-24 relative z-10 min-h-screen flex items-center justify-center">
+    <section ref={section} id="home" className="pt-28 pb-16 md:pt-36 md:pb-24 relative z-10 min-h-screen flex items-center justify-center">
       <div className="container mx-auto px-6 text-center">
         <motion.div
           className="max-w-4xl mx-auto"
           variants={accessibleContainerVariants}
-          initial={shouldReduceMotion ? false : 'hidden'}
+          initial={false}
           animate="visible"
         >
           <motion.div variants={accessibleItemVariants}>
-            <span className="inline-flex items-center gap-2 bg-green-500/10 text-green-400 text-xs font-bold mb-6 px-4 py-1.5 rounded-full border border-green-500/20 uppercase tracking-wider backdrop-blur-md">
+            <span className="inline-flex items-center gap-2 bg-green-500/10 text-green-400 text-xs font-bold mb-6 px-4 py-1.5 rounded-full border border-green-500/20 uppercase tracking-wider ">
               <span className="w-2 h-2 rounded-full bg-green-500 animate-pulse"></span>
               {t.hero.badge}
             </span>
@@ -109,10 +121,10 @@ export function Hero() {
           />
 
           <motion.div variants={accessibleItemVariants} className="flex flex-wrap justify-center gap-4">
-            <a href="#projetos" className="bg-gradient-to-r from-accent-start to-accent-end text-white font-bold py-3 px-8 rounded-xl shadow-neon hover:shadow-lg hover:opacity-90 transition-all duration-300">
+            <a href="#projetos" className="bg-gradient-to-r from-accent-start to-accent-end text-white font-bold py-3 px-8 rounded-xl shadow-neon hover:shadow-lg hover:opacity-90 transition-[opacity,transform,background-color,border-color,width] duration-300">
               {t.hero.cta}
             </a>
-            <a href="https://github.com/wellingtonspdev" target="_blank" rel="noreferrer" className="glass-card text-white font-bold py-3 px-8 rounded-xl hover:bg-white/10 transition-all duration-300">
+            <a href="https://github.com/wellingtonspdev" target="_blank" rel="noreferrer" className="glass-card text-white font-bold py-3 px-8 rounded-xl hover:bg-white/10 transition-[opacity,transform,background-color,border-color,width] duration-300">
               GitHub
             </a>
             <ResumeButton label={t.nav.resume} />

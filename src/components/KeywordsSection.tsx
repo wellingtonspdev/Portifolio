@@ -10,7 +10,7 @@ export function KeywordsSection() {
     <section id="competencias" className="py-12 relative z-10" aria-labelledby="keywords-heading">
       <div className="container mx-auto px-6">
         <div className="max-w-5xl mx-auto">
-          <details className="group rounded-2xl border border-white/10 bg-black/20 backdrop-blur-sm">
+          <details className="group rounded-2xl border border-white/10 bg-black/20 ">
             <summary className="flex cursor-pointer list-none items-center justify-between gap-5 px-6 py-5 text-left marker:content-none">
               <div className="flex items-center gap-3">
                 <span className="flex h-9 w-9 items-center justify-center rounded-lg border border-white/10 bg-white/5 text-accent-end"><Search className="h-4 w-4" aria-hidden="true" /></span>

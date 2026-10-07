@@ -23,7 +23,7 @@ export function ProjectDetailPage({ projectId }: { projectId: string }) {
         <a href={getBasePath(lang)} className="inline-flex items-center gap-2 text-sm font-bold text-accent-end hover:text-accent-start transition-colors">
           <ArrowLeft className="h-4 w-4" aria-hidden="true" /> {t.projects.labels.backToPortfolio}
         </a>
-        <header className="mt-10 rounded-2xl border border-white/10 bg-black/30 p-8 md:p-12 backdrop-blur-sm">
+        <header className="mt-10 rounded-2xl border border-white/10 bg-black/30 p-8 md:p-12 ">
           <p className="text-xs font-bold uppercase tracking-[0.18em] text-accent-end">{content.subtitle}</p>
           <h1 className="mt-4 text-4xl font-extrabold tracking-tight text-white md:text-6xl">{project.title}</h1>
           <p className="mt-6 max-w-3xl text-lg leading-relaxed text-gray-300">{content.description}</p>
