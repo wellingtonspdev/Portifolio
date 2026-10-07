@@ -22,8 +22,6 @@ export const ptBR: Locale = {
     keywords: 'Competências',
     certs: 'Certificações',
     resume: 'Baixar currículo',
-    enableAnimatedBackground: 'Ativar fundo animado',
-    disableAnimatedBackground: 'Desativar fundo animado',
   },
 
   hero: {

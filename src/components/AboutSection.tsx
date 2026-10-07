@@ -22,7 +22,7 @@ export function AboutSection() {
             {t.about.heading}
           </h2>
 
-          <div className="space-y-6 text-lg text-gray-300 leading-relaxed font-medium bg-black/20 p-8 rounded-2xl border border-white/5 backdrop-blur-sm">
+          <div className="space-y-6 text-lg text-gray-300 leading-relaxed font-medium bg-black/20 p-8 rounded-2xl border border-white/5 ">
             {t.about.paragraphs.map((html, i) => (
               <p key={i} dangerouslySetInnerHTML={{ __html: html }} />
             ))}

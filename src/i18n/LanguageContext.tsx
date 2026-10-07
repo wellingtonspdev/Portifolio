@@ -13,9 +13,7 @@ const locales: Record<Lang, Locale> = {
 function getInitialLang(): Lang {
   if (typeof window === 'undefined') return 'pt-br'
   if (window.location.pathname.includes('/en/')) return 'en'
-  const stored = localStorage.getItem('lang') as Lang | null
-  if (stored && stored in locales) return stored
-  return navigator.language.startsWith('en') ? 'en' : 'pt-br'
+  return 'pt-br'
 }
 
 type LanguageContextType = {
@@ -30,8 +28,13 @@ export function LanguageProvider({ children }: { children: ReactNode }) {
   const [lang, setLang] = useState<Lang>(getInitialLang)
 
   useEffect(() => {
+    const syncLocation = () => setLang(getInitialLang())
+    window.addEventListener('popstate', syncLocation)
+    return () => window.removeEventListener('popstate', syncLocation)
+  }, [])
+
+  useEffect(() => {
     document.documentElement.lang = lang === 'pt-br' ? 'pt-BR' : 'en'
-    localStorage.setItem('lang', lang)
   }, [lang])
 
   const value: LanguageContextType = {

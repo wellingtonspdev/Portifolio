@@ -17,7 +17,7 @@ O objetivo é substituir uma apresentação baseada apenas em listas de skills p
 - Trajetória acadêmica, iniciação científica CNPq e experiência prática na Fatec.
 - Projetos autorais, acadêmicos e institucionais com links de código e demonstrações quando disponíveis.
 - Currículo em PDF, LinkedIn, GitHub e contato direto por WhatsApp.
-- Navegação com conteúdo imediato, fundo 3D opcional, carrosséis com carregamento sob demanda e lightbox.
+- Navegação com conteúdo imediato, fundo permanentemente animado, carrosséis com miniaturas responsivas e lightbox.
 - SEO técnico com metadados por idioma, Open Graph, Twitter Cards, JSON-LD, robots, sitemap e páginas pré-renderizadas.
 - Publicação automatizada na Vercel e previews para validar alterações.
 
@@ -52,7 +52,9 @@ Os projetos são modelados em dados reutilizáveis. Isso permite que o card, a p
 
 ## Experiência visual e performance
 
-O visual usa uma identidade Deep Space para diferenciar o produto sem esconder o conteúdo profissional. O fundo 3D é opcional e fica desligado ao entrar; a navegação funciona sem inicializar WebGL.
+O visual usa uma identidade Deep Space com fundo permanentemente animado: 9.000 partículas no desktop (6.000 na galáxia e 3.000 estrelas) e 3.000 no mobile (2.000 + 1.000). O brilho fica nos shaders, sem pós-processamento de tela inteira. O conteúdo aparece imediatamente; durante a preparação do WebGL ou em caso de falha, um fundo animado em CSS mantém a experiência. A qualidade reduz automaticamente a resolução em dispositivos mais lentos, preservando a quantidade de partículas. A aba invisível suspende o desenho e retoma ao voltar.
+
+As galerias carregam previews WebP de 480/960 pixels e abrem os PNGs originais no lightbox. Para regenerar as miniaturas com Pillow: `python scripts/generate-gallery-previews.py`.
 
 Screenshots usam carregamento preguiçoso e efeitos decorativos em CSS. Assets versionados têm cache de longa duração; o HTML inicial mantém o portfólio visível enquanto o JavaScript carrega.
 

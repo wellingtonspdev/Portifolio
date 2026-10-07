@@ -13,6 +13,7 @@ export type Project = {
   icon: string;
   imageUrl?: string;
   images?: string[];
+  imagePreviews?: { src: string; srcSet: string }[];
   badges: Badge[];
   links: {
     demo?: string;
@@ -42,6 +43,19 @@ import fatecGrade from '../assets/Reserva_Laboratorios_FATEC/02-grade-reservas-l
 import fatecConfiguracoes from '../assets/Reserva_Laboratorios_FATEC/03-configuracoes-administrativas.png';
 import fatecDetalhe from '../assets/Reserva_Laboratorios_FATEC/04-detalhe-reserva-periodos.png';
 
+
+const previewUrls = import.meta.glob('../assets/previews/*.webp', { eager: true, query: '?url', import: 'default' }) as Record<string, string>;
+import previewDimensions from '../assets/previews/dimensions.json';
+function preview(name: string) {
+  const small = previewUrls[`../assets/previews/${name}-480.webp`];
+  const large = previewUrls[`../assets/previews/${name}-960.webp`];
+  const widths = previewDimensions[name as keyof typeof previewDimensions];
+  const srcSet = widths['480'] === widths['960']
+    ? `${large} ${widths['960']}w`
+    : `${small} ${widths['480']}w, ${large} ${widths['960']}w`;
+  return { src: large, srcSet };
+}
+
 export const projectsData: Project[] = [
   {
     id: "portfolio-profissional",
@@ -69,6 +83,7 @@ export const projectsData: Project[] = [
     solution: "Minha contribuição abrangeu análise técnica de legado, mapeamento de telas e fluxos, planejamento de melhorias, decisões de tecnologia, desenvolvimento frontend, ajustes em PHP/CodeIgniter, banco MySQL, UX/UI, responsividade, Docker, documentação, organização de issues, testes, correções e validação final da entrega. A modernização incremental preservou regras de negócio existentes enquanto reorganizava login, grade de reservas, cards de laboratórios, detalhes de períodos e configurações administrativas.",
     icon: "LayoutDashboard",
     images: [fatecLogin, fatecGrade, fatecConfiguracoes, fatecDetalhe],
+    imagePreviews: ['fatecLogin', 'fatecGrade', 'fatecConfiguracoes', 'fatecDetalhe'].map(preview),
     badges: [
       { text: "PHP / CodeIgniter", colorClass: "border-indigo-800 text-indigo-400" },
       { text: "MySQL / Docker", colorClass: "border-blue-800 text-blue-400" },
@@ -87,6 +102,7 @@ export const projectsData: Project[] = [
     solution: "Atuei como Tech Lead Acadêmico, Desenvolvedor Full Stack e QA, liderando a equipe no planejamento, divisão de tarefas e decisões técnicas, enquanto desenvolvi ativamente frontend, backend, banco de dados, APIs e integrações. Responsável por testes, documentação, revisão e validação das entregas.",
     imageUrl: "https://storage.googleapis.com/portfolio-assets-prod-wsp/assets/Define_Pilates/dash_admin.png",
     images: [dpLogo, dpDash, dpAgenda, dpHome, dpMetricas, dpRelatorio2, dpRelatorios],
+    imagePreviews: [{ src: dpLogo, srcSet: '' }, ...['dpDash', 'dpAgenda', 'dpHome', 'dpMetricas', 'dpRelatorio2', 'dpRelatorios'].map(preview)],
     icon: "LayoutDashboard",
     badges: [
       { text: "Tech Lead Acadêmico · Full Stack · QA", colorClass: "border-blue-800 text-blue-400" },
@@ -130,6 +146,7 @@ export const projectsData: Project[] = [
       ibdnRamos,
       ibdnSolicitarSelo
     ],
+    imagePreviews: ['ibdnLogin', 'ibdnDashboard', 'ibdnEmpresas', 'ibdnGerenciarSelos', 'ibdnSolicitacoes', 'ibdnRamos', 'ibdnSolicitarSelo'].map(preview),
     badges: [
       { text: "Sustentabilidade", colorClass: "border-green-800 text-green-400" },
       { text: "Full Stack / Python", colorClass: "border-indigo-800 text-indigo-400" }

@@ -84,7 +84,7 @@ export function CertificationsSection() {
                 return (
                   <motion.div
                     key={badge.id}
-                    className="glass-card rounded-2xl border border-white/10 bg-white/5 p-6 hover:border-cyan-500/40 hover:bg-white/[0.07] transition-all backdrop-blur-md relative overflow-hidden flex flex-col justify-between shadow-xl"
+                    className="glass-card rounded-2xl border border-white/10 bg-white/5 p-6 hover:border-cyan-500/40 hover:bg-white/[0.07] transition-[opacity,transform,background-color,border-color,width]  relative overflow-hidden flex flex-col justify-between shadow-xl"
                     initial={{ opacity: 0, y: 30 }}
                     whileInView={{ opacity: 1, y: 0 }}
                     viewport={{ once: true }}
@@ -183,7 +183,7 @@ export function CertificationsSection() {
                           href={badge.authenticatorUrl}
                           target="_blank"
                           rel="noreferrer"
-                          className="flex-1 min-w-[120px] inline-flex items-center justify-center gap-1.5 px-3 py-2 rounded-xl text-xs font-semibold bg-gradient-to-r from-cyan-600 to-blue-600 hover:from-cyan-500 hover:to-blue-500 text-white shadow-md shadow-cyan-950/50 transition-all border border-cyan-400/30"
+                          className="flex-1 min-w-[120px] inline-flex items-center justify-center gap-1.5 px-3 py-2 rounded-xl text-xs font-semibold bg-gradient-to-r from-cyan-600 to-blue-600 hover:from-cyan-500 hover:to-blue-500 text-white shadow-md shadow-cyan-950/50 transition-[opacity,transform,background-color,border-color,width] border border-cyan-400/30"
                         >
                           <ShieldCheck className="w-3.5 h-3.5" />
                           <span>{t.certs.authenticateLabel}</span>
@@ -208,7 +208,7 @@ export function CertificationsSection() {
                 const card = (
                   <motion.div
                     key={cert.id}
-                    className="glass-card px-5 py-3 rounded-full flex items-center gap-3 bg-white/5 border border-white/10 hover:bg-white/10 hover:border-accent-start/40 transition-colors backdrop-blur-md"
+                    className="glass-card px-5 py-3 rounded-full flex items-center gap-3 bg-white/5 border border-white/10 hover:bg-white/10 hover:border-accent-start/40 transition-colors "
                     initial={{ opacity: 0, scale: 0.9 }}
                     whileInView={{ opacity: 1, scale: 1 }}
                     viewport={{ once: true }}

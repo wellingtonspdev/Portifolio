@@ -1,12 +1,10 @@
-import { lazy, ReactNode, Suspense, useState } from 'react'
+import { ReactNode } from 'react'
 import { motion } from 'framer-motion'
-import { Sparkles } from 'lucide-react'
+import { AnimatedBackground } from './AnimatedBackground'
 import { WhatsAppButton } from './WhatsAppButton'
 import { useLanguage } from '../i18n'
 import { ResumeButton } from './ResumeButton'
 import { getBasePath, getCurrentProjectId, getProjectPath } from '../routing'
-
-const SpaceBackground = lazy(() => import('./SpaceBackground').then((module) => ({ default: module.SpaceBackground })))
 
 function LanguageToggle() {
   const { lang, setLanguage, t } = useLanguage()
@@ -14,7 +12,8 @@ function LanguageToggle() {
   const changeLanguage = (language: 'pt-br' | 'en') => {
     setLanguage(language)
     const projectId = getCurrentProjectId()
-    window.location.assign(projectId ? getProjectPath(projectId, language) : getBasePath(language))
+    window.history.pushState({}, '', projectId ? getProjectPath(projectId, language) : getBasePath(language))
+    window.dispatchEvent(new PopStateEvent('popstate'))
   }
 
   return (
@@ -45,18 +44,13 @@ function LanguageToggle() {
 
 export function Layout({ children }: { children: ReactNode }) {
   const { t } = useLanguage()
-  const [isBackgroundEnabled, setIsBackgroundEnabled] = useState(false)
 
   const homePath = getBasePath(t.meta.lang === 'en' ? 'en' : 'pt-br')
 
   return (
-    <div className="relative min-h-screen">
+    <div className="relative isolate min-h-screen">
       {/* Motor Gráfico Deep Space injetado no fundo da página */}
-      {isBackgroundEnabled && (
-        <Suspense fallback={null}>
-          <SpaceBackground skipIntro />
-        </Suspense>
-      )}
+      <AnimatedBackground />
 
       <motion.header 
          initial={false}
@@ -77,24 +71,13 @@ export function Layout({ children }: { children: ReactNode }) {
                 <a href={`${homePath}#certificacoes`} className="text-sm font-semibold text-gray-300 hover:text-white transition-colors">{t.nav.certs}</a>
               </div>
               <ResumeButton label={t.nav.resume} variant="secondary" className="hidden lg:inline-flex px-3 py-2 text-xs" />
-              <button
-                type="button"
-                onClick={() => setIsBackgroundEnabled((enabled) => !enabled)}
-                className="inline-flex min-h-9 min-w-9 items-center justify-center gap-2 rounded-full border border-white/10 bg-white/5 px-2.5 py-1 text-xs font-semibold text-gray-200 transition-colors hover:bg-white/10 sm:px-3"
-                aria-label={isBackgroundEnabled ? t.nav.disableAnimatedBackground : t.nav.enableAnimatedBackground}
-                aria-pressed={isBackgroundEnabled}
-                title={isBackgroundEnabled ? t.nav.disableAnimatedBackground : t.nav.enableAnimatedBackground}
-              >
-                <Sparkles className="h-4 w-4" aria-hidden="true" />
-                <span className="hidden sm:inline">{isBackgroundEnabled ? t.nav.disableAnimatedBackground : t.nav.enableAnimatedBackground}</span>
-              </button>
               <LanguageToggle />
             </div>
          </nav>
       </motion.header>
 
       {/* Não aplicar pt-24 no main para que o Hero ocupe a tela inteira corretamente */}
-      <main className="relative">
+      <main className="relative z-10">
         {children}
       </main>
 
