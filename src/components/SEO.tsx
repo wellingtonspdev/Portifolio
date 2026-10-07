@@ -21,6 +21,20 @@ export function SeoComponent() {
     return () => window.removeEventListener('popstate', syncPathname)
   }, [])
 
+  useEffect(() => {
+    const unmanagedHeadTags = [
+      'link[rel="canonical"]',
+      'link[rel="alternate"]',
+      'meta[name="description"]',
+      'meta[name="keywords"]',
+      'meta[name="robots"]',
+      'meta[property^="og:"]',
+      'meta[name^="twitter:"]',
+    ].join(',')
+
+    document.head.querySelectorAll(`${unmanagedHeadTags}:not([data-rh="true"])`).forEach((tag) => tag.remove())
+  }, [])
+
   const schemaData = {
     "@context": "https://schema.org",
     "@graph": [
