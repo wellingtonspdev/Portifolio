@@ -3,12 +3,12 @@ import type { Locale } from '../types'
 export const ptBR: Locale = {
   meta: {
     lang: 'pt-br',
-    title: 'Wellington Siqueira Porto | Desenvolvedor de Software Júnior',
-    description: 'Portfólio de Wellington Siqueira Porto, Desenvolvedor de Software Júnior com experiência em Full Stack, Backend, aplicações web, estágio Fatec e pesquisa aplicada.',
+    title: 'Wellington Siqueira Porto | Backend, Dados e IA Aplicada',
+    description: 'Projetos de software, APIs, backend, dados e pesquisa aplicada de Wellington Siqueira Porto, estudante da FATEC com interesse em soluções de IA.',
     keywords: 'desenvolvedor júnior, estágio desenvolvimento de software, desenvolvedor full stack, desenvolvedor backend, PHP, CodeIgniter, Node.js, React, TypeScript, Python, Express, Prisma, PostgreSQL, MySQL, Docker, APIs REST, sistemas legados, UX/UI, Fatec Itaquera',
-    ogTitle: 'Wellington Siqueira Porto | Desenvolvedor de Software Júnior',
-    ogDescription: 'Full Stack, Backend e aplicações web com projetos reais, experiência Fatec e pesquisa aplicada.',
-    jobTitle: 'Desenvolvedor de Software Júnior',
+    ogTitle: 'Wellington Siqueira Porto | Backend, Dados e IA Aplicada',
+    ogDescription: 'APIs, backend, dados, pesquisa CNPq e projetos reais de software. Interesse em aplicações de inteligência artificial.',
+    jobTitle: 'Desenvolvedor de Software em formação',
     knowsAbout: ['Python', 'Node.js', 'Express.js', 'React.js', 'TypeScript', 'PHP', 'CodeIgniter 3', 'Docker', 'PostgreSQL', 'MySQL', 'MariaDB', 'Prisma', 'TDD', 'APIs REST', 'UX/UI'],
     credentialName: 'Tecnólogo em Desenvolvimento de Software Multiplataforma',
   },
@@ -25,24 +25,24 @@ export const ptBR: Locale = {
   },
 
   hero: {
-    badge: 'Disponível para Projetos e Oportunidades',
-    role: 'Desenvolvedor de Software Júnior · Full Stack · Backend',
+    badge: 'Disponível para Estágio e Oportunidades',
+    role: 'Desenvolvimento de Software · Backend · Dados',
     phrases: [
-      'Desenvolvedor Full Stack',
-      'Estudante de Desenvolvimento Multiplataforma da FATEC',
-      'Pesquisador em Dados e Algoritmos',
-      'Tech Lead Acadêmico + Full Stack + QA',
+      'Backend, APIs e Integrações',
+      'Estudante de Desenvolvimento Multiplataforma na FATEC',
+      'Pesquisa Aplicada em Dados e Algoritmos',
+      'Interesse em Engenharia de Software para IA',
     ],
-    tagline: 'Desenvolvedor Full Stack focado em produtos web, dados e sistemas que resolvem problemas reais.<br />React · Python · Node.js · Docker',
+    tagline: 'Desenvolvo APIs, sistemas web e integrações; aplico algoritmos em pesquisa e estudo como levar IA a produtos úteis e testáveis.<br />Python · TypeScript · Node.js · React',
     cta: 'Explore os Projetos',
   },
 
   about: {
     heading: 'Sobre Mim',
     paragraphs: [
-      'Sou um <strong>desenvolvedor Full Stack</strong> em formação pela <strong>FATEC Itaquera</strong>, com experiência prática em projetos acadêmicos, sistemas web, APIs, bancos de dados e interfaces modernas. Tenho interesse em construir soluções claras, bem documentadas e próximas de problemas reais.',
+      'Sou estudante de <strong>Desenvolvimento de Software Multiplataforma na FATEC Itaquera</strong>, com experiência prática em backend, frontend, APIs REST, bancos de dados e integração de sistemas. Desenvolvo projetos que conectam decisões técnicas a problemas reais, priorizando documentação, testes, manutenção e colaboração.',
       'Atuei como <strong>Tech Lead Acadêmico, Desenvolvedor Full Stack e QA no projeto interdisciplinar Define Pilates</strong>, liderando a equipe no planejamento e decisões técnicas, enquanto desenvolvia ativamente frontend, backend, banco de dados e APIs. Também participei da modernização de um sistema legado de reservas para a FATEC, atuando de forma end-to-end com PHP, CodeIgniter, Docker e melhorias de interface.',
-      'Participo de um <strong>projeto de pesquisa patrocinado pelo CNPq</strong>, aplicando algoritmos de busca, modelagem de dados, experimentos em laboratório e apresentação de resultados em 2 simpósios científicos. Minha trajetória combina desenvolvimento web, dados, pesquisa aplicada e vontade de aprender em ambientes reais de engenharia.',
+      'Minha trajetória inclui <strong>pesquisa patrocinada pelo CNPq</strong>, envolvendo experimentos, modelagem relacional, dados científicos, implementação de Greedy Best-First Search e apresentação de resultados em dois simpósios. Tenho interesse em engenharia de software para aplicações com inteligência artificial, com foco em integrações confiáveis, aprendizado contínuo e evidências de funcionamento.',
     ],
     cards: [
       { title: 'Aprendizado Contínuo', description: 'Evolução técnica com projetos reais, pesquisa aplicada e estudo constante de boas práticas.' },
