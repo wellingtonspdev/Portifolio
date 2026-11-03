@@ -3,12 +3,12 @@ import type { Locale } from '../types'
 export const en: Locale = {
   meta: {
     lang: 'en',
-    title: 'Wellington Siqueira Porto | Junior Software Developer',
-    description: 'Portfolio of Wellington Siqueira Porto, a Junior Software Developer with hands-on experience in Full Stack, Backend, web applications, a FATEC internship, and applied research.',
+    title: 'Wellington Siqueira Porto | Backend, Data and Applied AI',
+    description: 'Software engineering projects, APIs, backend, data and applied research by Wellington Siqueira Porto, a FATEC student interested in practical AI.',
     keywords: 'junior software developer, software development internship, full stack developer, backend developer, PHP, CodeIgniter, Node.js, React, TypeScript, Python, Express, Prisma, PostgreSQL, MySQL, Docker, REST APIs, legacy systems, UX/UI, FATEC Itaquera',
-    ogTitle: 'Wellington Siqueira Porto | Junior Software Developer',
-    ogDescription: 'Full Stack, Backend, and web applications backed by real projects, FATEC experience, and applied research.',
-    jobTitle: 'Junior Software Developer',
+    ogTitle: 'Wellington Siqueira Porto | Backend, Data and Applied AI',
+    ogDescription: 'APIs, backend, data, CNPq research and real software projects, with an interest in practical AI applications.',
+    jobTitle: 'Software Developer in Training',
     knowsAbout: ['Python', 'Node.js', 'Express.js', 'React.js', 'TypeScript', 'PHP', 'CodeIgniter 3', 'Docker', 'PostgreSQL', 'MySQL', 'MariaDB', 'Prisma', 'TDD', 'REST APIs', 'UX/UI'],
     credentialName: 'Associate Degree in Multiplatform Software Development',
   },
@@ -25,24 +25,24 @@ export const en: Locale = {
   },
 
   hero: {
-    badge: 'Available for Projects & Opportunities',
-    role: 'Junior Software Developer · Full Stack · Backend',
+    badge: 'Open to Internships & Opportunities',
+    role: 'Software Development · Backend · Data',
     phrases: [
-      'Full Stack Developer',
+      'Backend, APIs and Integrations',
       'Multiplatform Development Student at FATEC',
-      'Data & Algorithms Researcher',
-      'Academic Tech Lead + Full Stack + QA',
+      'Applied Research in Data and Algorithms',
+      'Interested in Software Engineering for AI',
     ],
-    tagline: 'Full Stack developer focused on web products, data, and systems that solve real problems.<br />React · Python · Node.js · Docker',
+    tagline: 'I build APIs, web apps and integrations, apply algorithms in research, and study how to bring AI into useful, testable products.<br />Python · TypeScript · Node.js · React',
     cta: 'Explore the Projects',
   },
 
   about: {
     heading: 'About Me',
     paragraphs: [
-      'I am a <strong>Full Stack developer</strong> studying at <strong>FATEC Itaquera</strong>, with hands-on experience in academic projects, web systems, APIs, databases, and modern interfaces. I am interested in building clear, well-documented solutions close to real problems.',
+      'I am a <strong>Multiplatform Software Development student at FATEC Itaquera</strong>, with hands-on experience in backend, frontend, REST APIs, databases and system integrations. I build projects connecting technical decisions to real problems, prioritizing documentation, testing, maintainability and teamwork.',
       'I served as <strong>Academic Tech Lead, Full Stack Developer, and QA on the interdisciplinary Define Pilates project</strong>, leading the team in planning and technical decisions while actively developing frontend, backend, database, and APIs. I also participated in modernizing a legacy reservation system for FATEC, working end-to-end with PHP, CodeIgniter, Docker, and interface improvements.',
-      'I participate in a <strong>CNPq-sponsored research project</strong>, applying search algorithms, data modeling, laboratory experiments, and presenting results at 2 scientific symposiums. My path combines web development, data, applied research, and the drive to learn in real engineering environments.',
+      'My background includes <strong>CNPq-sponsored research</strong> involving laboratory experiments, relational modeling, scientific data, a Greedy Best-First Search implementation and presentations at two scientific symposiums. I am interested in software engineering for AI applications, especially reliable integrations, continuous learning and verifiable results.',
     ],
     cards: [
       { title: 'Continuous Learning', description: 'Technical growth through real projects, applied research, and constant study of good practices.' },
